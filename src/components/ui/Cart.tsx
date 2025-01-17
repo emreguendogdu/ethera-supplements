@@ -1,6 +1,5 @@
 "use client"
 
-import DeleteIcon from "@/components/icons/Delete"
 import CartContext, {
   CartContextType,
   CartItemType,
@@ -9,17 +8,11 @@ import Image from "next/image"
 import { useContext, useMemo } from "react"
 
 export default function Cart() {
-  const {
-    cart,
-    displayCart,
-    setDisplayCart,
-    deleteItemFromCart,
-    addItemToCart,
-  } = useContext(CartContext) as CartContextType
+  const { cart, displayCart, setDisplayCart, addItemToCart } = useContext(
+    CartContext
+  ) as CartContextType
 
   const updateQuantity = (cartItem: CartItemType, newQuantity: number) => {
-    if (!cartItem.quantity) return
-    if (cartItem.quantity <= 1 && newQuantity < 0) return
     return addItemToCart({
       ...cartItem,
       quantity: newQuantity,
@@ -56,9 +49,9 @@ export default function Cart() {
       <div className="fixed right-0 w-[50vw] h-full max-h-screen z-30 bg-black px-8 md:px-16 py-8 flex flex-col items-center justify-between gap-8 md:gap-16">
         <h2 className="text-white select-none">Cart</h2>
         <div id="items" className="relative w-full flex-1">
-          {cart?.cartItems?.length > 0 ? (
+          {cart?.cartItems?.length > 0 && (
             <ul className="flex flex-col">
-              {cart.cartItems.map((cartItem, i) => (
+              {cart?.cartItems?.map((cartItem, i) => (
                 <li
                   className="flex justify-between border-b-[0.5px] border-b-neutral-700 py-4"
                   key={`cartItem-${i}`}
@@ -88,15 +81,12 @@ export default function Cart() {
                       </p>
                     </div>
                     <div className="flex gap-2 [&_button]:text-xl [&_button]:text-neutral-200">
-                      <button onClick={() => deleteItemFromCart(cartItem.id)}>
-                        <DeleteIcon />
-                      </button>
                       <div className="bg-neutral-600 flex items-center gap-2 rounded-lg [&>button]:bg-neutral-800 [&>button]:px-2 [&>*]:py-2">
                         <button
                           className="rounded-l-lg"
                           onClick={() => updateQuantity(cartItem, -1)}
                         >
-                          -
+                          {cartItem.quantity === 1 ? "×" : "−"}
                         </button>
                         <p className="select-none px-8 text-base">
                           {cartItem.quantity}
@@ -113,9 +103,14 @@ export default function Cart() {
                 </li>
               ))}
             </ul>
-          ) : (
-            <p className="text-neutral-300">No items.</p>
           )}
+          <div
+            className={`w-full h-full flex items-center justify-center ${
+              cart?.cartItems?.length > 0 && "hidden"
+            }`}
+          >
+            <p className="text-neutral-300">No items.</p>
+          </div>
         </div>
         <div id="checkout" className="relative w-full flex flex-col gap-8">
           <div className="flex justify-between items-end">

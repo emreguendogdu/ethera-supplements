@@ -16,7 +16,6 @@ export interface CartItemType {
 export interface CartContextType {
   cart: { cartItems: CartItemType[] }
   addItemToCart: (item: CartItemType) => void
-  deleteItemFromCart: (id: string) => void
   displayCart: boolean
   setDisplayCart: (display: boolean) => void
 }
@@ -45,11 +44,9 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     )
   }
 
-  const handleCartUpdate = (
-    newCartItems: (CartItemType | CartItemType[])[]
-  ) => {
-    setCartToState()
+  const updateCart = (newCartItems: CartItemType[]) => {
     localStorage.setItem("cart", JSON.stringify({ cartItems: newCartItems }))
+    setCartToState()
   }
 
   const addItemToCart = async ({
@@ -80,27 +77,27 @@ export const CartProvider = ({ children }: CartProviderProps) => {
     let newCartItems
 
     if (existingAddedItem) {
-      newCartItems = cart?.cartItems?.map((cartItem) => {
-        if (cartItem.quantity! + addedItem.quantity! <= 0)
-          return cart?.cartItems?.filter((i) => i.id !== id)
-        return cartItem.id === existingAddedItem.id
-          ? {
-              ...cartItem,
-              quantity: cartItem.quantity! + addedItem.quantity!,
-            }
-          : cartItem
-      })
+      const updatedQuantity = existingAddedItem.quantity! + addedItem.quantity!
+      console.log(updatedQuantity)
+      if (updatedQuantity < 1) {
+        newCartItems = cart?.cartItems?.filter(
+          (cartItem) => cartItem.id !== existingAddedItem.id
+        )
+      } else {
+        newCartItems = cart?.cartItems?.map((cartItem) =>
+          cartItem.id === existingAddedItem.id
+            ? {
+                ...cartItem,
+                quantity: updatedQuantity,
+              }
+            : cartItem
+        )
+      }
     } else {
       newCartItems = [...(cart?.cartItems || []), addedItem]
     }
 
-    handleCartUpdate(newCartItems)
-  }
-
-  const deleteItemFromCart = (id: string) => {
-    const newCartItems = cart?.cartItems?.filter((i) => i.id !== id)
-
-    handleCartUpdate(newCartItems)
+    updateCart(newCartItems)
   }
 
   return (
@@ -108,7 +105,6 @@ export const CartProvider = ({ children }: CartProviderProps) => {
       value={{
         cart,
         addItemToCart,
-        deleteItemFromCart,
         displayCart,
         setDisplayCart,
       }}
