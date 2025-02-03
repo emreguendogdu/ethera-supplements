@@ -1,36 +1,97 @@
+"use client"
+
+import { products } from "@/data"
+import Image from "next/image"
+import Link from "next/link"
+import { useEffect, useState } from "react"
+import Button from "../ui/Button"
+import { motion } from "framer-motion"
+
+const positionVariants = {
+  left: { x: "-200%", scale: 0.25, zIndex: 4 },
+  center: { x: "0%", scale: 1, zIndex: 5 },
+  right: { x: "200%", scale: 0.25, zIndex: 4 },
+}
+
 export default function Products() {
+  const [selectedProduct, setSelectedProduct] = useState(1)
+
+  const getPosition = (index) => {
+    const positions = ["left", "center", "right"]
+    const offset = (index - selectedProduct + products.length) % products.length
+    return positions[offset] || "right"
+  }
+
+  const handleClick = (direction) => {
+    setSelectedProduct((prev) =>
+      direction === "left"
+        ? (prev - 1 + products.length) % products.length
+        : (prev + 1) % products.length
+    )
+  }
+
   return (
-    <section className="flex flex-col gap-8 md:gap-32 items-center justify-center text-center">
-      <h2>
-        <span className="h1">Built for the Elite.</span>
-        <br />
-        <span>Engineered for the best results.</span>
-      </h2>
-      <ul className="relative max-w-screen-sm flex flex-col gap-4 md:gap-16">
-        <li>
-          <h3>Maximum Efficacy, Zero Fluff</h3>
-          <p>
-            Forget the noise. Ethera delivers only what works: Whey Isolate,
-            Creatine, and Pre Workout. No fillers, no BS—just pure performance.
-          </p>
-        </li>
-        <li>
-          <h3>Ultra-Pure, Zero Compromise</h3>
-          <p>
-            • No underdosed formulas – Full clinical potency in every scoop
-            <br />• No filler junk – Every ingredient serves a purpose
-            <br />• No BS marketing – Just real science, real results
-          </p>
-        </li>
-        <li>
-          <h3>For the Committed, Not the Casual</h3>
-          <p>
-            Ethera isn’t for everyone. It’s for those who push past limits, who
-            train with intent, and who demand the absolute best from their
-            bodies and supplements.
-          </p>
-        </li>
-      </ul>
-    </section>
+    <>
+      <section className="relative min-h-[200vh] w-full">
+        <div className="sticky top-0 p-section-m md:p-section h-screen flex flex-col gap-4 md:gap-16 items-center w-full justify-center text-center">
+          <div>
+            <h2>
+              No fluff.
+              <br />
+              <span className="h1">Only essentials.</span>
+            </h2>
+          </div>
+          <ul className="w-full h-[800px] flex justify-center gap-4 md:gap-16 relative">
+            {products.map((product, i) => (
+              <motion.li
+                className="absolute flex flex-col items-center gap-2 cursor-pointer"
+                key={`sp-${i}`}
+                onClick={() => setSelectedProduct(i)}
+                variants={positionVariants}
+                animate={getPosition(i)}
+                transition={{ duration: 2 }}
+              >
+                <Image
+                  src="/images/product-obj.png"
+                  width={225}
+                  height={125}
+                  alt={product.name}
+                  className="select-none drag-none"
+                />
+                <div
+                  className={`relative flex flex-col items-center gap-8 ${
+                    getPosition(i) !== "center" && "invisible"
+                  }`}
+                >
+                  <div>
+                    <h3 className="subheading text-xl tracking-wide">
+                      {product.name}
+                    </h3>
+                    <p className="text-base font-bold">{product.description}</p>
+                  </div>
+                  <div>
+                    <p>
+                      <span className="line-through text-neutral-500">
+                        ${product.stockData[0].price}
+                      </span>
+                      <span className="font-bold text-xl">
+                        ${product.stockData[0].salePrice}
+                      </span>
+                    </p>
+                    <Button href={`/products/${product.slug}`} className="mt-2">
+                      Buy Now
+                    </Button>
+                  </div>
+                </div>
+              </motion.li>
+            ))}
+          </ul>
+          <div className="flex gap-4 mt-8 md:mt-16">
+            <button onClick={() => handleClick("left")}>◀</button>
+            <button onClick={() => handleClick("right")}>▶</button>
+          </div>
+        </div>
+      </section>
+    </>
   )
 }

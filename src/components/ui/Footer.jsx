@@ -4,13 +4,13 @@ import { LogosMastercard } from "@/components/icons/Mastercard"
 import { LogosVisa } from "@/components/icons/Visa"
 import { LogosGooglePay } from "@/components/icons/GooglePay"
 import { LogosApplePay } from "@/components/icons/ApplePay"
-import { products } from "@/data"
+import { products, tools } from "@/data"
 
 export default function Footer() {
   return (
-    <footer className="flex flex-col gap-8 md:gap-16 px-sectionX-m md:px-sectionX">
-      <div className="flex justify-between">
-        <div className="relative w-1/3">
+    <footer className="flex flex-col gap-8 md:gap-16 px-sectionX-m md:px-sectionX pb-4">
+      <div className="flex flex-wrap justify-center md:flex-nowrap gap-8 md:gap-0 md:justify-between">
+        <div className="relative md:w-1/3">
           <p className="text-2xl font-light">
             <Link href="/" className="font-display font-bold uppercase">
               Ethera{" "}
@@ -29,23 +29,27 @@ export default function Footer() {
           </p>
         </div>
         <div>
-          <h3>Products</h3>
+          <h3 className="border-b border-neutral-700 w-fit leading-none pb-1 mb-2">
+            Products
+          </h3>
           <nav className="flex flex-col gap-2">
             {products.map((product, i) => (
-              <Link key={`fp__${i}`} href={product.href}>
+              <Link key={`fp__${i}`} href={`/products/${product.slug}`}>
                 {product.name}
               </Link>
             ))}
           </nav>
         </div>
         <div>
-          <h3>Tools</h3>
+          <h3 className="border-b border-neutral-700 w-fit leading-none pb-1 mb-2">
+            Tools
+          </h3>
           <nav className="flex flex-col gap-2">
-            <Link href="/tools/bmi-calculator/">BMI Calculator</Link>
-            <Link href="/tools/body-fat-calculator/">Body Fat Calculator</Link>
-            <Link href="/tools/daily-calorie-calculator/">
-              Daily Calorie Calculator
-            </Link>
+            {tools.map((tool, i) => (
+              <Link key={`fp__${i}`} href={`/tools/${tool.slug}`}>
+                {tool.name}
+              </Link>
+            ))}
           </nav>
         </div>
       </div>
@@ -57,17 +61,14 @@ export default function Footer() {
         <LogosStripe />
       </div>
       <div>
-        <Link
-          href="/"
-          className="font-display font-bold text-center uppercase [&>span]:block"
-        >
-          <span className="text-[9rem] tracking-[20%] leading-none bg-gradient-to-b from-[hsl(0,0%,45%)] to-[hsl(0,0%,25%)] text-transparent bg-clip-text">
+        <p className="font-display font-bold text-center uppercase [&>span]:block">
+          <span className="text-6xl md:text-[9rem] tracking-tight leading-[0.8] bg-gradient-to-b from-[hsl(0,0%,85%)] to-[hsl(0,0%,50%)] text-transparent bg-clip-text">
             Ethera
           </span>
-          <span className="text-4xl tracking-[10%] bg-gradient-to-b from-[hsl(0,0%,35%)] to-[hsl(0,0%,15%)] text-transparent bg-clip-text">
-            Supplements<sup>®</sup>
+          <span className="text-2xl md:text-4xl tracking-[10%] bg-gradient-to-b from-[hsl(0,0%,50%)] via-[hsl(0,0%,35%)] to-[hsl(0,0%,7.5%)] text-transparent bg-clip-text">
+            Supplements®
           </span>
-        </Link>
+        </p>
       </div>
     </footer>
   )

@@ -1,13 +1,13 @@
 "use client"
 
-import { createContext, useState, useEffect, ReactNode } from "react"
+import { createContext, useState, useEffect, ReactNode, useContext } from "react"
 
 export interface CartItemType {
   slug: string
   name: string
   price: number
   salePrice: number
-  size: string
+  size: number
   flavor: string
   id: string
   quantity?: number
@@ -78,7 +78,6 @@ export const CartProvider = ({ children }: CartProviderProps) => {
 
     if (existingAddedItem) {
       const updatedQuantity = existingAddedItem.quantity! + addedItem.quantity!
-      console.log(updatedQuantity)
       if (updatedQuantity < 1) {
         newCartItems = cart?.cartItems?.filter(
           (cartItem) => cartItem.id !== existingAddedItem.id
@@ -114,4 +113,6 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   )
 }
 
-export default CartContext
+export const useCartContext = () => {
+  return useContext(CartContext)
+}

@@ -1,6 +1,6 @@
 import { Star, PartialStar, EmptyStar } from "@/components/icons/Star"
 
-export default function Stars({ rating = 5, reviewsLength }) {
+export default function Stars({ rating = 5, reviewsLength = 0 }) {
   const safeRating = Math.max(0, Math.min(5, parseFloat(rating) || 0))
 
   const fullStars = Math.floor(safeRating)
@@ -17,7 +17,7 @@ export default function Stars({ rating = 5, reviewsLength }) {
       {Array.from({ length: emptyStars }).map((_, i) => (
         <EmptyStar key={i} />
       ))}
-      {reviewsLength && (
+      {reviewsLength > 0 && (
         <span className="text-gray-200 subheading">
           ({reviewsLength} reviews)
         </span>

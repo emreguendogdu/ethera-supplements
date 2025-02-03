@@ -5,9 +5,8 @@ import "./index.css"
 import Header from "@/components/ui/Header"
 import Footer from "@/components/ui/Footer"
 import Cart from "@/components/ui/Cart"
-import GlobalProvider from "@/provider/GlobalProvider"
 
-import SmoothScrolling from "@/components/SmoothScrolling"
+import GlobalProvider from "@/provider/GlobalProvider"
 
 const inter = Inter({
   variable: "--font-inter",
@@ -37,7 +36,7 @@ export default function RootLayout({
       >
         <GlobalProvider>
           <Header />
-          <SmoothScrolling>{children}</SmoothScrolling>
+          {children}
           <Footer />
           <Cart />
         </GlobalProvider>
