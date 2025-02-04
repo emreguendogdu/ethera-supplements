@@ -12,7 +12,6 @@ export default {
         "custom-green": "#00FF00",
       },
       fontFamily: {
-        display: "var(--font-jost)",
         inter: "var(--font-inter)",
       },
       backgroundImage: {

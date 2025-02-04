@@ -22,17 +22,21 @@ export default function Products() {
     return positions[offset] || "right"
   }
 
-  const handleClick = (direction) => {
+  const handleClick = (i) => {
+    console.log(selectedProduct, i)
+    if (i === selectedProduct) return
     setSelectedProduct((prev) =>
-      direction === "left"
+      i > prev
         ? (prev - 1 + products.length) % products.length
         : (prev + 1) % products.length
     )
+    // setSelectedProduct(i)
+    // Tıklanan = i
   }
 
   return (
     <>
-      <section className="relative min-h-[200vh] w-full">
+      <section className="relative min-h-[200vh] w-full mt-[100vh] bg-black">
         <div className="sticky top-0 p-section-m md:p-section h-screen flex flex-col gap-4 md:gap-16 items-center w-full justify-center text-center">
           <div>
             <h2>
@@ -46,10 +50,12 @@ export default function Products() {
               <motion.li
                 className="absolute flex flex-col items-center gap-2 cursor-pointer"
                 key={`sp-${i}`}
-                onClick={() => setSelectedProduct(i)}
+                onClick={() => {
+                  handleClick(i)
+                }}
                 variants={positionVariants}
                 animate={getPosition(i)}
-                transition={{ duration: 2 }}
+                transition={{ duration: 1 }}
               >
                 <Image
                   src="/images/product-obj.png"
@@ -67,7 +73,7 @@ export default function Products() {
                     <h3 className="subheading text-xl tracking-wide">
                       {product.name}
                     </h3>
-                    <p className="text-base font-bold">{product.description}</p>
+                    <p>{product.description}</p>
                   </div>
                   <div>
                     <p>
@@ -86,10 +92,6 @@ export default function Products() {
               </motion.li>
             ))}
           </ul>
-          <div className="flex gap-4 mt-8 md:mt-16">
-            <button onClick={() => handleClick("left")}>◀</button>
-            <button onClick={() => handleClick("right")}>▶</button>
-          </div>
         </div>
       </section>
     </>

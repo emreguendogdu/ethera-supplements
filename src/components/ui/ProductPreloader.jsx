@@ -75,7 +75,7 @@ export default function ProductPreloader() {
     <>
       <div
         id="product-preloader"
-        className="w-full h-screen sticky inset-0 z-[100]"
+        className="w-full h-screen absolute inset-0 z-[100]"
       >
         <motion.div
           id="preloader-canvas-container"

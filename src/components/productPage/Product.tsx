@@ -6,6 +6,9 @@ import { CartContextType, useCartContext } from "@/context/CartContext"
 import BuyBundle from "@/components/ui/BuyBundle"
 import { ProductProps } from "@/data"
 import ProductCanvas from "@/components/3d/ProductCanvas"
+import Button from "../ui/Button"
+import { motion, useAnimate, usePresence } from "motion/react"
+import { CaretDown } from "@/components/icons/CaretDown"
 
 export default function Product(params: { product: ProductProps }) {
   const { product } = params
@@ -18,6 +21,15 @@ export default function Product(params: { product: ProductProps }) {
     product.stockData[0].price,
     product.stockData[0].salePrice,
   ])
+  const [infoVisible, setInfoVisible] = useState({
+    benefits: false,
+    howToUse: false,
+    nutritionFacts: false,
+  })
+
+  const toggleSection = (section: keyof typeof infoVisible) => {
+    setInfoVisible((prev) => ({ ...prev, [section]: !prev[section] }))
+  }
 
   const handleAddToCart = () => {
     addItemToCart({
@@ -44,13 +56,11 @@ export default function Product(params: { product: ProductProps }) {
     ])
   }
 
-  // Get the first
-
   return (
     <>
       <section
         id="product"
-        className="relative min-h-screen flex flex-col md:flex-row gap-8 md:gap-16 p-section-m md:p-section"
+        className="relative min-h-screen flex flex-col md:flex-row gap-8 md:gap-16 p-section-m md:px-section md:pt-section md:pb-section-m"
       >
         <div className="md:flex-1 h-screen sticky top-0">
           <ProductCanvas />
@@ -115,15 +125,6 @@ export default function Product(params: { product: ProductProps }) {
               <p className="line-through text-neutral-500">${prices[0]}</p>
               <p className="h3">${prices[1]}</p>
             </div>
-            {/* <p className="text-sm text-neutral-300 text-right">
-              {SELECTED_SIZE / product.nutritionFacts.servingSize.size} servings
-              <br />
-              Price per serving: $
-              {(
-                prices[1] /
-                (SELECTED_SIZE / product.nutritionFacts.servingSize.size)
-              ).toFixed(2)}
-            </p> */}
             <p className="text-sm text-neutral-300 text-right">
               {SELECTED_SIZE / product.nutritionFacts.servingSize.size} servings
               ($
@@ -134,53 +135,94 @@ export default function Product(params: { product: ProductProps }) {
               /each)
             </p>
           </div>
-          <button className="button w-full" onClick={handleAddToCart}>
-            Add to Cart
-          </button>
-          <article className="flex flex-col gap-2 text-neutral-300">
-            <section>
-              <h3>Benefits</h3>
-              <ul className="flex flex-col gap-2">
-                {product.benefits.map((benefit, i) => (
-                  <li key={`bnf__${i}`}>{benefit}</li>
-                ))}
-              </ul>
-            </section>
-            <section className="flex flex-col gap-2">
-              <h3>Nutrition Facts</h3>
-              <p>
-                <strong>Serving Size:</strong>{" "}
-                {product.nutritionFacts.servingSize.description}
-              </p>
-              <p className="font-bold">Nutrition Facts (per one serving)</p>
-              <table className="table-auto w-full">
-                <tbody>
-                  {Object.entries(product.nutritionFacts.amount).map(
-                    ([key, value]) => (
-                      <tr
-                        key={key}
-                        className="border-b-[0.5px] border-neutral-500 text-neutral-200"
-                      >
-                        <th className="px-4 py-2 font-medium text-left">
-                          {key
-                            .split(/(?=[A-Z])/)
-                            .join(" ")
-                            .replace(/^\w/, (c) => c.toUpperCase())}
-                        </th>
-                        <td className="px-4 py-2 text-right">{value}</td>
-                      </tr>
-                    )
-                  )}
-                </tbody>
-              </table>
-              <p className="font-bold">Ingredients</p>
-              <p>{product.nutritionFacts.ingredients}</p>
-            </section>
-            <section>
-              <h3>How to Use</h3>
-              <p>{product.howToUse}</p>
-            </section>
-          </article>
+          <div className="relative w-full">
+            <Button
+              onClick={handleAddToCart}
+              type="button"
+              text="Add to Cart"
+              className="w-full"
+            />
+          </div>
+          <ul className="flex flex-col gap-2 md:gap-8 text-neutral-300">
+            <li className="w-full">
+              <div
+                className="w-full flex justify-between items-start cursor-pointer"
+                onClick={() => toggleSection("benefits")}
+              >
+                <h3>Benefits</h3>
+                <CaretDown
+                  className={`text-xl transition-transform ${
+                    infoVisible.benefits ? "rotate-180" : ""
+                  }`}
+                />
+              </div>
+              {infoVisible.benefits && (
+                <ul className="flex flex-col gap-2">
+                  {product.benefits.map((benefit, i) => (
+                    <li key={`bnf__${i}`}>{benefit}</li>
+                  ))}
+                </ul>
+              )}
+            </li>
+            <li className="flex flex-col gap-2">
+              <div
+                className="w-full flex justify-between items-start cursor-pointer"
+                onClick={() => toggleSection("nutritionFacts")}
+              >
+                <h3>Nutrition Facts</h3>
+                <CaretDown
+                  className={`text-xl transition-transform ${
+                    infoVisible.nutritionFacts ? "rotate-180" : ""
+                  }`}
+                />
+              </div>
+              {infoVisible.nutritionFacts && (
+                <div>
+                  <p>
+                    <strong>Serving Size:</strong>{" "}
+                    {product.nutritionFacts.servingSize.description}
+                  </p>
+                  <p className="font-bold">Nutrition Facts (per one serving)</p>
+                  <table className="table-auto w-full">
+                    <tbody>
+                      {Object.entries(product.nutritionFacts.amount).map(
+                        ([key, value]) => (
+                          <tr
+                            key={key}
+                            className="border-b-[0.5px] border-neutral-500 text-neutral-200"
+                          >
+                            <th className="px-4 py-2 font-medium text-left">
+                              {key
+                                .split(/(?=[A-Z])/)
+                                .join(" ")
+                                .replace(/^\w/, (c) => c.toUpperCase())}
+                            </th>
+                            <td className="px-4 py-2 text-right">{value}</td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
+                  <p className="font-bold">Ingredients</p>
+                  <p>{product.nutritionFacts.ingredients}</p>
+                </div>
+              )}
+            </li>
+            <li>
+              <div
+                className="w-full flex justify-between items-start cursor-pointer"
+                onClick={() => toggleSection("howToUse")}
+              >
+                <h3>How to Use</h3>
+                <CaretDown
+                  className={`text-xl transition-transform ${
+                    infoVisible.howToUse ? "rotate-180" : ""
+                  }`}
+                />
+              </div>
+              {infoVisible.howToUse && <motion.p>{product.howToUse}</motion.p>}
+            </li>
+          </ul>
         </div>
       </section>
       <BuyBundle />

@@ -1,5 +1,5 @@
 // import type { Metadata } from "next"
-import { Inter, Jost } from "next/font/google"
+import { Inter } from "next/font/google"
 import "./index.css"
 
 import Header from "@/components/ui/Header"
@@ -7,22 +7,18 @@ import Footer from "@/components/ui/Footer"
 import Cart from "@/components/ui/Cart"
 
 import GlobalProvider from "@/provider/GlobalProvider"
+import { Metadata } from "next"
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
 })
 
-const jost = Jost({
-  variable: "--font-jost",
-  subsets: ["latin"],
-})
-
-// export const metadata: Metadata = {
-//   title: "Ethera Supplements",
-//   description:
-//     "Ethera is the number one supplement brand for futurist bodybuilders.",
-// }
+export const metadata: Metadata = {
+  title: "Ethera Supplements",
+  description:
+    "Ethera is the number one supplement brand for the best bodybuilders in the game.",
+}
 
 export default function RootLayout({
   children,
@@ -32,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${jost.variable} text-smooth relative bg-background text-text font-inter m-0`}
+        className={`${inter.variable} text-smooth relative bg-background text-text font-inter m-0`}
       >
         <GlobalProvider>
           <Header />

@@ -12,17 +12,17 @@ export default function Footer() {
       <div className="flex flex-wrap justify-center md:flex-nowrap gap-8 md:gap-0 md:justify-between">
         <div className="relative md:w-1/3">
           <p className="text-2xl font-light">
-            <Link href="/" className="font-display font-bold uppercase">
+            <Link href="/" className="font-bold uppercase">
               Ethera{" "}
             </Link>
             is a fictional brand <br />
-            made up by{" "}
+            brought to life by{" "}
             <Link
-              href="https://osmangund.tech"
+              href="https://linkedin.com/in/osmangund"
               className="font-bold"
               target="_blank"
             >
-              osmangund.
+              emregnd.
             </Link>
             <br />
             &copy; 2025 — All rights reserved.
@@ -61,7 +61,7 @@ export default function Footer() {
         <LogosStripe />
       </div>
       <div>
-        <p className="font-display font-bold text-center uppercase [&>span]:block">
+        <p className="font-bold text-center uppercase [&>span]:block">
           <span className="text-6xl md:text-[9rem] tracking-tight leading-[0.8] bg-gradient-to-b from-[hsl(0,0%,85%)] to-[hsl(0,0%,50%)] text-transparent bg-clip-text">
             Ethera
           </span>

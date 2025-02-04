@@ -84,8 +84,11 @@ html {
     -moz-osx-font-smoothing: grayscale;
   }
 
-  .button {
+  /* .button {
     @apply uppercase rounded-xl border-[5px] text-center py-2 w-fit px-4 md:px-16 font-bold;
+  } */
+  .button {
+    @apply relative bg-black px-3 py-2 rounded-md hover:bg-neutral-800 transition-all duration-200 z-10 w-full uppercase hover:font-bold block text-center;
   }
 
   .h1 {

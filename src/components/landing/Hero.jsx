@@ -1,27 +1,26 @@
 "use client"
 
-import Link from "next/link"
+import { Bodybuilder } from "@/components/3d/HeroCanvas"
 import { CopyIcon } from "@/components/icons/Copy"
 import { discountCode } from "@/data"
-import { useRef, useState } from "react"
-import HeroCanvas, { Bodybuilder } from "@/components/3d/HeroCanvas"
+import { PerspectiveCamera } from "@react-three/drei"
+import { Canvas } from "@react-three/fiber"
 import {
   motion,
   useMotionValueEvent,
   useScroll,
   useTransform,
 } from "motion/react"
-import { Canvas } from "@react-three/fiber"
-import { PerspectiveCamera } from "@react-three/drei"
-import Button from "../ui/Button"
+import { useRef, useState } from "react"
+import Button from "@/components/ui/Button"
+import useDeviceSize from "@/hooks/useDeviceSize"
 
-export function Hero() {
+export default function Hero() {
+  const heroRef = useRef()
   const [DISCOUNT_CODE_COPIED, SET_DISCOUNT_CODE_COPIED] = useState(false)
 
-  const { scrollYProgress } = useScroll({
-    offset: ["start start", "center end"],
-  })
-  const heroRef = useRef()
+  const { scrollYProgress } = useScroll()
+  const [width, height, isMobile] = useDeviceSize()
 
   const [rotateZ, setRotateZ] = useState(-0.05)
   const [posY, setPosY] = useState(-8.1)
@@ -52,68 +51,65 @@ export function Hero() {
       SET_DISCOUNT_CODE_COPIED(false)
     }, 1500) // Hide notification after 1.5 seconds
   }
-
   return (
-    <>
-      <motion.section id="hero" className="h-[300vh]" ref={heroRef}>
-        <div className="fixed top-0 w-full h-screen -z-10">
-          <div
-            id="canvas-container"
-            className="sticky top-0 h-screen w-full translate-y-36 -z-10"
-          >
-            <Canvas>
-              <PerspectiveCamera makeDefault position={[0, 3, 0]} />
-              <ambientLight intensity={0.22} />
-              <directionalLight
-                position={[-10, 10, 5]}
-                intensity={lightIntensity}
-                castShadow
-              />
-              <Bodybuilder
-                position={[-0.05, posY, -6]}
-                rotation={[-Math.PI / 2, 0, rotateZ]}
-              />
-            </Canvas>
+    <motion.section id="hero" className="h-[150vh]" ref={heroRef}>
+      <div className="fixed top-0 w-full h-screen -z-10">
+        <div
+          id="canvas-container"
+          className="sticky top-0 h-screen w-full translate-y-36 -z-10"
+        >
+          <Canvas>
+            <PerspectiveCamera makeDefault position={[0, 3, 0]} />
+            <ambientLight intensity={0.22} />
+            <directionalLight
+              position={[-10, 10, 5]}
+              intensity={lightIntensity}
+              castShadow
+            />
+            <Bodybuilder
+              position={[-0.05, posY, -6]}
+              rotation={[-Math.PI / 2, 0, rotateZ]}
+              scale={isMobile ? 0.875 : 1}
+            />
+          </Canvas>
+        </div>
+      </div>
+      <motion.div
+        className="sticky top-0 h-screen select-none flex flex-col py-20 md:py-0 px-sectionX-m md:px-0 md:grid md:grid-cols-8 md:grid-rows-8"
+        style={{
+          opacity: contentDivOpacity,
+          scale: contentDivScale,
+          y: contentDivY,
+        }}
+      >
+        <div className="col-start-2 col-span-6 row-start-3 row-span-6">
+          <h1 className="uppercase">
+            Build muscle. <br />
+            Boost strength. <br /> No BS.
+          </h1>
+        </div>
+        <div className="col-start-5 col-end-7 row-start-5 row-span-4 flex flex-col gap-4">
+          <p>
+            Ethera is a <strong>supplement</strong> brand that aims minimalistic
+            purity with the best products available.
+          </p>
+          <div className="flex items-center">
+            <p className="subheading inline-block">20% off code: </p>
+            <button
+              onClick={copyDiscountCode}
+              className="ml-1 bg-gradient-radial from-white via-white to-gray-400 text-black px-3 py-1 rounded-lg uppercase font-bold inline-block"
+            >
+              {DISCOUNT_CODE_COPIED ? "Copied!" : "ETHERA"}
+              {!DISCOUNT_CODE_COPIED && (
+                <CopyIcon className="relative inline ml-1 -translate-y-1/4" />
+              )}
+            </button>
+          </div>
+          <div className="relative w-3/5">
+            <Button>Shop Now</Button>
           </div>
         </div>
-        <motion.div
-          className="sticky top-0 grid grid-cols-8 grid-rows-8 h-screen select-none"
-          style={{
-            opacity: contentDivOpacity,
-            scale: contentDivScale,
-            y: contentDivY,
-          }}
-        >
-          <div className="col-start-2 col-span-6 row-start-3 row-span-6">
-            <h1 className="uppercase">
-              Build muscle. <br />
-              Boost strength. <br /> No BS.
-            </h1>
-          </div>
-          <div className="col-start-5 col-end-7 row-start-5 row-span-4 flex flex-col gap-4">
-            <p>
-              Ethera is a <strong>supplement</strong> brand that aims
-              minimalistic purity with the best products available.
-            </p>
-            <div className="flex items-center">
-              <p className="subheading inline-block">20% off code: </p>
-              <button
-                onClick={copyDiscountCode}
-                className="ml-1 bg-gradient-radial from-white via-white to-gray-400 text-black px-3 py-1 rounded-lg uppercase font-bold inline-block"
-              >
-                {DISCOUNT_CODE_COPIED ? "Copied!" : "ETHERA"}
-                {!DISCOUNT_CODE_COPIED && (
-                  <CopyIcon className="relative inline ml-1 -translate-y-1/4" />
-                )}
-              </button>
-            </div>
-            <Button>Shop Now</Button>
-            {/* <Link href="/products/" className="button text-center px-20">
-            Shop Now
-          </Link> */}
-          </div>
-        </motion.div>
-      </motion.section>
-    </>
+      </motion.div>
+    </motion.section>
   )
 }

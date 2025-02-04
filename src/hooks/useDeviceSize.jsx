@@ -13,8 +13,16 @@ const useDeviceSize = () => {
 
     if (window.innerWidth < 768) {
       setIsMobile(true)
+    } else {
+      setIsMobile(false)
     }
   }
+
+  useEffect(() => {
+    if (window.innerWidth < 768) {
+      setIsMobile(true)
+    }
+  }, [])
 
   useEffect(() => {
     // component is mounted and window is available
