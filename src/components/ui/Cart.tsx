@@ -11,6 +11,7 @@ import { useEffect, useMemo, useState } from "react"
 import Button from "./Button"
 import { AnimatePresence, motion } from "motion/react"
 import { easeIn, easeOut } from "motion"
+import { discountCode as etheraDiscountCode } from "@/data"
 
 const cartVariants = {
   hidden: { x: "100%" },
@@ -23,6 +24,8 @@ export default function Cart() {
     useCartContext() as CartContextType
   const { setAllowScroll } = useScrollContext()
   const [displayDiscountInput, setDisplayDiscountInput] = useState(false)
+  const [salePrice, setSalePrice] = useState(0)
+  const [discountCode, setDiscountCode] = useState("")
 
   const updateQuantity = (cartItem: CartItemType, newQuantity: number) => {
     return addItemToCart({
@@ -31,21 +34,39 @@ export default function Cart() {
     })
   }
 
-  // TODO - Discounts must be calculated with a discount code
+  // TODO - Discounts + Price must be calculated with a discount code
+  // TODO - Discount code confirm button
+  // TODO - Discount code input field
 
-  const cartPrice = useMemo(() => {
+  const priceWithoutDiscounts = useMemo(() => {
     return cart?.cartItems?.reduce(
       (acc, item) => acc + item.quantity! * item.price,
       0
     )
   }, [cart?.cartItems])
 
-  const cartSalePrice = useMemo(() => {
-    return cart?.cartItems?.reduce(
-      (acc, item) => acc + item.quantity! * item.salePrice,
-      0
+  useMemo(() => {
+    setSalePrice(
+      cart?.cartItems?.reduce(
+        (acc, item) => acc + item.quantity! * item.salePrice,
+        0
+      )
     )
   }, [cart?.cartItems])
+
+  // const applyDiscountCode = (code: string) => {
+  //   if (code !== etheraDiscountCode.code || discountApplied) {
+  //     return setDisplayDiscountInput(false)
+  //   } else {
+  //     setSalePrice(
+  //       (salePrice) =>
+  //         salePrice - salePrice * (etheraDiscountCode.discount / 100)
+  //     )
+
+  //     setDiscountApplied(etheraDiscountCode)
+  //     return setDisplayDiscountInput(false)
+  //   }
+  // }
 
   useEffect(() => {
     if (displayCart) {
@@ -75,32 +96,40 @@ export default function Cart() {
           exit="exit"
         >
           <h2 className="text-white select-none">Cart</h2>
-
-          {cart?.cartItems?.length > 0 && (
-            <ul
-              className="flex flex-col relative w-full flex-1 overflow-y-auto"
-              id="cart"
-              style={{
-                maxHeight: "calc(100vh - 300px)",
-                overscrollBehavior: "contain",
-              }}
-            >
+          <ul
+            className="flex flex-col relative w-full flex-1 overflow-y-auto"
+            id="cart"
+            style={{
+              maxHeight: "calc(100vh - 300px)",
+              overscrollBehavior: "contain",
+            }}
+          >
+            <AnimatePresence> 
               {cart?.cartItems?.map((cartItem, i) => (
-                <li
-                  className="flex justify-between border-b-[0.5px] border-b-neutral-700 py-4"
+                <motion.li
+                  className="flex justify-between border-b-[0.5px] border-b-neutral-700 py-4 relative"
                   key={`cartItem-${i}`}
+                  exit={{
+                    opacity: 0,
+                    scale: 0,
+                    transition: { duration: 0.5, ease: "easeOut" },
+                  }}
                 >
-                  <div className="flex gap-2">
-                    <Image
-                      src="/images/product-obj.png"
-                      width={125}
-                      height={125}
-                      alt="Product object test"
-                    />
+                  <div className="flex gap-4">
+                    <div className="relative flex justify-center items-center h-[100px] min-w-[100px]">
+                      <Image
+                        src={`/images/${cartItem.slug}-tub.webp`}
+                        alt={cartItem.name}
+                        fill
+                        objectFit="scale-down"
+                      />
+                    </div>
                     <div className="flex flex-col justify-between">
                       <h3>{cartItem.name}</h3>
                       <div className="[&>p]:text-neutral-300">
-                        <p>{cartItem.size}g</p>
+                        <p>
+                          {cartItem.slug !== "bundle" && cartItem.size + "g"}
+                        </p>
                         <p>{cartItem.flavor}</p>
                       </div>
                     </div>
@@ -115,7 +144,7 @@ export default function Cart() {
                       </p>
                     </div>
                     <div className="flex gap-2 [&_button]:text-xl [&_button]:text-neutral-200">
-                      <div className="bg-neutral-600 flex items-center gap-2 rounded-lg [&>button]:bg-neutral-800 [&>button]:px-2 [&>*]:py-2">
+                      <div className="bg-neutral-900 flex items-center gap-2 rounded-lg [&>button]:bg-neutral-950 [&>button]:px-2 [&>*]:py-2">
                         <button
                           className="rounded-l-lg"
                           onClick={() => updateQuantity(cartItem, -1)}
@@ -134,10 +163,10 @@ export default function Cart() {
                       </div>
                     </div>
                   </div>
-                </li>
+                </motion.li>
               ))}
-            </ul>
-          )}
+            </AnimatePresence>
+          </ul>
           <div
             className={`w-full h-full flex items-center justify-center ${
               cart?.cartItems?.length > 0 && "hidden"
@@ -160,37 +189,54 @@ export default function Cart() {
                 >
                   Use promotion code...
                 </motion.button>
-                <div className="flex gap-2 absolute">
+                <div className="flex gap-2 items-center absolute">
                   <motion.input
-                    className={`bg-neutral-900 text-neutral-200 p-2 rounded-lg focus:border-none focus:outline-none`}
+                    className={`bg-neutral-900 text-neutral-200 p-2 rounded-lg focus:border-none focus:outline-none bg-transparent`}
                     animate={{
                       opacity: displayDiscountInput ? 1 : 0,
                       display: displayDiscountInput ? "block" : "none",
                     }}
                     type="text"
                     placeholder="Enter code..."
+                    value={discountCode}
+                    onChange={(e) => setDiscountCode(e.target.value)}
                   />
-                  <motion.button
-                    onClick={() => {
-                      setDisplayDiscountInput(false)
-                    }}
-                    animate={{
-                      opacity: displayDiscountInput ? 1 : 0,
-                      display: displayDiscountInput ? "block" : "none",
-                    }}
-                  >
-                    ×
-                  </motion.button>
+                  <div className="flex items-end gap-2">
+                    <motion.button
+                      onClick={() => {
+                        setDisplayDiscountInput(false)
+                      }}
+                      animate={{
+                        opacity: displayDiscountInput ? 1 : 0,
+                        display: displayDiscountInput ? "block" : "none",
+                      }}
+                    >
+                      ×
+                    </motion.button>
+                    <motion.button
+                      onClick={() => {
+                        applyDiscountCode(discountCode)
+                      }}
+                      animate={{
+                        opacity: displayDiscountInput ? 1 : 0,
+                        display: displayDiscountInput ? "block" : "none",
+                      }}
+                    >
+                      ✓
+                    </motion.button>
+                  </div>
                 </div>
               </div>
               <div className="relative md:w-1/3 [&>p]:font-bold [&>p]:w-full [&>p]:inline-flex [&>p]:justify-between">
                 <p className="text-green-500">
                   <span>DISCOUNTS: </span>
-                  <span>-${(cartPrice - cartSalePrice).toFixed(2)}</span>
+                  <span>
+                    -${(priceWithoutDiscounts - salePrice).toFixed(2)}
+                  </span>
                 </p>
                 <p>
                   <span>TOTAL: </span>
-                  <span>${cartSalePrice.toFixed(2)}</span>
+                  <span>${salePrice.toFixed(2)}</span>
                 </p>
               </div>
             </div>

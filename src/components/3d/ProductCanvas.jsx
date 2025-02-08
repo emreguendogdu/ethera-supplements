@@ -3,7 +3,7 @@
 import { OrbitControls } from "@react-three/drei"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { useRef } from "react"
-import { AresCase } from "@/components/3d/products/AresCase"
+import { Tub } from "@/components/3d/Tub"
 
 function Environment({ children }) {
   const lightRef = useRef()
@@ -35,9 +35,10 @@ function Environment({ children }) {
   )
 }
 
-export default function ProductCanvas() {
+export default function ProductCanvas({ slug }) {
   // controls.minPolarAngle = Math.PI / 2
   // controls.maxPolarAngle = Math.PI / 2
+
   return (
     <div id="canvas-container" className="w-full h-full">
       <Canvas camera={{ position: [0, -0.25, 4], fov: 50 }}>
@@ -45,10 +46,10 @@ export default function ProductCanvas() {
           enablePan={false}
           enableZoom={false}
           autoRotate={true}
-          autoRotateSpeed={0.5}
+          autoRotateSpeed={0.65}
         />
         <Environment>
-          <AresCase />
+          <Tub slug={slug} />
         </Environment>
       </Canvas>
     </div>

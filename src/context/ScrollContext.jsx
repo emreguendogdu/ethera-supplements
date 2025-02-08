@@ -15,11 +15,12 @@ export const ScrollProvider = ({ children }) => {
       if (allowScroll) {
         lenis.start()
         // Scrollbar hidden
-        document.body.style.overflow = "visible"
+        // document.body.style.overflow = "visible"
       } else {
+        // Set window x y to 0
         lenis.stop()
         // Scrollbar visible
-        document.body.style.overflow = "hidden"
+        // document.body.style.overflow = "hidden"
       }
     }
   }, [allowScroll, lenis])

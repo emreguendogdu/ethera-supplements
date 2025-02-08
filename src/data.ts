@@ -352,4 +352,4 @@ export const tools = [
   },
 ]
 
-export const discountCode = "ETHERA"
+export const discountCode = { code: "ETHERA", discount: 20 }

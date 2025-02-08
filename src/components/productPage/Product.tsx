@@ -7,7 +7,7 @@ import BuyBundle from "@/components/ui/BuyBundle"
 import { ProductProps } from "@/data"
 import ProductCanvas from "@/components/3d/ProductCanvas"
 import Button from "../ui/Button"
-import { motion, useAnimate, usePresence } from "motion/react"
+import { motion } from "motion/react"
 import { CaretDown } from "@/components/icons/CaretDown"
 
 export default function Product(params: { product: ProductProps }) {
@@ -63,7 +63,7 @@ export default function Product(params: { product: ProductProps }) {
         className="relative min-h-screen flex flex-col md:flex-row gap-8 md:gap-16 p-section-m md:px-section md:pt-section md:pb-section-m"
       >
         <div className="md:flex-1 h-screen sticky top-0">
-          <ProductCanvas />
+          <ProductCanvas slug={product.slug} />
         </div>
         <div className="md:flex-1 flex flex-col gap-4 md:gap-8">
           <header>
@@ -87,7 +87,7 @@ export default function Product(params: { product: ProductProps }) {
                 />
                 <label
                   htmlFor={flavor.name}
-                  className="inline-flex items-center gap-2 justify-between pr-2 w-fit rounded-lg cursor-pointer hover:text-neutral-300 peer-checked:text-[var(--color)] text-neutral-400 hover:bg-neutral-900"
+                  className="inline-flex items-center gap-2 justify-between pr-2 w-fit rounded-lg cursor-pointer hover:text-[var(--color)] peer-checked:text-[var(--color)] text-neutral-400 hover:bg-neutral-900"
                   style={{ "--color": flavor.color } as React.CSSProperties}
                 >
                   <div
@@ -143,7 +143,7 @@ export default function Product(params: { product: ProductProps }) {
               className="w-full"
             />
           </div>
-          <ul className="flex flex-col gap-2 md:gap-8 text-neutral-300">
+          <ul className="relative min-h-full flex flex-col gap-2 md:gap-8 text-neutral-300">
             <li className="w-full">
               <div
                 className="w-full flex justify-between items-start cursor-pointer"
@@ -157,11 +157,11 @@ export default function Product(params: { product: ProductProps }) {
                 />
               </div>
               {infoVisible.benefits && (
-                <ul className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2">
                   {product.benefits.map((benefit, i) => (
-                    <li key={`bnf__${i}`}>{benefit}</li>
+                    <p key={`bnf__${i}`}>{benefit}</p>
                   ))}
-                </ul>
+                </div>
               )}
             </li>
             <li className="flex flex-col gap-2">
@@ -230,16 +230,17 @@ export default function Product(params: { product: ProductProps }) {
         id="reviews"
         className="flex flex-col gap-4 md:gap-8 p-section-m md:p-section"
       >
-        <header className="text-center flex flex-col items-center gap-2">
+        <div className="text-center flex flex-col items-center gap-2 select-none">
           <h2 className="h1">Reviews</h2>
           <Stars rating={4.5} reviewsLength={81} />
-        </header>
+        </div>
         <ul className="flex flex-col gap-8">
           {product.reviews && product.reviews.length > 0 ? (
             product.reviews.map((review, i) => (
-              <li
+              <motion.li
                 key={i}
-                className="px-8 py-4 pb-6 border border-custom-gray rounded-lg flex flex-col gap-2"
+                className="px-8 py-4 pb-6 border border-custom-gray rounded-lg flex flex-col gap-2 relative"
+                whileHover={{ scale: 1.1, x: -25, y: 20, rotate: 0.5 }}
               >
                 <div className="flex justify-between">
                   <div className="flex gap-2 items-center text-sm font-medium text-neutral-300">
@@ -252,7 +253,7 @@ export default function Product(params: { product: ProductProps }) {
                 </div>
                 <h3>{review.title}</h3>
                 <p>{review.comment}</p>
-              </li>
+              </motion.li>
             ))
           ) : (
             <p className="text-center">No reviews yet.</p>
@@ -261,7 +262,11 @@ export default function Product(params: { product: ProductProps }) {
         <div className="flex justify-center gap-2">
           {Array.from({ length: Math.ceil(81 / 5) }).map((_, index) => {
             if (index > 4) return null
-            return <button key={index}>{index + 1}</button>
+            return (
+              <motion.button key={`rwsb_${index}`} whileHover={{ scale: 1.25 }}>
+                {index + 1}
+              </motion.button>
+            )
           })}
         </div>
       </section>

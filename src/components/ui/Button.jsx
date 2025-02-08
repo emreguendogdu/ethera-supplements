@@ -7,7 +7,7 @@ import { useEffect } from "react"
 
 export default function Button({
   text = "Shop Now",
-  href = "/",
+  href = "/products/",
   className = "",
   type = "link",
   onClick = null,

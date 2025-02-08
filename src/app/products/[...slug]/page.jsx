@@ -2,6 +2,7 @@
 import Product from "@/components/productPage/Product"
 import { products } from "@/data"
 import ProductPreloader from "@/components/ui/ProductPreloader"
+import Button from "@/components/ui/Button"
 
 export default async function page({ params }) {
   // Await params before using its properties
@@ -10,12 +11,19 @@ export default async function page({ params }) {
   const product = products.find((p) => p.slug === slug[0])
 
   if (!product) {
-    return <div>Product not found</div>
+    return (
+      <div className="h-screen flex flex-col gap-8 justify-center items-center">
+        Product not found.
+        <div>
+          <Button href="/" text="Back to Home" />
+        </div>
+      </div>
+    )
   }
-
+  
   return (
     <>
-      <ProductPreloader />
+      <ProductPreloader slug={slug} />
       <Product product={product} />
     </>
   )

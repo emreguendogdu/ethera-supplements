@@ -1,6 +1,6 @@
 "use client"
 
-import { Bodybuilder } from "@/components/3d/HeroCanvas"
+import Bodybuilder from "@/components/3d/Bodybuilder"
 import { CopyIcon } from "@/components/icons/Copy"
 import { discountCode } from "@/data"
 import { PerspectiveCamera } from "@react-three/drei"
@@ -11,7 +11,7 @@ import {
   useScroll,
   useTransform,
 } from "motion/react"
-import { useRef, useState } from "react"
+import { Suspense, useRef, useState } from "react"
 import Button from "@/components/ui/Button"
 import useDeviceSize from "@/hooks/useDeviceSize"
 
@@ -22,16 +22,16 @@ export default function Hero() {
   const { scrollYProgress } = useScroll()
   const [width, height, isMobile] = useDeviceSize()
 
-  const [rotateZ, setRotateZ] = useState(-0.05)
+  const [rotateZ, setRotateZ] = useState(-3.25)
   const [posY, setPosY] = useState(-8.1)
-  const [lightIntensity, setLightIntensity] = useState(0.5)
+  const [lightIntensity, setLightIntensity] = useState(0.35)
 
-  const posYValue = useTransform(scrollYProgress, [0, 0.5], [-8.1, -7])
-  const rotateZValue = useTransform(scrollYProgress, [0, 0.5], [-0.05, -3.25])
+  const posYValue = useTransform(scrollYProgress, [0, 0.4], [-8.1, -7])
+  const rotateZValue = useTransform(scrollYProgress, [0, 0.4], [-3.25, -0.05])
   const lightIntensityValue = useTransform(
     scrollYProgress,
-    [0.5, 0.75],
-    [0.5, 0]
+    [0, 0.35, 0.4, 0.55],
+    [0.35, 0.5, 1, 0]
   )
 
   const contentDivOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0])
@@ -45,14 +45,14 @@ export default function Hero() {
   })
 
   const copyDiscountCode = () => {
-    navigator.clipboard.writeText(discountCode)
+    navigator.clipboard.writeText(discountCode.code)
     SET_DISCOUNT_CODE_COPIED(true)
     setTimeout(() => {
       SET_DISCOUNT_CODE_COPIED(false)
     }, 1500) // Hide notification after 1.5 seconds
   }
   return (
-    <motion.section id="hero" className="h-[150vh]" ref={heroRef}>
+    <motion.section id="hero" className="h-[300vh]" ref={heroRef}>
       <div className="fixed top-0 w-full h-screen -z-10">
         <div
           id="canvas-container"
@@ -66,11 +66,13 @@ export default function Hero() {
               intensity={lightIntensity}
               castShadow
             />
-            <Bodybuilder
-              position={[-0.05, posY, -6]}
-              rotation={[-Math.PI / 2, 0, rotateZ]}
-              scale={isMobile ? 0.875 : 1}
-            />
+            <Suspense>
+              <Bodybuilder
+                position={[-0.05, posY, -6]}
+                rotation={[-Math.PI / 2, 0, rotateZ]}
+                scale={isMobile ? 0.875 : 1}
+              />
+            </Suspense>
           </Canvas>
         </div>
       </div>
