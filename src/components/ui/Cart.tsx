@@ -11,7 +11,7 @@ import { useEffect, useMemo, useState } from "react"
 import Button from "./Button"
 import { AnimatePresence, motion } from "motion/react"
 import { easeIn, easeOut } from "motion"
-import { discountCode as etheraDiscountCode } from "@/data"
+// import { discountCode as etheraDiscountCode } from "@/data"
 
 const cartVariants = {
   hidden: { x: "100%" },

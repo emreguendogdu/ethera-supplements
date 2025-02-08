@@ -1,6 +1,12 @@
 "use client"
 
-import { createContext, useState, useEffect, ReactNode, useContext } from "react"
+import {
+  createContext,
+  useState,
+  useEffect,
+  ReactNode,
+  useContext,
+} from "react"
 
 export interface CartItemType {
   slug: string
