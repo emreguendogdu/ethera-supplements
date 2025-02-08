@@ -18,7 +18,7 @@ export default function Header() {
           Ethera
         </Link> */}
         <Link href="/" className="text-center uppercase [&>span]:block">
-          <span className="tracking-tight leading-[0.8] bg-gradient-to-b from-[hsl(0,0%,50%)] to-[hsl(0,0%,35%)] text-transparent bg-clip-text">
+          <span className="subheading font-light text-base leading-[0.8] bg-gradient-to-b from-[hsl(0,0%,50%)] to-[hsl(0,0%,35%)] text-transparent bg-clip-text">
             Ethera
           </span>
         </Link>
