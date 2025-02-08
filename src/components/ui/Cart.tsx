@@ -104,7 +104,7 @@ export default function Cart() {
               overscrollBehavior: "contain",
             }}
           >
-            <AnimatePresence> 
+            <AnimatePresence>
               {cart?.cartItems?.map((cartItem, i) => (
                 <motion.li
                   className="flex justify-between border-b-[0.5px] border-b-neutral-700 py-4 relative"
@@ -214,9 +214,6 @@ export default function Cart() {
                       ×
                     </motion.button>
                     <motion.button
-                      onClick={() => {
-                        applyDiscountCode(discountCode)
-                      }}
                       animate={{
                         opacity: displayDiscountInput ? 1 : 0,
                         display: displayDiscountInput ? "block" : "none",
