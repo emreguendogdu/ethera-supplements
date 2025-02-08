@@ -11,9 +11,16 @@ import {
   useScroll,
   useTransform,
 } from "motion/react"
-import { Suspense, useRef, useState } from "react"
+import { Suspense, useEffect, useRef, useState } from "react"
 import Button from "@/components/ui/Button"
 import useDeviceSize from "@/hooks/useDeviceSize"
+
+function Handle({ load }) {
+  useEffect(() => {
+    load(true)
+    return () => load(false)
+  }, [])
+}
 
 export default function Hero() {
   const heroRef = useRef()
@@ -66,13 +73,11 @@ export default function Hero() {
               intensity={lightIntensity}
               castShadow
             />
-            <Suspense>
-              <Bodybuilder
-                position={[-0.05, posY, -6]}
-                rotation={[-Math.PI / 2, 0, rotateZ]}
-                scale={isMobile ? 0.875 : 1}
-              />
-            </Suspense>
+            <Bodybuilder
+              position={[-0.05, posY, -6]}
+              rotation={[-Math.PI / 2, 0, rotateZ]}
+              scale={isMobile ? 0.875 : 1}
+            />
           </Canvas>
         </div>
       </div>

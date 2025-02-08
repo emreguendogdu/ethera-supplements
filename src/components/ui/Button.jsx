@@ -10,7 +10,7 @@ export default function Button({
   href = "/products/",
   className = "",
   type = "link",
-  onClick = null,
+  onClick = () => {},
   style = "animated",
 }) {
   const time = useTime()

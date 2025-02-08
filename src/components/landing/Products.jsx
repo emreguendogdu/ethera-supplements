@@ -32,8 +32,6 @@ export default function Products() {
   const handleClick = (i) => {
     if (i === selectedProduct) return
     setSelectedProduct(i)
-
-    console.log(i, (selectedProduct - 1) % products.length)
   }
 
   return (
