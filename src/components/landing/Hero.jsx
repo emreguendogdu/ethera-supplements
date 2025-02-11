@@ -27,7 +27,7 @@ export default function Hero() {
   const heroRef = useRef()
   const [DISCOUNT_CODE_COPIED, SET_DISCOUNT_CODE_COPIED] = useState(false)
 
-  const [modalIsLoading, modalLoaded] = useState(true)
+  const [modalIsLoading, modalLoaded] = useState(false)
 
   const { scrollYProgress } = useScroll()
   const [width, height, isMobile] = useDeviceSize()

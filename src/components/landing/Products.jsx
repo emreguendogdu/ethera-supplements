@@ -20,9 +20,6 @@ export default function Products() {
   const targetRef = useRef()
   const { scrollYProgress } = useScroll({ target: targetRef })
 
-  const scale = (startPosition) =>
-    useTransform(scrollYProgress, [startPosition, startPosition + 0.2], [1, 0])
-
   const getPosition = (index) => {
     if (index === selectedProduct) return "center"
     if (index === (selectedProduct + 1) % products.length) return "right"
@@ -42,21 +39,13 @@ export default function Products() {
       >
         <div className="sticky top-0 px-sectionX-m md:px-sectionX py-sectionY-m md:pt-sectionY  h-screen flex flex-col items-center w-full gap-8 md:gap-16 text-center">
           <div>
-            <motion.h2 className="relative [&>span]:inline-block">
-              <motion.span style={{ scale: scale(0.6) }}>No fluff.</motion.span>
+            <h2 className="relative [&>span]:inline-block">
+              <span>No fluff.</span>
               <br />
-              <motion.span
-                className="h1 relative"
-                style={{ scale: scale(0.7) }}
-              >
-                Only essentials.
-              </motion.span>
-            </motion.h2>
+              <span className="h1 relative">Only essentials.</span>
+            </h2>
           </div>
-          <motion.ul
-            className="w-full h-[400px] flex justify-center gap-4 md:gap-16 relative"
-            style={{ scale: scale(0.8) }}
-          >
+          <ul className="w-full h-[400px] flex justify-center gap-4 md:gap-16 relative">
             {products.map((product, i) => (
               <motion.li
                 className={`absolute flex flex-col items-center gap-2 ${
@@ -108,7 +97,7 @@ export default function Products() {
                 </div>
               </motion.li>
             ))}
-          </motion.ul>
+          </ul>
         </div>
       </motion.section>
     </>
