@@ -3,10 +3,11 @@
 import { motion } from "motion/react"
 import { useEffect } from "react"
 
-export default function PreLoader() {
+export default function LandingPreloader() {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
+
   return (
     <motion.div
       id="preloader"

@@ -14,7 +14,7 @@ import {
 import { Suspense, useEffect, useRef, useState } from "react"
 import Button from "@/components/ui/Button"
 import useDeviceSize from "@/hooks/useDeviceSize"
-import Preloader from "@/components/ui/Preloader"
+import LandingPreloader from "@/components/ui/LandingPreloader"
 
 function HandleModalLoad({ load }) {
   useEffect(() => {
