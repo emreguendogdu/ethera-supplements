@@ -64,7 +64,7 @@ export default function Hero() {
 
   return (
     <>
-      {modalIsLoading && <Preloader />}
+      {modalIsLoading && <LandingPreloader />}
       <motion.section id="hero" className="h-[300vh]" ref={heroRef}>
         <div className="fixed top-0 w-full h-screen -z-10">
           <div
