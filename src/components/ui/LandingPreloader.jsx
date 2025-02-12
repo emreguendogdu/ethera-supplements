@@ -1,5 +1,6 @@
 "use client"
 
+import { useProgress } from "@react-three/drei"
 import { motion } from "motion/react"
 import { useEffect } from "react"
 
@@ -7,6 +8,8 @@ export default function LandingPreloader() {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
+
+  const { progress, active } = useProgress()
 
   return (
     <motion.div
@@ -23,8 +26,11 @@ export default function LandingPreloader() {
         <motion.div
           className="relative w-full h-[2px] bg-white mt-4 origin-left"
           initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 3, ease: "easeInOut" }}
+          animate={{ scaleX: progress.toFixed() / 100 }}
+          transition={{
+            duration: active ? 10 : 0.25,
+            ease: "easeInOut",
+          }}
         />
       </div>
     </motion.div>

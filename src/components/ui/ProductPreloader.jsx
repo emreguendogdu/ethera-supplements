@@ -2,7 +2,7 @@
 
 import { PerspectiveCamera } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
-import DefaultTub, { Tub } from "@/components/3d/Tub"
+import { Tub } from "@/components/3d/Tub"
 import { animate } from "motion"
 import { useEffect, useRef } from "react"
 import { motion } from "motion/react"
