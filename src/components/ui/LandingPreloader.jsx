@@ -14,7 +14,7 @@ export default function LandingPreloader() {
   return (
     <motion.div
       id="preloader"
-      className="sticky inset-0 bg-neutral-900 z-[105] h-screen w-full flex flex-col gap-4 md:gap-8 justify-center items-center"
+      className="sticky inset-0 bg-black z-[105] h-screen w-full flex flex-col gap-4 md:gap-8 justify-center items-center"
       // initial={{ opacity: 1, display: "flex" }}
       // animate={{ opacity: 0, display: "none" }}
       // transition={{ delay: 2, duration: 1 }}
@@ -28,7 +28,7 @@ export default function LandingPreloader() {
           initial={{ scaleX: 0 }}
           animate={{ scaleX: progress.toFixed() / 100 }}
           transition={{
-            duration: active ? 10 : 0.25,
+            duration: active ? 5 : 0.25,
             ease: "easeInOut",
           }}
         />

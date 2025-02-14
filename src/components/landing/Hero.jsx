@@ -36,7 +36,11 @@ export default function Hero() {
   const [posY, setPosY] = useState(-8.1)
   const [lightIntensity, setLightIntensity] = useState(0.35)
 
-  const posYValue = useTransform(scrollYProgress, [0, 0.4], [-8.1, -7])
+  const posYValue = useTransform(
+    scrollYProgress,
+    [0, 0.4],
+    [isMobile ? -5 : -8.1, isMobile ? -3.5 : -7]
+  )
   const rotateZValue = useTransform(scrollYProgress, [0, 0.4], [-3.25, -0.05])
   const lightIntensityValue = useTransform(
     scrollYProgress,
@@ -47,6 +51,12 @@ export default function Hero() {
   const contentDivOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0])
   const contentDivScale = useTransform(scrollYProgress, [0, 0.25], [1, 0.5])
   const contentDivY = useTransform(scrollYProgress, [0, 0.25], [0, -125])
+
+  useEffect(() => {
+    if (isMobile) {
+      setPosY(-5)
+    }
+  }, [isMobile])
 
   useMotionValueEvent(scrollYProgress, "change", () => {
     setRotateZ(rotateZValue.get())
@@ -83,14 +93,14 @@ export default function Hero() {
                 <Bodybuilder
                   position={[-0.05, posY, -6]}
                   rotation={[-1.57, 0, rotateZ]}
-                  scale={isMobile ? 0.875 : 1}
+                  scale={isMobile ? 0.65 : 1}
                 />
               </Suspense>
             </Canvas>
           </div>
         </div>
         <motion.div
-          className="sticky top-0 h-screen select-none flex flex-col py-20 md:py-0 px-sectionX-m md:px-0 md:grid md:grid-cols-8 md:grid-rows-8"
+          className="sticky top-0 h-screen select-none flex flex-col justify-center gap-4 py-20 md:py-0 px-sectionX-m md:px-0 md:grid md:grid-cols-8 md:grid-rows-8"
           style={{
             opacity: contentDivOpacity,
             scale: contentDivScale,

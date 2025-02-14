@@ -32,12 +32,6 @@ export default function Header() {
               {product.name}
             </Link>
           ))}
-          <Link
-            href="/products/bundle"
-            className="text-neutral-500 hover:text-neutral-200 hover:tracking-[0.15em] transition-all subheading font-light"
-          >
-            Bundle
-          </Link>
         </nav>
         <button
           className="flex gap-2 items-center text-neutral-400 hover:text-neutral-200 [&>p]:text-neutral-400 [&>p]:hover:text-neutral-200 transition-all [&>p]:transition-all"

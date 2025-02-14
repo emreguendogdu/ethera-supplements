@@ -10,9 +10,12 @@ export default function Reviews() {
         <h2 className="h1">Don’t take our word for it.</h2>
         <Stars reviewsLength={324} />
       </div>
-      <ul className="relative w-full flex gap-2 rounded-xl">
+      <ul className="relative w-full flex justify-center flex-wrap gap-2 rounded-xl">
         {[...Array(4)].map((_, index) => (
-          <li className="relative w-1/4 h-[200px]" key={`rv__${index}`}>
+          <li
+            className="relative w-[40%] md:w-1/4 h-[200px]"
+            key={`rv__${index}`}
+          >
             <Image
               src={`/images/influencer-${index + 1}.webp`}
               alt={`Influencer ${index + 1}`}

@@ -8,6 +8,10 @@
   font-size: 90%;
 }
 
+body {
+  overflow-x: hidden;
+}
+
 ::-webkit-scrollbar {
   height: 12px;
   width: 12px;
@@ -47,12 +51,12 @@ html {
 
   .h1-styles {
     /* 72px */
-    @apply heading-base text-5xl md:text-6xl leading-tight;
+    @apply heading-base text-4xl md:text-6xl leading-tight;
   }
 
   .h2-styles {
     /* 48px */
-    @apply heading-base text-4xl font-bold leading-none;
+    @apply heading-base md:text-4xl font-bold leading-none;
   }
 
   .h3-styles {

@@ -25,4 +25,4 @@ export default function Bodybuilder(props) {
   )
 }
 
-useGLTF.preload("/3d/bodybuilder_base_mesh1k.glb")
+// useGLTF.preload("/3d/bodybuilder_base_mesh1k.glb")
