@@ -62,9 +62,7 @@ export default function Product(params: { product: ProductProps }) {
         id="product"
         className="relative min-h-screen flex flex-col md:flex-row gap-8 md:gap-16 p-section-m md:px-section md:pt-section md:pb-section-m"
       >
-        <div className="md:flex-1 h-screen sticky top-0">
-          <ProductCanvas slug={product.slug} />
-        </div>
+        <ProductCanvas slug={product.slug} />
         <div className="md:flex-1 flex flex-col gap-4 md:gap-8">
           <header>
             <Stars reviewsLength={81} />

@@ -4,6 +4,7 @@ import { OrbitControls } from "@react-three/drei"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { useRef } from "react"
 import { Tub } from "@/components/3d/Tub"
+import useDeviceSize from "@/hooks/useDeviceSize"
 
 function Environment({ children }) {
   const lightRef = useRef()
@@ -38,10 +39,18 @@ function Environment({ children }) {
 export default function ProductCanvas({ slug }) {
   // controls.minPolarAngle = Math.PI / 2
   // controls.maxPolarAngle = Math.PI / 2
-
+  const [width, height, isMobile] = useDeviceSize()
   return (
-    <div id="canvas-container" className="w-full h-full">
-      <Canvas camera={{ position: [0, -0.25, 4], fov: 50 }}>
+    <div
+      id="canvas-container"
+      className="w-full h-[50vh] md:w-full md:h-[100vh] md:flex-1 md:sticky md:top-0 self-center"
+    >
+      <Canvas
+        camera={{
+          position: [0, isMobile ? 0 : -0.25, isMobile ? 3 : 4],
+          fov: 50,
+        }}
+      >
         <OrbitControls
           enablePan={false}
           enableZoom={false}
