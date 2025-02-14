@@ -58,10 +58,10 @@ export default function Products() {
               <span className="h1 relative">Only essentials.</span>
             </h2>
           </div>
-          <ul className="relative w-screen h-[400px]">
+          <ul className="relative w-screen h-[400px] flex justify-center">
             {products.map((product, i) => (
               <motion.li
-                className={`absolute w-fit flex flex-col items-center gap-2 ${
+                className={`absolute flex flex-col items-center w-[300px] h-[500px] gap-2 ${
                   i !== selectedProduct ? "cursor-pointer" : ""
                 }`}
                 key={`sp-${i}`}
