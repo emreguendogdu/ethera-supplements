@@ -95,10 +95,13 @@ export default function Cart() {
           animate={displayCart ? "visible" : "hidden"}
           exit="exit"
         >
-          <div className="w-full flex justify-between items-center px-sectionX-m *:flex-1">
-            <div />
+          <div className="w-full flex justify-center items-center">
+            {/* <div /> */}
             <h2 className="text-white select-none">Cart</h2>
-            <button onClick={() => setDisplayCart(false)} className="text-3xl">
+            <button
+              onClick={() => setDisplayCart(false)}
+              className="block md:hidden absolute right-0 text-3xl px-8 h2"
+            >
               ×
             </button>
           </div>
