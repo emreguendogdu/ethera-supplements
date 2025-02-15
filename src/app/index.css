@@ -88,11 +88,8 @@ html {
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* .button {
-    @apply uppercase rounded-xl border-[5px] text-center py-2 w-fit px-4 md:px-16 font-bold;
-  } */
   .button {
-    @apply relative bg-black px-3 py-2 rounded-md z-10 w-full uppercase block text-center hover:bg-neutral-900 hover:font-bold hover:tracking-wide transition-all duration-200;
+    @apply relative bg-black px-3 py-2 rounded-md z-10 w-full uppercase block text-center  hover:tracking-wider hover:px-4 transition-all duration-200;
   }
 
   .h1 {
