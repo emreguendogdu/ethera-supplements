@@ -10,7 +10,7 @@ export default function Footer() {
   return (
     <footer className="relative flex flex-col gap-8 md:gap-16 px-sectionX-m md:px-sectionX py-sectionY-m pb-4">
       <div className="absolute inset-0 bg-black opacity-90 -z-10" />
-      <div className="flex flex-wrap justify-center md:flex-nowrap gap-8 md:gap-0 md:justify-between">
+      <div className="flex flex-wrap md:flex-nowrap gap-8 md:gap-0 md:justify-between">
         <div className="relative md:w-1/3">
           <p className="text-2xl font-light">
             <Link href="/" className="font-bold uppercase">
@@ -55,7 +55,7 @@ export default function Footer() {
           </nav>
         </div>
       </div>
-      <div className="flex gap-8 justify-center text-3xl items-center brightness-90">
+      <div className="flex gap-8 md:justify-center text-lg md:text-3xl items-center brightness-90">
         <LogosVisa />
         <LogosMastercard />
         <LogosApplePay />
@@ -67,7 +67,7 @@ export default function Footer() {
           className="font-bold text-center uppercase [&>span]:block"
           href="/"
         >
-          <span className="text-6xl md:text-[9rem] tracking-tight leading-[0.8] bg-gradient-to-b from-[hsl(0,0%,85%)] to-[hsl(0,0%,50%)] text-transparent bg-clip-text">
+          <span className="text-3xl md:text-[9rem] tracking-tight leading-[0.8] bg-gradient-to-b from-[hsl(0,0%,85%)] to-[hsl(0,0%,50%)] text-transparent bg-clip-text">
             Ethera
           </span>
           <span className="text-2xl md:text-4xl tracking-[10%] bg-gradient-to-b from-[hsl(0,0%,50%)] via-[hsl(0,0%,35%)] to-[hsl(0,0%,7.5%)] text-transparent bg-clip-text">

@@ -89,7 +89,7 @@ export default function Cart() {
           onClick={() => setDisplayCart(false)}
         />
         <motion.div
-          className="fixed right-0 w-[50vw] h-full max-h-screen z-30 bg-black px-8 md:px-16 py-8 flex flex-col items-center justify-between gap-8 md:gap-16 border-l border-l-neutral-950"
+          className="fixed right-0 w-[100vw] md:w-[50vw] h-full max-h-screen z-30 bg-black px-8 md:px-16 py-8 flex flex-col items-center justify-between gap-8 md:gap-16 border-l border-l-neutral-950"
           initial="hidden"
           variants={cartVariants}
           animate={displayCart ? "visible" : "hidden"}
@@ -189,7 +189,7 @@ export default function Cart() {
                 >
                   Use promotion code...
                 </motion.button>
-                <div className="flex gap-2 items-center absolute">
+                <div className="flex gap-2 items-center absolute bottom-0">
                   <motion.input
                     className={`bg-neutral-900 text-neutral-200 p-2 rounded-lg focus:border-none focus:outline-none bg-transparent`}
                     animate={{
@@ -224,7 +224,7 @@ export default function Cart() {
                   </div>
                 </div>
               </div>
-              <div className="relative md:w-1/3 [&>p]:font-bold [&>p]:w-full [&>p]:inline-flex [&>p]:justify-between">
+              <div className="relative w-1/2 md:w-1/3 [&>p]:font-bold [&>p]:w-full [&>p]:inline-flex [&>p]:justify-between">
                 <p className="text-green-500">
                   <span>DISCOUNTS: </span>
                   <span>
