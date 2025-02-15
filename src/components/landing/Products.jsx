@@ -72,13 +72,13 @@ export default function Products() {
                 animate={getPosition(i)}
                 transition={{ duration: 1.5, ease: "easeInOut" }}
               >
-                <div className="flex items-center justify-center w-2/3 h-1/4 md:w-3/4 md:h-3/4">
+                <div className="flex items-center justify-center w-2/3 h-1/2 md:w-3/4 md:h-3/4">
                   <Image
                     src={`/images/${product.slug}-tub.webp`}
                     width={225}
                     height={125}
                     alt={product.name}
-                    className="relative select-none drag-none w-full h-full"
+                    className="relative select-none drag-none w-full h-full object-scale-down"
                   />
                 </div>
                 <div

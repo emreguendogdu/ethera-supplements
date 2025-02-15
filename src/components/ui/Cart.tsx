@@ -85,7 +85,7 @@ export default function Cart() {
       >
         <div
           id="overlay"
-          className="fixed w-full h-full bg-black opacity-55 z-20"
+          className="hidden md:block fixed w-full h-full bg-black opacity-55 z-20"
           onClick={() => setDisplayCart(false)}
         />
         <motion.div
@@ -95,7 +95,13 @@ export default function Cart() {
           animate={displayCart ? "visible" : "hidden"}
           exit="exit"
         >
-          <h2 className="text-white select-none">Cart</h2>
+          <div className="w-full flex justify-between items-center px-sectionX-m *:flex-1">
+            <div />
+            <h2 className="text-white select-none">Cart</h2>
+            <button onClick={() => setDisplayCart(false)} className="text-3xl">
+              ×
+            </button>
+          </div>
           <ul
             className="flex flex-col relative w-full flex-1 overflow-y-auto"
             id="cart"
