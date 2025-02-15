@@ -10,7 +10,7 @@ export default function Footer() {
   return (
     <footer className="relative flex flex-col gap-8 md:gap-16 px-sectionX-m md:px-sectionX py-sectionY-m pb-4">
       <div className="absolute inset-0 bg-black opacity-90 -z-10" />
-      <div className="flex flex-wrap md:flex-nowrap gap-8 md:gap-0 md:justify-between">
+      <div className="flex flex-wrap justify-center md:flex-nowrap gap-8 md:gap-0 md:justify-between">
         <div className="relative md:w-1/3">
           <p className="text-2xl font-light">
             <Link href="/" className="font-bold uppercase">
@@ -33,7 +33,7 @@ export default function Footer() {
           <h3 className="border-b border-neutral-700 w-fit leading-none pb-1 mb-2">
             Products
           </h3>
-          <nav className="flex flex-col gap-2">
+          <nav className="flex flex-col gap-2 justify-center md:justify-normal">
             {products.map((product, i) => (
               <Link key={`fp__${i}`} href={`/products/${product.slug}`}>
                 {product.name}
@@ -45,17 +45,17 @@ export default function Footer() {
           <h3 className="border-b border-neutral-700 w-fit leading-none pb-1 mb-2">
             Tools
           </h3>
-          <nav className="flex flex-col gap-2">
+          <nav className="flex flex-col gap-2 justify-center md:justify-normal">
             {/* {tools.map((tool, i) => (
               <Link key={`fp__${i}`} href={`/tools/${tool.slug}`}>
                 {tool.name}
               </Link>
             ))} */}
-            <p className='select-none'>Upcoming</p>
+            <p className="select-none">Upcoming</p>
           </nav>
         </div>
       </div>
-      <div className="flex gap-8 md:justify-center text-lg md:text-3xl items-center brightness-90">
+      <div className="flex gap-8 justify-center text-lg md:text-3xl items-center brightness-90">
         <LogosVisa />
         <LogosMastercard />
         <LogosApplePay />
