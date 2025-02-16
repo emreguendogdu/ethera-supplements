@@ -7,20 +7,6 @@ import { Tub } from "@/components/3d/Tub"
 import useDeviceSize from "@/hooks/useDeviceSize"
 
 function Environment({ children }) {
-  const lightRef = useRef()
-  useFrame(({ clock }) => {
-    if (lightRef.current) {
-      isMovingForward
-        ? (lightRef.current.position.x += 0.05)
-        : (lightRef.current.position.x -= 0.05)
-
-      lightRef.current.position.x >= 8
-        ? setIsMovingForward(false)
-        : lightRef.current.position.x <= -15 && setIsMovingForward(true)
-
-      // console.log(lightRef.current.position.x)
-    }
-  })
   return (
     <>
       <group className="relative -translate-y-1/2">

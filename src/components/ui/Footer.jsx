@@ -9,7 +9,7 @@ import { products, tools } from "@/data"
 export default function Footer() {
   return (
     <footer className="relative flex flex-col gap-8 md:gap-16 px-sectionX-m md:px-sectionX py-sectionY-m pb-4">
-      <div className="absolute inset-0 bg-black opacity-90 -z-10" />
+      <div className="absolute inset-0 bg-black opacity-50 md:opacity-70 -z-10" />
       <div className="flex flex-wrap justify-center md:flex-nowrap gap-8 md:gap-0 md:justify-between">
         <div className="relative md:w-1/3">
           <p className="text-2xl font-light">

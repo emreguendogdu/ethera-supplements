@@ -49,13 +49,17 @@ export default function Products() {
   }, [isMobile])
   return (
     <>
-      <motion.section className="relative min-h-[250vh] w-full mt-[100vh] bg-black p-section-m md:p-section">
-        <div className="sticky top-0 px-sectionX-m md:px-sectionX py-sectionY-m md:pt-sectionY  h-screen flex flex-col justify-center items-center w-full gap-8 md:gap-16 md:justify-start text-center">
+      <motion.section className="relative min-h-[150vh] w-full mt-[100vh] bg-black">
+        <div className="sticky top-0 p-section-m md:p-section h-screen flex flex-col justify-center items-center w-full gap-4 md:gap-8 md:justify-start text-center">
           <div>
             <h2 className="relative [&>span]:inline-block">
-              <span>No fluff.</span>
+              <span className="text-neutral-200 h2 leading-none">
+                No fluff.
+              </span>
               <br />
-              <span className="h1 relative">Only essentials.</span>
+              <span className="h1 relative leading-none">
+                Only essentials.
+              </span>
             </h2>
           </div>
           <ul className="relative w-screen h-[400px] flex justify-center">

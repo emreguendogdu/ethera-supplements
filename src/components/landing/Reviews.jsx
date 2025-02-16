@@ -13,7 +13,7 @@ export default function Reviews() {
       <ul className="relative w-full flex justify-center flex-wrap md:flex-nowrap gap-2 rounded-xl">
         {[...Array(4)].map((_, index) => (
           <li
-            className="relative w-[calc(50% - 0.5rem)] md:w-1/4 h-[200px]"
+            className="relative w-[47.5%] md:w-1/4 h-[200px]"
             key={`rv__${index}`}
           >
             <Image
