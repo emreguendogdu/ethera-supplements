@@ -11,7 +11,6 @@ import { useEffect, useMemo, useState } from "react"
 import Button from "./Button"
 import { AnimatePresence, motion } from "motion/react"
 import { easeIn, easeOut } from "motion"
-// import { discountCode as etheraDiscountCode } from "@/data"
 
 const cartVariants = {
   hidden: { x: "100%" },
@@ -34,10 +33,6 @@ export default function Cart() {
     })
   }
 
-  // TODO - Discounts + Price must be calculated with a discount code
-  // TODO - Discount code confirm button
-  // TODO - Discount code input field
-
   const priceWithoutDiscounts = useMemo(() => {
     return cart?.cartItems?.reduce(
       (acc, item) => acc + item.quantity! * item.price,
@@ -53,20 +48,6 @@ export default function Cart() {
       )
     )
   }, [cart?.cartItems])
-
-  // const applyDiscountCode = (code: string) => {
-  //   if (code !== etheraDiscountCode.code || discountApplied) {
-  //     return setDisplayDiscountInput(false)
-  //   } else {
-  //     setSalePrice(
-  //       (salePrice) =>
-  //         salePrice - salePrice * (etheraDiscountCode.discount / 100)
-  //     )
-
-  //     setDiscountApplied(etheraDiscountCode)
-  //     return setDisplayDiscountInput(false)
-  //   }
-  // }
 
   useEffect(() => {
     if (displayCart) {
@@ -177,9 +158,8 @@ export default function Cart() {
             </AnimatePresence>
           </ul>
           <div
-            className={`w-full h-full flex items-center justify-center ${
-              cart?.cartItems?.length > 0 && "hidden"
-            }`}
+            className="w-full h-full flex items-center justify-center"
+            style={{ display: cart?.cartItems?.length > 0 ? "none" : "flex" }}
           >
             <p className="text-neutral-200">No items.</p>
           </div>

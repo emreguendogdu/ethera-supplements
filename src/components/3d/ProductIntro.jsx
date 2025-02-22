@@ -22,42 +22,48 @@ const animationSequence = (position, rotation, scale, isMobile) => [
   [rotation, { x: 0, y: 0 }, { ...transition, at: 0 }],
   [position, { x: isMobile ? -0.15 : -2 }, { ...transition, at: 1.45 }],
   [rotation, { y: isMobile ? 0.15 : 1 }, { ...transition, at: 1.45 }],
-  [scale, { x: 0, y: 0, z: 0 }, { ...transition, at: 2 }],
-  ["#product-preloader-text", { scale: 0 }, { ...transition, at: 2 }],
-  ["#product-preloader-text", { opacity: 0 }, { ...transition, at: 2 }],
+  [
+    "#product-preloader-text",
+    { scale: 0 },
+    { duration: 0.25, ease: "easeOut", at: 2.25 },
+  ],
+  [
+    "#product-preloader-text",
+    { opacity: 0 },
+    { duration: 0.25, ease: "easeOut", at: 2.25 },
+  ],
   [
     "#product-preloader",
     { opacity: 0 },
-    { duration: 0.25, ease: "easeOut", at: 2 },
+    { duration: 0.25, ease: "easeOut", at: 2.25 },
   ],
   [
     "#product-preloader",
     { display: "none" },
-    { duration: 0.25, ease: "easeOut", at: 2 },
+    { duration: 0.25, ease: "easeOut", at: 2.25 },
   ],
 ]
 
-function Environment({ setAllowScroll, slug, modalLoaded }) {
-  const groupRef = useRef()
-
+function Environment({ allowScroll, setAllowScroll, slug }) {
+  const productRef = useRef()
   const { isMobile } = useDeviceSize()
 
   useEffect(() => {
-    if (!groupRef.current && !window) return
+    if (!productRef.current && !window) return
 
-    window.scrollTo(0, 0) // Scroll to top of page
-    setAllowScroll(false) // Disable scrolling
-    const { position, rotation, scale } = groupRef.current
+    window.scrollTo(0, 0)
+    setAllowScroll(false)
+    const { position, rotation, scale } = productRef.current
 
     const preloaderAnimate = async () => {
       await animate(
         animationSequence(position, rotation, scale, isMobile)
-      ).finished.then(setAllowScroll(true))
+      ).then(() => {
+        setAllowScroll(true)
+      })
     }
 
-    if (modalLoaded) {
-      preloaderAnimate()
-    }
+    preloaderAnimate()
   }, [])
 
   return (
@@ -69,7 +75,7 @@ function Environment({ setAllowScroll, slug, modalLoaded }) {
       <directionalLight position={[0, 6, 0]} />
       <directionalLight position={[5, 0, 0]} />
       <directionalLight position={[-5, 0, 0]} />
-      <group ref={groupRef} position={[0, -3, 0]} rotation={[1, 0, 0]}>
+      <group ref={productRef} position={[0, -3, 0]} rotation={[1, 0, 0]}>
         <Suspense fallback={null}>
           <Tub slug={slug} position={[0, 0, 0]} />
         </Suspense>
@@ -79,29 +85,28 @@ function Environment({ setAllowScroll, slug, modalLoaded }) {
 }
 
 export default function ProductIntro({ slug }) {
-  const { setAllowScroll } = useScrollContext()
-  const [modalLoaded, setModalLoaded] = useState(false)
+  const { allowScroll, setAllowScroll } = useScrollContext()
   return (
     <>
       <div
         id="product-preloader"
-        className="w-full h-screen absolute inset-0 z-[100]"
+        className="w-full h-screen fixed inset-0 z-[100]"
       >
         <motion.div
           id="preloader-canvas-container"
-          className="absolute w-full h-full z-[99] bg-black"
+          className="fixed w-full h-full z-[99] bg-black"
         >
           <Canvas camera={{ fov: 50 }}>
             <Environment
+              allowScroll={allowScroll}
               setAllowScroll={setAllowScroll}
-              modalLoaded={modalLoaded}
               slug={slug}
             />
           </Canvas>
-          <Loader initialState={(active) => setModalLoaded(!active)} />
+          <Loader />
         </motion.div>
         <motion.p
-          className="absolute z-[100] text-4xl w-full md:w-fit left-0 right-0 md:right-auto text-center md:text-left bottom-0 px-0 py-2 md:px-8 md:py-4"
+          className="fixed z-[100] text-4xl w-full md:w-fit left-0 right-0 md:right-auto text-center md:text-left bottom-0 px-0 py-2 md:px-8 md:py-4"
           style={{ y: " 100%" }}
           id="product-preloader-text"
         >

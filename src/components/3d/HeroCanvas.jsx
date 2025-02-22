@@ -10,53 +10,47 @@ import { useMotionValueEvent, useTransform } from "motion/react"
 
 const lerp = (start, end, alpha) => start + (end - start) * alpha
 
-function Environment({ scrollYProgress, modalLoaded }) {
+function Environment({ scrollYProgress }) {
   const pulsingLightRef = useRef()
   const movingLightRef = useRef()
-  const [rotateZ, setRotateZ] = useState(-3.25)
-  const [posY, setPosY] = useState(-8.1)
-  const [lightIntensity, setLightIntensity] = useState(0.35)
-  const [isMovingForward, setIsMovingForward] = useState(true)
+  const [modalRotateZ, setModalRotateZ] = useState(-3.25)
+  const [modalPosY, setModalPosY] = useState(-8.1)
+  const [pulsingLightIntensity, setPulsingLightIntensity] = useState(0.35)
+  const [movingLightForward, setMovingLightForward] = useState(true)
   const [currentIntensity, setCurrentIntensity] = useState(0.35) // Smooth value
 
   useFrame(({ clock }) => {
-    // Pulsing Light Animation
-
     if (!pulsingLightRef.current) return
 
     const pulsingLightAnimation = 0.15 + Math.sin(clock.getElapsedTime()) * 0.15
     let targetIntensity =
-      window.scrollY < 100 ? pulsingLightAnimation : lightIntensity
+      window.scrollY < 100 ? pulsingLightAnimation : pulsingLightIntensity
 
     // Blend towards target value (Smooth transition, prevents flickering)
     const newIntensity = lerp(currentIntensity, targetIntensity, 0.05)
     setCurrentIntensity(newIntensity)
-
-    // Apply to light
     pulsingLightRef.current.intensity = newIntensity
-
-    // Moving Light Animation
 
     if (!movingLightRef.current) return
 
-    isMovingForward
+    movingLightForward
       ? (movingLightRef.current.position.x += 0.0375)
       : (movingLightRef.current.position.x -= 0.0375)
 
     movingLightRef.current.position.x >= 10
-      ? setIsMovingForward(false)
-      : movingLightRef.current.position.x <= -10 && setIsMovingForward(true)
+      ? setMovingLightForward(false)
+      : movingLightRef.current.position.x <= -10 && setMovingLightForward(true)
   })
 
   const { isMobile } = useDeviceSize()
 
-  const posYValue = useTransform(
+  const modalPosYValue = useTransform(
     scrollYProgress,
     [0, 0.53],
     [isMobile ? -5 : -8.1, isMobile ? -3.5 : -7],
     { ease: easeInOut }
   )
-  const rotateZValue = useTransform(
+  const modalRotateZValue = useTransform(
     scrollYProgress,
     [0, 0.53],
     [-3.25, -0.05],
@@ -64,21 +58,21 @@ function Environment({ scrollYProgress, modalLoaded }) {
       ease: easeInOut,
     }
   )
-  const lightIntensityValue = useTransform(
+  const pulsingLightIntensityValue = useTransform(
     scrollYProgress,
     [0, 0.35, 0.4, 0.55],
     [0.35, 0.5, 1.5, 0]
   )
 
   useMotionValueEvent(scrollYProgress, "change", () => {
-    setRotateZ(rotateZValue.get())
-    setPosY(posYValue.get())
-    setLightIntensity(lightIntensityValue.get())
+    setModalRotateZ(modalRotateZValue.get())
+    setModalPosY(modalPosYValue.get())
+    setPulsingLightIntensity(pulsingLightIntensityValue.get())
   })
 
   useEffect(() => {
     if (isMobile) {
-      setPosY(-5)
+      setModalPosY(-5)
     }
   }, [isMobile])
 
@@ -88,7 +82,7 @@ function Environment({ scrollYProgress, modalLoaded }) {
       <ambientLight intensity={0.22} />
       <directionalLight
         position={[-10, 5, 5]}
-        intensity={lightIntensity}
+        intensity={pulsingLightIntensity}
         ref={pulsingLightRef}
         castShadow
       />
@@ -100,8 +94,8 @@ function Environment({ scrollYProgress, modalLoaded }) {
       />
       <Suspense>
         <Bodybuilder
-          position={[-0.05, posY, -6]}
-          rotation={[-1.57, 0, rotateZ]}
+          position={[-0.05, modalPosY, -6]}
+          rotation={[-1.57, 0, modalRotateZ]}
           scale={isMobile ? 0.65 : 1}
         />
       </Suspense>
