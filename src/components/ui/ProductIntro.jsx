@@ -28,12 +28,12 @@ const animationSequence = (position, rotation, scale, isMobile) => [
   [
     "#product-preloader",
     { opacity: 0 },
-    { duration: 0.5, ease: "easeOut", at: 2 },
+    { duration: 0.25, ease: "easeOut", at: 2 },
   ],
   [
     "#product-preloader",
     { display: "none" },
-    { duration: 0.5, ease: "easeOut", at: 2 },
+    { duration: 0.25, ease: "easeOut", at: 2 },
   ],
 ]
 
@@ -42,16 +42,21 @@ function Environment({ setAllowScroll, slug, modalLoaded }) {
 
   const { isMobile } = useDeviceSize()
 
-  useEffect(async () => {
+  useEffect(() => {
     if (!groupRef.current && !window) return
-    
+
     window.scrollTo(0, 0) // Scroll to top of page
     setAllowScroll(false) // Disable scrolling
     const { position, rotation, scale } = groupRef.current
 
+    const preloaderAnimate = async () => {
+      await animate(
+        animationSequence(position, rotation, scale, isMobile)
+      ).finished.then(setAllowScroll(true))
+    }
+
     if (modalLoaded) {
-      await animate(animationSequence(position, rotation, scale, isMobile))
-      await setAllowScroll(true) // Enable scrolling
+      preloaderAnimate()
     }
   }, [])
 
@@ -73,7 +78,7 @@ function Environment({ setAllowScroll, slug, modalLoaded }) {
   )
 }
 
-export default function ProductPreloader({ slug }) {
+export default function ProductIntro({ slug }) {
   const { setAllowScroll } = useScrollContext()
   const [modalLoaded, setModalLoaded] = useState(false)
   return (
