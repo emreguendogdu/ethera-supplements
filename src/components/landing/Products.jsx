@@ -42,7 +42,7 @@ export default function Products() {
     setSelectedProduct(i)
   }
 
-  const [width, height, isMobile] = useDeviceSize()
+  const { isMobile } = useDeviceSize()
 
   useEffect(() => {
     console.log(isMobile)

@@ -32,7 +32,7 @@ const useDeviceSize = () => {
     return () => window.removeEventListener("resize", handleWindowResize)
   }, [])
 
-  return [width, height, isMobile]
+  return { width, height, isMobile }
 }
 
 export default useDeviceSize

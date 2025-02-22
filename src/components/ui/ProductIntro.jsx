@@ -39,7 +39,7 @@ const animationSequence = (position, rotation, scale, isMobile) => [
 function Environment({ setAllowScroll, slug }) {
   const groupRef = useRef()
 
-  const [width, height, isMobile] = useDeviceSize()
+  const { isMobile } = useDeviceSize()
 
   setAllowScroll(false) // Disable scrolling
   useEffect(async () => {

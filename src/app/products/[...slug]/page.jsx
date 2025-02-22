@@ -1,7 +1,7 @@
 // /src/app/products/[...slug]/page.jsx
 import Product from "@/components/productPage/Product"
 import { products } from "@/data"
-import ProductPreloader from "@/components/ui/ProductPreloader"
+import ProductIntro from "@/components/ui/ProductIntro"
 import Button from "@/components/ui/Button"
 
 export default async function page({ params }) {
@@ -20,10 +20,10 @@ export default async function page({ params }) {
       </div>
     )
   }
-  
+
   return (
     <>
-      <ProductPreloader slug={slug} />
+      <ProductIntro slug={slug} />
       <Product product={product} />
     </>
   )

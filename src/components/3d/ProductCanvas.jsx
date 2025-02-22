@@ -2,7 +2,6 @@
 
 import { OrbitControls } from "@react-three/drei"
 import { Canvas, useFrame } from "@react-three/fiber"
-import { useRef } from "react"
 import { Tub } from "@/components/3d/Tub"
 import useDeviceSize from "@/hooks/useDeviceSize"
 
@@ -23,9 +22,7 @@ function Environment({ children }) {
 }
 
 export default function ProductCanvas({ slug }) {
-  // controls.minPolarAngle = Math.PI / 2
-  // controls.maxPolarAngle = Math.PI / 2
-  const [width, height, isMobile] = useDeviceSize()
+  const { isMobile } = useDeviceSize()
   return (
     <div
       id="canvas-container"
