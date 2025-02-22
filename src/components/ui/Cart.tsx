@@ -130,7 +130,7 @@ export default function Cart() {
                         src={`/images/${cartItem.slug}-tub.webp`}
                         alt={cartItem.name}
                         fill
-                        objectFit="scale-down"
+                        className="object-scale-down"
                       />
                     </div>
                     <div className="flex flex-col justify-between">

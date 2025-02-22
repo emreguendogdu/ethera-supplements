@@ -33,7 +33,7 @@ export default function BuyBundle() {
             src="/images/bundle-tub.webp"
             alt="Supplements bundle"
             fill
-            objectFit="scale-down"
+            className="object-scale-down"
           />
         </div>
         <h2>

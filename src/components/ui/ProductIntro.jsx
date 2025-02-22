@@ -1,13 +1,14 @@
 "use client"
 
-import { PerspectiveCamera } from "@react-three/drei"
+import { Loader, PerspectiveCamera } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
 import { Tub } from "@/components/3d/Tub"
 import { animate } from "motion"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion } from "motion/react"
 import useDeviceSize from "@/hooks/useDeviceSize"
 import { useScrollContext } from "@/context/ScrollContext"
+import { Suspense } from "react"
 
 const transition = {
   duration: 1.5,
@@ -36,23 +37,22 @@ const animationSequence = (position, rotation, scale, isMobile) => [
   ],
 ]
 
-function Environment({ setAllowScroll, slug }) {
+function Environment({ setAllowScroll, slug, modalLoaded }) {
   const groupRef = useRef()
 
   const { isMobile } = useDeviceSize()
 
   setAllowScroll(false) // Disable scrolling
   useEffect(async () => {
-    if (!groupRef.current) return
-    const { position, rotation, scale } = groupRef.current
+    if (!groupRef.current && !window) return
 
     window.scrollTo(0, 0) // Scroll to top of page
+    const { position, rotation, scale } = groupRef.current
 
-    animate(
-      animationSequence(position, rotation, scale, isMobile)
-    ).finished.then(() => {
-      setAllowScroll(true) // Re-enable scrolling after animation completes
-    })
+    if (modalLoaded) {
+      await animate(animationSequence(position, rotation, scale, isMobile))
+      await setAllowScroll(true) // Enable scrolling
+    }
   }, [])
 
   return (
@@ -65,7 +65,9 @@ function Environment({ setAllowScroll, slug }) {
       <directionalLight position={[5, 0, 0]} />
       <directionalLight position={[-5, 0, 0]} />
       <group ref={groupRef} position={[0, -3, 0]} rotation={[1, 0, 0]}>
-        <Tub slug={slug} position={[0, 0, 0]} />
+        <Suspense fallback={null}>
+          <Tub slug={slug} position={[0, 0, 0]} />
+        </Suspense>
       </group>
     </>
   )
@@ -73,6 +75,7 @@ function Environment({ setAllowScroll, slug }) {
 
 export default function ProductPreloader({ slug }) {
   const { setAllowScroll } = useScrollContext()
+  const [modalLoaded, setModalLoaded] = useState(false)
   return (
     <>
       <div
@@ -84,8 +87,13 @@ export default function ProductPreloader({ slug }) {
           className="absolute w-full h-full z-[99] bg-black"
         >
           <Canvas camera={{ fov: 50 }}>
-            <Environment setAllowScroll={setAllowScroll} slug={slug} />
+            <Environment
+              setAllowScroll={setAllowScroll}
+              modalLoaded={modalLoaded}
+              slug={slug}
+            />
           </Canvas>
+          <Loader initialState={(active) => setModalLoaded(!active)} />
         </motion.div>
         <motion.p
           className="absolute z-[100] text-4xl w-full md:w-fit left-0 right-0 md:right-auto text-center md:text-left bottom-0 px-0 py-2 md:px-8 md:py-4"
@@ -94,18 +102,6 @@ export default function ProductPreloader({ slug }) {
         >
           Ethera Supplements<sup>®</sup>
         </motion.p>
-        {/* <motion.p
-          className="absolute z-[100] w-full md:w-fit left-0 right-0 md:right-auto bottom-0 px-0 py-2 md:px-8 md:py-4 font-bold text-center uppercase [&>span]:block"
-          style={{ y: " 100%" }}
-          id="product-preloader-text"
-        >
-          <span className="text-4xl md:text-6xl tracking-tight leading-[0.8] bg-gradient-to-b from-[hsl(0,0%,85%)] to-[hsl(0,0%,50%)] text-transparent bg-clip-text">
-            Ethera
-          </span>
-          <span className="text-lg md:text-xl tracking-[10%] bg-gradient-to-b from-[hsl(0,0%,50%)] via-[hsl(0,0%,35%)] to-[hsl(0,0%,7.5%)] text-transparent bg-clip-text">
-            Supplements®
-          </span>
-        </motion.p> */}
       </div>
     </>
   )

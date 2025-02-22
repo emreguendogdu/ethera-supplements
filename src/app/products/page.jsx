@@ -24,8 +24,7 @@ export default function page() {
                   src={`/images/${product.slug}-tub.webp`}
                   alt={product.name}
                   fill
-                  objectFit="scale-down"
-                  className="group-hover:scale-110 transition-all"
+                  className="object-scale-down group-hover:scale-110 transition-all"
                 />
               </div>
               <div>

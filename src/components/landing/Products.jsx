@@ -44,9 +44,6 @@ export default function Products() {
 
   const { isMobile } = useDeviceSize()
 
-  useEffect(() => {
-    console.log(isMobile)
-  }, [isMobile])
   return (
     <>
       <motion.section className="relative min-h-[150vh] w-full mt-[100vh] bg-black">

@@ -4,7 +4,7 @@ import { Suspense, useEffect, useRef, useState } from "react"
 import useDeviceSize from "@/hooks/useDeviceSize"
 import { easeInOut } from "motion"
 import Bodybuilder from "@/components/3d/Bodybuilder"
-import { PerspectiveCamera } from "@react-three/drei"
+import { Loader, PerspectiveCamera } from "@react-three/drei"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { useMotionValueEvent, useTransform } from "motion/react"
 
@@ -118,6 +118,7 @@ export default function HeroCanvas({ scrollYProgress }) {
       <Canvas>
         <Environment scrollYProgress={scrollYProgress} />
       </Canvas>
+      <Loader />
     </div>
   )
 }
