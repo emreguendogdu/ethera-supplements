@@ -42,11 +42,11 @@ function Environment({ setAllowScroll, slug, modalLoaded }) {
 
   const { isMobile } = useDeviceSize()
 
-  setAllowScroll(false) // Disable scrolling
   useEffect(async () => {
     if (!groupRef.current && !window) return
-
+    
     window.scrollTo(0, 0) // Scroll to top of page
+    setAllowScroll(false) // Disable scrolling
     const { position, rotation, scale } = groupRef.current
 
     if (modalLoaded) {
