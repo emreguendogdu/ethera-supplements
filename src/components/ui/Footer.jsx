@@ -19,7 +19,7 @@ export default function Footer() {
             is a fictional brand <br />
             brought to life by{" "}
             <Link
-              href="https://linkedin.com/in/osmangund"
+              href="https://linkedin.com/in/emregnd/"
               className="font-bold"
               target="_blank"
             >
