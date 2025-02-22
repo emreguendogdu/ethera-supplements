@@ -27,7 +27,7 @@ export default function Hero() {
 
   return (
     <>
-      <motion.section id="hero" className="h-[300vh]" ref={heroRef}>
+      <motion.section id="hero" className="h-[200vh] md:h-[300vh]" ref={heroRef}>
         <div className="fixed top-0 w-full h-screen -z-10">
           <HeroCanvas scrollYProgress={scrollYProgress} />
         </div>
