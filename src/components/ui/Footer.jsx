@@ -4,7 +4,7 @@ import { LogosMastercard } from "@/components/icons/Mastercard"
 import { LogosVisa } from "@/components/icons/Visa"
 import { LogosGooglePay } from "@/components/icons/GooglePay"
 import { LogosApplePay } from "@/components/icons/ApplePay"
-import { products, tools } from "@/data"
+import { products } from "@/data"
 
 export default function Footer() {
   return (
@@ -46,11 +46,6 @@ export default function Footer() {
             Tools
           </h3>
           <nav className="flex flex-col gap-2 justify-center md:justify-normal">
-            {/* {tools.map((tool, i) => (
-              <Link key={`fp__${i}`} href={`/tools/${tool.slug}`}>
-                {tool.name}
-              </Link>
-            ))} */}
             <p className="select-none">Upcoming</p>
           </nav>
         </div>
@@ -67,19 +62,13 @@ export default function Footer() {
           className="font-bold text-center uppercase [&>span]:block"
           href="/"
         >
-          <span className="text-3xl md:text-[9rem] tracking-tight leading-[0.8] bg-gradient-to-b from-[hsl(0,0%,85%)] to-[hsl(0,0%,50%)] text-transparent bg-clip-text">
+          <span className="text-3xl md:text-[9rem] tracking-tight leading-[0.8] text-transparent bg-clip-text bg-gradient-to-b from-[hsl(0,0%,85%)] to-[hsl(0,0%,50%)]">
             Ethera
           </span>
-          <span className="text-2xl md:text-4xl tracking-[10%] bg-gradient-to-b from-[hsl(0,0%,50%)] via-[hsl(0,0%,35%)] to-[hsl(0,0%,7.5%)] text-transparent bg-clip-text">
+          <span className="text-2xl md:text-4xl tracking-[10%] text-transparent bg-clip-text bg-gradient-to-b from-[hsl(0,0%,50%)] via-[hsl(0,0%,35%)] to-[hsl(0,0%,7.5%)] ">
             Supplements®
           </span>
         </Link>
-        {/* <Link
-          className="text-6xl md:text-9xl w-full text-center bg-gradient-to-b from-[hsl(0,0%,50%)] via-[hsl(0,0%,35%)] to-[hsl(0,0%,7.5%)] text-transparent bg-clip-text"
-          href="/"
-        >
-          Ethera Supplements®
-        </Link> */}
       </div>
     </footer>
   )

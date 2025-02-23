@@ -14,13 +14,8 @@ export const ScrollProvider = ({ children }) => {
     if (lenis) {
       if (allowScroll) {
         lenis.start()
-        // Scrollbar hidden
-        // document.body.style.overflow = "visible"
       } else {
-        // Set window x y to 0
         lenis.stop()
-        // Scrollbar visible
-        // document.body.style.overflow = "hidden"
       }
     }
   }, [allowScroll, lenis])

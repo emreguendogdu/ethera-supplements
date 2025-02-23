@@ -27,7 +27,7 @@ export default function Product(params: { product: ProductProps }) {
     nutritionFacts: false,
   })
 
-  const toggleSection = (section: keyof typeof infoVisible) => {
+  const toggleInfoVisible = (section: keyof typeof infoVisible) => {
     setInfoVisible((prev) => ({ ...prev, [section]: !prev[section] }))
   }
 
@@ -145,7 +145,7 @@ export default function Product(params: { product: ProductProps }) {
             <li className="w-full">
               <div
                 className="w-full flex justify-between items-start cursor-pointer"
-                onClick={() => toggleSection("benefits")}
+                onClick={() => toggleInfoVisible("benefits")}
               >
                 <h3>Benefits</h3>
                 <CaretDown
@@ -165,7 +165,7 @@ export default function Product(params: { product: ProductProps }) {
             <li className="flex flex-col gap-2">
               <div
                 className="w-full flex justify-between items-start cursor-pointer"
-                onClick={() => toggleSection("nutritionFacts")}
+                onClick={() => toggleInfoVisible("nutritionFacts")}
               >
                 <h3>Nutrition Facts</h3>
                 <CaretDown
@@ -209,7 +209,7 @@ export default function Product(params: { product: ProductProps }) {
             <li>
               <div
                 className="w-full flex justify-between items-start cursor-pointer"
-                onClick={() => toggleSection("howToUse")}
+                onClick={() => toggleInfoVisible("howToUse")}
               >
                 <h3>How to Use</h3>
                 <CaretDown

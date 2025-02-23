@@ -14,7 +14,6 @@ export default function Button({
 }) {
   const time = useTime()
 
-  // Rotating animation
   const rotate = useTransform(time, [0, 4500], [0, 360], {
     clamp: false,
   })

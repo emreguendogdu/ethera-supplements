@@ -1,7 +1,7 @@
 "use client"
 
 import { OrbitControls } from "@react-three/drei"
-import { Canvas, useFrame } from "@react-three/fiber"
+import { Canvas } from "@react-three/fiber"
 import { Tub } from "@/components/3d/Tub"
 import useDeviceSize from "@/hooks/useDeviceSize"
 

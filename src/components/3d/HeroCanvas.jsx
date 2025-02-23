@@ -2,7 +2,6 @@
 
 import { Suspense, useEffect, useRef, useState } from "react"
 import useDeviceSize from "@/hooks/useDeviceSize"
-import { easeInOut } from "motion"
 import Bodybuilder from "@/components/3d/Bodybuilder"
 import { Loader, PerspectiveCamera } from "@react-three/drei"
 import { Canvas, useFrame } from "@react-three/fiber"

@@ -21,6 +21,7 @@ export default function BuyBundle() {
     })
     setDisplayCart(true)
   }
+
   return (
     <section
       id="buy-bundle"

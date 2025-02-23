@@ -2,20 +2,18 @@
 
 import { products } from "@/data"
 import Image from "next/image"
-import { useRef, useState } from "react"
+import { useState } from "react"
 import Button from "../ui/Button"
 import useDeviceSize from "@/hooks/useDeviceSize"
-import { useTransform, useScroll, motion } from "motion/react"
-import { easeInOut } from "motion"
 
-const positionVariants = {
+const productPositionVariants = {
   left: { x: "-200%", scale: 0.25, zIndex: 3 },
   leftSelected: { x: "-200%", scale: 0.25, zIndex: 1 },
   center: { x: "0%", scale: 1, zIndex: 10 },
   right: { x: "200%", scale: 0.25, zIndex: 2 },
 }
 
-const mobilePositionVariants = {
+const mobileProductPositionVariants = {
   left: { x: "-55%", scale: 0.25, zIndex: 3 },
   leftSelected: { x: "-55%", scale: 0.25, zIndex: 1 },
   center: { x: "0%", scale: 1, zIndex: 10 },
@@ -23,16 +21,15 @@ const mobilePositionVariants = {
 }
 
 export default function Products() {
-  const sectionRef = useRef()
   const [selectedProduct, setSelectedProduct] = useState(0)
 
-  const getPosition = (index) => {
+  const getProductPosition = (index) => {
     if (index === selectedProduct) return "center"
     if (index === (selectedProduct + 1) % products.length) return "right"
     return "left"
   }
 
-  const handleClick = (i) => {
+  const handleProductClick = (i) => {
     if (i === selectedProduct) return
     setSelectedProduct(i)
   }
@@ -41,11 +38,8 @@ export default function Products() {
 
   return (
     <>
-      <motion.section
-        className="relative min-h-[150vh] w-full mt-[75vh]"
-        ref={sectionRef}
-      >
-        <motion.div className="sticky top-0 p-section-m md:p-section h-screen flex flex-col justify-center items-center w-full gap-4 md:gap-8 md:justify-start text-center bg-black">
+      <section className="relative min-h-[150vh] w-full mt-[75vh]">
+        <div className="sticky top-0 p-section-m md:p-section h-screen flex flex-col justify-center items-center w-full gap-4 md:gap-8 md:justify-start text-center bg-black">
           <div>
             <h2 className="relative [&>span]:inline-block">
               <span className="text-neutral-200 h2 leading-none">
@@ -63,10 +57,14 @@ export default function Products() {
                 }`}
                 key={`sp-${i}`}
                 onClick={() => {
-                  handleClick(i)
+                  handleProductClick(i)
                 }}
-                variants={isMobile ? mobilePositionVariants : positionVariants}
-                animate={getPosition(i)}
+                variants={
+                  isMobile
+                    ? mobileProductPositionVariants
+                    : productPositionVariants
+                }
+                animate={getProductPosition(i)}
                 transition={{ duration: 1.5, ease: "easeInOut" }}
               >
                 <div className="flex items-center justify-center w-2/3 h-1/2 md:w-3/4 md:h-3/4">
@@ -80,7 +78,7 @@ export default function Products() {
                 </div>
                 <div
                   className={`relative flex flex-col text-center justify-center items-center gap-4 ${
-                    getPosition(i) !== "center" && "invisible"
+                    getProductPosition(i) !== "center" && "invisible"
                   }`}
                 >
                   <div className="flex flex-col items-center">
@@ -108,8 +106,8 @@ export default function Products() {
               </motion.li>
             ))}
           </ul>
-        </motion.div>
-      </motion.section>
+        </div>
+      </section>
     </>
   )
 }
