@@ -2,11 +2,11 @@
 
 import { products } from "@/data"
 import Image from "next/image"
-import Link from "next/link"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import Button from "../ui/Button"
-import { motion } from "framer-motion"
 import useDeviceSize from "@/hooks/useDeviceSize"
+import { useTransform, useScroll, motion } from "motion/react"
+import { easeInOut } from "motion"
 
 const positionVariants = {
   left: { x: "-200%", scale: 0.25, zIndex: 3 },
@@ -14,12 +14,6 @@ const positionVariants = {
   center: { x: "0%", scale: 1, zIndex: 10 },
   right: { x: "200%", scale: 0.25, zIndex: 2 },
 }
-
-// const positionVariants = {
-//   left: { left: 0, scale: 0.25, zIndex: 3 },
-//   center: { left: "50%", x: "-50%", scale: 1, zIndex: 10 },
-//   right: { right: 0, scale: 0.25, zIndex: 2 },
-// }
 
 const mobilePositionVariants = {
   left: { x: "-55%", scale: 0.25, zIndex: 3 },
@@ -29,6 +23,7 @@ const mobilePositionVariants = {
 }
 
 export default function Products() {
+  const sectionRef = useRef()
   const [selectedProduct, setSelectedProduct] = useState(0)
 
   const getPosition = (index) => {
@@ -46,17 +41,18 @@ export default function Products() {
 
   return (
     <>
-      <motion.section className="relative min-h-[150vh] w-full mt-[100vh] bg-black">
-        <div className="sticky top-0 p-section-m md:p-section h-screen flex flex-col justify-center items-center w-full gap-4 md:gap-8 md:justify-start text-center">
+      <motion.section
+        className="relative min-h-[150vh] w-full mt-[75vh]"
+        ref={sectionRef}
+      >
+        <motion.div className="sticky top-0 p-section-m md:p-section h-screen flex flex-col justify-center items-center w-full gap-4 md:gap-8 md:justify-start text-center bg-black">
           <div>
             <h2 className="relative [&>span]:inline-block">
               <span className="text-neutral-200 h2 leading-none">
                 No fluff.
               </span>
               <br />
-              <span className="h1 relative leading-none">
-                Only essentials.
-              </span>
+              <span className="h1 relative leading-none">Only essentials.</span>
             </h2>
           </div>
           <ul className="relative w-screen h-[400px] flex justify-center">
@@ -112,7 +108,7 @@ export default function Products() {
               </motion.li>
             ))}
           </ul>
-        </div>
+        </motion.div>
       </motion.section>
     </>
   )

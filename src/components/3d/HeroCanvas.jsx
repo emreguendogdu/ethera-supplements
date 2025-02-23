@@ -8,13 +8,21 @@ import { Loader, PerspectiveCamera } from "@react-three/drei"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { useMotionValueEvent, useTransform } from "motion/react"
 
+const modalTransition = {
+  type: "spring",
+  stiffness: 25,
+  damping: 5,
+}
+
 const lerp = (start, end, alpha) => start + (end - start) * alpha
 
 function Environment({ scrollYProgress }) {
   const pulsingLightRef = useRef()
   const movingLightRef = useRef()
+
   const [modalRotateZ, setModalRotateZ] = useState(-3.25)
   const [modalPosY, setModalPosY] = useState(-8.1)
+
   const [pulsingLightIntensity, setPulsingLightIntensity] = useState(0.35)
   const [movingLightForward, setMovingLightForward] = useState(true)
   const [currentIntensity, setCurrentIntensity] = useState(0.35) // Smooth value
@@ -42,26 +50,25 @@ function Environment({ scrollYProgress }) {
       : movingLightRef.current.position.x <= -10 && setMovingLightForward(true)
   })
 
+  const pulsingLightIntensityValue = useTransform(
+    scrollYProgress,
+    [0, 0.5, 1],
+    [0.35, 0.35, 0]
+  )
+
   const { isMobile } = useDeviceSize()
 
   const modalPosYValue = useTransform(
     scrollYProgress,
-    [0, 0.53],
+    [0, 1],
     [isMobile ? -5 : -8.1, isMobile ? -3.5 : -7],
-    { ease: easeInOut }
+    modalTransition
   )
   const modalRotateZValue = useTransform(
     scrollYProgress,
-    [0, 0.53],
+    [0, 1],
     [-3.25, -0.05],
-    {
-      ease: easeInOut,
-    }
-  )
-  const pulsingLightIntensityValue = useTransform(
-    scrollYProgress,
-    [0, 0.35, 0.4, 0.55],
-    [0.35, 0.5, 1.5, 0]
+    modalTransition
   )
 
   useMotionValueEvent(scrollYProgress, "change", () => {

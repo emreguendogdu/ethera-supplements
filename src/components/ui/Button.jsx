@@ -1,9 +1,8 @@
 "use client"
 
-import { motion, useSpring, useTransform } from "framer-motion"
+import { motion, useTransform } from "framer-motion"
 import { useTime } from "motion/react"
 import Link from "next/link"
-import { useEffect } from "react"
 
 export default function Button({
   text = "Shop Now",

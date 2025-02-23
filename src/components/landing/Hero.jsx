@@ -11,7 +11,10 @@ export default function Hero() {
   const heroRef = useRef()
   const [DISCOUNT_CODE_COPIED, SET_DISCOUNT_CODE_COPIED] = useState(false)
 
-  const { scrollYProgress } = useScroll()
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  })
 
   const contentDivOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0])
   const contentDivScale = useTransform(scrollYProgress, [0, 0.25], [1, 0.5])
@@ -22,12 +25,16 @@ export default function Hero() {
     SET_DISCOUNT_CODE_COPIED(true)
     setTimeout(() => {
       SET_DISCOUNT_CODE_COPIED(false)
-    }, 1500) // Hide notification after 1.5 seconds
+    }, 1500)
   }
 
   return (
     <>
-      <motion.section id="hero" className="h-[200vh] md:h-[300vh]" ref={heroRef}>
+      <motion.section
+        id="hero"
+        className="h-[200vh] md:h-[200vh]"
+        ref={heroRef}
+      >
         <div className="fixed top-0 w-full h-screen -z-10">
           <HeroCanvas scrollYProgress={scrollYProgress} />
         </div>
