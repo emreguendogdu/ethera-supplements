@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useState } from "react"
 import Button from "../ui/Button"
 import useDeviceSize from "@/hooks/useDeviceSize"
+import { motion } from "motion/react"
 
 const productPositionVariants = {
   left: { x: "-200%", scale: 0.25, zIndex: 3 },

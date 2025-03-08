@@ -1,4 +1,4 @@
-import { Star, PartialStar, EmptyStar } from "@/components/icons/Star"
+import { Star, PartialStar, EmptyStar } from "@/components/ui/icons"
 
 export default function Stars({ rating = 5, reviewsLength = 0 }) {
   const safeRating = Math.max(0, Math.min(5, parseFloat(rating) || 0))

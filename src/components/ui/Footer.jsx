@@ -1,9 +1,12 @@
 import Link from "next/link"
-import { LogosStripe } from "@/components/icons/Stripe"
-import { LogosMastercard } from "@/components/icons/Mastercard"
-import { LogosVisa } from "@/components/icons/Visa"
-import { LogosGooglePay } from "@/components/icons/GooglePay"
-import { LogosApplePay } from "@/components/icons/ApplePay"
+
+import {
+  StripeLogo,
+  MastercardLogo,
+  VisaLogo,
+  GooglePayLogo,
+  ApplePayLogo,
+} from "@/components/ui/icons"
 import { products } from "@/data"
 
 export default function Footer() {
@@ -51,11 +54,11 @@ export default function Footer() {
         </div>
       </div>
       <div className="flex gap-8 justify-center text-lg md:text-3xl items-center brightness-90">
-        <LogosVisa />
-        <LogosMastercard />
-        <LogosApplePay />
-        <LogosGooglePay />
-        <LogosStripe />
+        <VisaLogo />
+        <MastercardLogo />
+        <ApplePayLogo />
+        <GooglePayLogo />
+        <StripeLogo />
       </div>
       <div>
         <Link

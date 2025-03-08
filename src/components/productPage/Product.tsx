@@ -8,7 +8,7 @@ import { ProductProps } from "@/data"
 import ProductCanvas from "@/components/3d/ProductCanvas"
 import Button from "../ui/Button"
 import { motion } from "motion/react"
-import { CaretDown } from "@/components/icons/CaretDown"
+import { CaretDown } from "@/components/ui/icons"
 
 export default function Product(params: { product: ProductProps }) {
   const { product } = params

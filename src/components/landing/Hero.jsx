@@ -1,6 +1,6 @@
 "use client"
 
-import { CopyIcon } from "@/components/icons/Copy"
+import { CopyIcon } from "@/components/ui/icons"
 import { discountCode } from "@/data"
 import { motion, useScroll, useTransform } from "motion/react"
 import { useRef, useState } from "react"

@@ -3,7 +3,7 @@
 import { useCartContext } from "@/context/CartContext"
 import { products } from "@/data"
 import Link from "next/link"
-import CartIcon from "@/components/icons/CartIcon"
+import { CartIcon } from "@/components/ui/icons"
 
 export default function Header() {
   const { cart, setDisplayCart } = useCartContext()
