@@ -2,10 +2,10 @@
 
 import { products } from "@/data"
 import Image from "next/image"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import Button from "../ui/Button"
 import useDeviceSize from "@/hooks/useDeviceSize"
-import { motion } from "motion/react"
+import { motion, useMotionValueEvent, useScroll } from "motion/react"
 
 const productPositionVariants = {
   left: { x: "-200%", scale: 0.25, zIndex: 3 },
@@ -40,7 +40,7 @@ export default function Products() {
   return (
     <>
       <section className="relative min-h-[150vh] w-full mt-[75vh]">
-        <div className="sticky top-0 p-section-m md:p-section h-screen flex flex-col justify-center items-center w-full gap-4 md:gap-8 md:justify-start text-center bg-black">
+        <div className="sticky top-0 p-section-m md:p-section h-screen flex flex-col justify-center items-center w-full gap-4 md:gap-8 md:justify-start text-center">
           <div>
             <h2 className="relative [&>span]:inline-block">
               <span className="text-neutral-200 h2 leading-none">
@@ -68,7 +68,7 @@ export default function Products() {
                 animate={getProductPosition(i)}
                 transition={{ duration: 1.5, ease: "easeInOut" }}
               >
-                <div className="flex items-center justify-center w-2/3 h-1/2 md:w-3/4 md:h-3/4">
+                <mdiv className="flex items-center justify-center w-2/3 h-1/2 md:w-3/4 md:h-3/4">
                   <Image
                     src={`/images/${product.slug}-tub.webp`}
                     width={225}
@@ -76,7 +76,7 @@ export default function Products() {
                     alt={product.name}
                     className="relative select-none drag-none w-full h-full object-scale-down"
                   />
-                </div>
+                </mdiv>
                 <div
                   className={`relative flex flex-col text-center justify-center items-center gap-4 ${
                     getProductPosition(i) !== "center" && "invisible"
