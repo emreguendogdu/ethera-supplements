@@ -29,6 +29,16 @@ const CONFIG = {
       bounds: 10,
     },
   },
+  modal: {
+    posY: {
+      start: { mobile: -5, desktop: -9.1 },
+      end: { mobile: -3.5, desktop: -7 },
+    },
+    rotateZ: {
+      start: -3.25,
+      end: -0.05,
+    },
+  },
 }
 
 function Environment({ scrollYProgress }) {
@@ -42,12 +52,30 @@ function Environment({ scrollYProgress }) {
   const [scrollProgress, setScrollProgress] = useState(0)
   const scrollProgressRef = useRef(0)
 
+  //  const modalPosYValue = useTransform(
+  //    scrollYProgress,
+  //    [0, 1],
+  //    [isMobile ? -5 : -8.1, isMobile ? -3.5 : -7],
+  //    CONFIG.transition
+  //  )
+
+  //  const modalRotateZValue = useTransform(
+  //    scrollYProgress,
+  //    [0, 1],
+  //    [-3.25, -0.05],
+  //    CONFIG.transition
+  //  )
+
   const [modelPosition, setModelPosition] = useState([
     -0.05,
-    isMobile ? -5 : -8.1,
+    isMobile ? CONFIG.modal.posY.start.mobile : CONFIG.modal.posY.start.desktop,
     -6,
   ])
-  const [modelRotation, setModelRotation] = useState([-1.57, 0, -3.25])
+  const [modelRotation, setModelRotation] = useState([
+    -1.57,
+    0,
+    CONFIG.modal.rotateZ.start,
+  ])
 
   useMotionValueEvent(scrollYProgress, "change", () => {
     const newValue = scrollYProgress.get()
@@ -57,12 +85,18 @@ function Environment({ scrollYProgress }) {
 
   useEffect(() => {
     const targetPosY = lerp(
-      isMobile ? -5 : -8.1,
-      isMobile ? -3.5 : -7,
+      isMobile
+        ? CONFIG.modal.posY.start.mobile
+        : CONFIG.modal.posY.start.desktop,
+      isMobile ? CONFIG.modal.posY.end.mobile : CONFIG.modal.posY.end.desktop,
       scrollProgress
     )
 
-    const targetRotZ = lerp(-3.25, -0.05, scrollProgress)
+    const targetRotZ = lerp(
+      CONFIG.modal.rotateZ.start,
+      CONFIG.modal.rotateZ.end,
+      scrollProgress
+    )
 
     setModelPosition([-0.05, targetPosY, -6])
     setModelRotation([-1.57, 0, targetRotZ])
@@ -142,7 +176,7 @@ function Environment({ scrollYProgress }) {
 
 export default function HeroCanvas({ scrollYProgress }) {
   return (
-    <div id="canvas-container" className="h-full w-full">
+    <div id="canvas-container" className="relative h-screen w-full">
       <Canvas>
         <Environment scrollYProgress={scrollYProgress} />
       </Canvas>
