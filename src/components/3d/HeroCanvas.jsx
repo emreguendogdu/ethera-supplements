@@ -5,17 +5,13 @@ import useDeviceSize from "@/hooks/useDeviceSize"
 import Bodybuilder from "@/components/3d/Bodybuilder"
 import { Loader, PerspectiveCamera } from "@react-three/drei"
 import { Canvas, useFrame } from "@react-three/fiber"
-import { useMotionValueEvent, useTransform } from "motion/react"
+import { useMotionValueEvent } from "motion/react"
 
-// Helper functions
 const lerp = (start, end, alpha) => start + (end - start) * alpha
 
-// Configuration
 const CONFIG = {
   transition: {
-    type: "spring",
-    stiffness: 25,
-    damping: 5,
+    smoothFactor: 0.1,
   },
   lights: {
     ambient: {
@@ -39,87 +35,76 @@ function Environment({ scrollYProgress }) {
   const { isMobile } = useDeviceSize()
   const pulsingLightRef = useRef()
   const movingLightRef = useRef()
+  const bodybuilderRef = useRef()
   const currentIntensityRef = useRef(CONFIG.lights.pulsing.baseIntensity)
+  const movingLightForwardRef = useRef(true)
 
-  // STATE FOR POSITION AND ROTATION - key for direct DOM updates
-  const [modalRotateZ, setModalRotateZ] = useState(-3.25)
-  const [modalPosY, setModalPosY] = useState(isMobile ? -5 : -8.1)
-  const [pulsingLightIntensity, setPulsingLightIntensity] = useState(
-    CONFIG.lights.pulsing.baseIntensity
-  )
-  const [movingLightForward, setMovingLightForward] = useState(true)
+  const [scrollProgress, setScrollProgress] = useState(0)
+  const scrollProgressRef = useRef(0)
 
-  // Define transforms
-  const modalPosYValue = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [isMobile ? -5 : -8.1, isMobile ? -3.5 : -7],
-    CONFIG.transition
-  )
+  const [modelPosition, setModelPosition] = useState([
+    -0.05,
+    isMobile ? -5 : -8.1,
+    -6,
+  ])
+  const [modelRotation, setModelRotation] = useState([-1.57, 0, -3.25])
 
-  const modalRotateZValue = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [-3.25, -0.05],
-    CONFIG.transition
-  )
-
-  const pulsingLightIntensityValue = useTransform(
-    scrollYProgress,
-    [0, 0.5, 1],
-    [
-      CONFIG.lights.pulsing.baseIntensity,
-      CONFIG.lights.pulsing.baseIntensity,
-      0,
-    ]
-  )
-
-  // Connect motion values to state
   useMotionValueEvent(scrollYProgress, "change", () => {
-    setModalRotateZ(modalRotateZValue.get())
-    setModalPosY(modalPosYValue.get())
-    setPulsingLightIntensity(pulsingLightIntensityValue.get())
+    const newValue = scrollYProgress.get()
+    scrollProgressRef.current = newValue
+    setScrollProgress(newValue)
   })
 
-  // Handle mobile updates
   useEffect(() => {
-    if (isMobile) {
-      setModalPosY(-5)
-    }
-  }, [isMobile])
+    const targetPosY = lerp(
+      isMobile ? -5 : -8.1,
+      isMobile ? -3.5 : -7,
+      scrollProgress
+    )
 
-  // Animation loop
+    const targetRotZ = lerp(-3.25, -0.05, scrollProgress)
+
+    setModelPosition([-0.05, targetPosY, -6])
+    setModelRotation([-1.57, 0, targetRotZ])
+  }, [scrollProgress, isMobile])
+
   useFrame(({ clock }) => {
-    // Handle pulsing light
     if (pulsingLightRef.current) {
       const pulsingLightAnimation =
-        0.15 + Math.sin(clock.getElapsedTime()) * 0.15
-      const targetIntensity =
-        window.scrollY < 100 ? pulsingLightAnimation : pulsingLightIntensity
+        CONFIG.lights.pulsing.baseIntensity +
+        Math.sin(clock.getElapsedTime()) * CONFIG.lights.pulsing.pulseRange
 
-      // Smooth transition
+      const targetIntensity =
+        scrollProgressRef.current < 0.1
+          ? pulsingLightAnimation
+          : scrollProgressRef.current > 0.5
+          ? lerp(
+              CONFIG.lights.pulsing.baseIntensity,
+              0,
+              (scrollProgressRef.current - 0.5) * 2
+            )
+          : CONFIG.lights.pulsing.baseIntensity
+
       currentIntensityRef.current = lerp(
         currentIntensityRef.current,
         targetIntensity,
-        0.05
+        CONFIG.transition.smoothFactor
       )
+
       pulsingLightRef.current.intensity = currentIntensityRef.current
     }
 
-    // Handle moving light
     if (movingLightRef.current) {
-      // Update position based on direction
-      movingLightForward
+      movingLightForwardRef.current
         ? (movingLightRef.current.position.x += CONFIG.lights.moving.speed)
         : (movingLightRef.current.position.x -= CONFIG.lights.moving.speed)
 
-      // Change direction when reaching bounds
       if (movingLightRef.current.position.x >= CONFIG.lights.moving.bounds) {
-        setMovingLightForward(false)
+        movingLightForwardRef.current = false
       } else if (
         movingLightRef.current.position.x <= -CONFIG.lights.moving.bounds
       ) {
-        setMovingLightForward(true)
+        movingLightForwardRef.current = true
       }
     }
   })
@@ -145,8 +130,9 @@ function Environment({ scrollYProgress }) {
 
       <Suspense fallback={null}>
         <Bodybuilder
-          position={[-0.05, modalPosY, -6]}
-          rotation={[-1.57, 0, modalRotateZ]}
+          ref={bodybuilderRef}
+          position={modelPosition}
+          rotation={modelRotation}
           scale={isMobile ? 0.65 : 1}
         />
       </Suspense>
@@ -156,10 +142,7 @@ function Environment({ scrollYProgress }) {
 
 export default function HeroCanvas({ scrollYProgress }) {
   return (
-    <div
-      id="canvas-container"
-      className="sticky top-0 h-screen w-full translate-y-36 -z-10"
-    >
+    <div id="canvas-container" className="h-full w-full">
       <Canvas>
         <Environment scrollYProgress={scrollYProgress} />
       </Canvas>
