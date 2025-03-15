@@ -31,7 +31,7 @@ const CONFIG = {
   },
   modal: {
     posY: {
-      start: { mobile: -5, desktop: -9.1 },
+      start: { mobile: -5, desktop: -8.1 },
       end: { mobile: -3.5, desktop: -7 },
     },
     rotateZ: {
@@ -51,20 +51,6 @@ function Environment({ scrollYProgress }) {
 
   const [scrollProgress, setScrollProgress] = useState(0)
   const scrollProgressRef = useRef(0)
-
-  //  const modalPosYValue = useTransform(
-  //    scrollYProgress,
-  //    [0, 1],
-  //    [isMobile ? -5 : -8.1, isMobile ? -3.5 : -7],
-  //    CONFIG.transition
-  //  )
-
-  //  const modalRotateZValue = useTransform(
-  //    scrollYProgress,
-  //    [0, 1],
-  //    [-3.25, -0.05],
-  //    CONFIG.transition
-  //  )
 
   const [modelPosition, setModelPosition] = useState([
     -0.05,
@@ -176,7 +162,10 @@ function Environment({ scrollYProgress }) {
 
 export default function HeroCanvas({ scrollYProgress }) {
   return (
-    <div id="canvas-container" className="relative h-screen w-full">
+    <div
+      id="canvas-container"
+      className="sticky top-0 h-screen w-full translate-y-36 -z-10"
+    >
       <Canvas>
         <Environment scrollYProgress={scrollYProgress} />
       </Canvas>
