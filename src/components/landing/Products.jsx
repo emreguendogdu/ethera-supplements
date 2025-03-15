@@ -40,6 +40,7 @@ export default function Products() {
   return (
     <>
       <section className="relative min-h-[150vh] w-full mt-[75vh]">
+        <div className="absolute inset-0 -z-10 bg-black opacity-80"></div>
         <div className="sticky top-0 p-section-m md:p-section h-screen flex flex-col justify-center items-center w-full gap-4 md:gap-8 md:justify-start text-center">
           <div>
             <h2 className="relative [&>span]:inline-block">

@@ -29,7 +29,7 @@ export default function BuyBundle() {
     >
       <div className="flex flex-col gap-4 items-center justify-center text-center">
         <p className="subheading custom-border">Most Popular</p>
-        <div className="relative w-[400px] h-[300px]">
+        <div className="relative w-screen h-[35vh] md:w-[400px] md:h-[300px] overflow-hidden">
           <Image
             src="/images/bundle-tub.webp"
             alt="Supplements bundle"
