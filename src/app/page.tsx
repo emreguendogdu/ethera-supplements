@@ -6,10 +6,10 @@ import Reviews from "@/components/landing/Reviews"
 export default function Home() {
   return (
     <>
-      <Hero />
+      {/* <Hero /> */}
       <Products />
-      <BuyBundle />
-      <Reviews />
+      {/* <BuyBundle /> */}
+      {/* <Reviews /> */}
     </>
   )
 }

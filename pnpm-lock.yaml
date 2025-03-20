@@ -20,6 +20,9 @@ importers:
       lil-gui:
         specifier: ^0.20.0
         version: 0.20.0
+      maath:
+        specifier: ^0.10.8
+        version: 0.10.8(@types/three@0.172.0)(three@0.173.0)
       motion:
         specifier: ^12.0.0
         version: 12.0.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
