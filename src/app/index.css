@@ -89,7 +89,7 @@ html {
   }
 
   .button {
-    @apply relative bg-black px-3 py-2 rounded-md z-10 w-full uppercase block text-center  hover:tracking-wider hover:px-4 transition-all duration-200;
+    @apply relative bg-black px-3 py-2 rounded-md z-10 w-full uppercase block text-sm md:text-base text-center  hover:tracking-wider hover:px-4 transition-all duration-200;
   }
 
   .h1 {

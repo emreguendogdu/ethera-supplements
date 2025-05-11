@@ -95,66 +95,76 @@ export default function Cart() {
             }}
           >
             <AnimatePresence>
-              {cart?.cartItems?.map((cartItem, i) => (
-                <motion.li
-                  className="flex justify-between border-b-[0.5px] border-b-neutral-700 py-4 relative"
-                  key={`cartItem-${i}`}
-                  exit={{
-                    opacity: 0,
-                    scale: 0,
-                    transition: { duration: 0.5, ease: "easeOut" },
-                  }}
-                >
-                  <div className="flex gap-4">
-                    <div className="relative flex justify-center items-center h-[100px] min-w-[100px]">
-                      <Image
-                        src={`/images/${cartItem.slug}-tub.webp`}
-                        alt={cartItem.name}
-                        fill
-                        className="object-scale-down"
-                      />
-                    </div>
-                    <div className="flex flex-col justify-between">
-                      <h3>{cartItem.name}</h3>
-                      <div className="[&>p]:text-neutral-300">
-                        <p>
-                          {cartItem.slug !== "bundle" && cartItem.size + "g"}
-                        </p>
-                        <p>{cartItem.flavor}</p>
+              {cart?.cartItems?.length ? (
+                cart?.cartItems?.map((cartItem, i) => (
+                  <motion.li
+                    className="flex justify-between border-b-[0.5px] border-b-neutral-700 py-4 relative"
+                    key={`cartItem-${i}`}
+                    exit={{
+                      opacity: 0,
+                      scale: 0,
+                      transition: { duration: 0.5, ease: "easeOut" },
+                    }}
+                  >
+                    <div className="flex gap-4">
+                      <div className="relative flex justify-center items-center h-[100px] min-w-[100px]">
+                        <Image
+                          src={`/images/${cartItem.slug}-tub.webp`}
+                          alt={cartItem.name}
+                          fill
+                          className="object-scale-down"
+                        />
+                      </div>
+                      <div className="flex flex-col justify-between">
+                        <h3>{cartItem.name}</h3>
+                        <div className="[&>p]:text-neutral-300">
+                          <p>
+                            {cartItem.slug !== "bundle" && cartItem.size + "g"}
+                          </p>
+                          <p>{cartItem.flavor}</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex flex-col justify-between items-end">
-                    <div className="flex gap-2 items-center">
-                      <p className="line-through text-red-800">
-                        ${cartItem.price}
-                      </p>
-                      <p className="text-lg font-bold leading-relaxed">
-                        ${cartItem.salePrice}
-                      </p>
-                    </div>
-                    <div className="flex gap-2 [&_button]:text-xl [&_button]:text-neutral-200">
-                      <div className="bg-neutral-900 flex items-center gap-2 rounded-lg [&>button]:bg-neutral-950 [&>button]:px-2 [&>*]:py-2">
-                        <button
-                          className="rounded-l-lg"
-                          onClick={() => updateQuantity(cartItem, -1)}
-                        >
-                          {cartItem.quantity === 1 ? "×" : "−"}
-                        </button>
-                        <p className="select-none px-8 text-base">
-                          {cartItem.quantity}
+                    <div className="flex flex-col justify-between items-end">
+                      <div className="flex gap-2 items-center">
+                        <p className="line-through text-red-800">
+                          ${cartItem.price}
                         </p>
-                        <button
-                          className="rounded-r-lg"
-                          onClick={() => updateQuantity(cartItem, +1)}
-                        >
-                          +
-                        </button>
+                        <p className="text-lg font-bold leading-relaxed">
+                          ${cartItem.salePrice}
+                        </p>
+                      </div>
+                      <div className="flex gap-2 [&_button]:text-xl [&_button]:text-neutral-200">
+                        <div className="bg-neutral-900 flex items-center gap-2 rounded-lg [&>button]:bg-neutral-950 [&>button]:px-2 [&>*]:py-2">
+                          <button
+                            className="rounded-l-lg"
+                            onClick={() => updateQuantity(cartItem, -1)}
+                          >
+                            {cartItem.quantity === 1 ? "×" : "−"}
+                          </button>
+                          <p className="select-none px-8 text-base">
+                            {cartItem.quantity}
+                          </p>
+                          <button
+                            className="rounded-r-lg"
+                            onClick={() => updateQuantity(cartItem, +1)}
+                          >
+                            +
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </motion.li>
-              ))}
+                  </motion.li>
+                ))
+              ) : (
+                // Invisible placeholder to keep AnimatePresence active
+                <motion.div
+                  key="empty-cart-placeholder"
+                  initial={{ opacity: 1 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, transition: { duration: 0.5 } }}
+                />
+              )}
             </AnimatePresence>
           </ul>
           <div

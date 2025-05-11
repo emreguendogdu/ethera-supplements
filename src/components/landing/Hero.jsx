@@ -13,7 +13,7 @@ export default function Hero() {
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
-    offset: ["start start", "end start"],
+    offset: ["start start", "end 80%"],
   })
 
   const contentDivOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0])
@@ -32,7 +32,7 @@ export default function Hero() {
     <>
       <motion.section
         id="hero"
-        className="h-[200vh] md:h-[200vh]"
+        className="h-[200vh] md:h-[250vh]"
         ref={heroRef}
       >
         <div className="fixed top-0 w-full h-screen -z-10">

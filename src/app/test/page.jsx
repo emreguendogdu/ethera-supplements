@@ -1,95 +1,129 @@
 "use client"
 
-import { Canvas, useFrame } from "@react-three/fiber"
+import { Canvas } from "@react-three/fiber"
 import { Tub } from "@/components/3d/Tub"
-import { Html, ScrollControls, useScroll } from "@react-three/drei"
+import { Backdrop, ContactShadows, Environment, Html } from "@react-three/drei"
 import Button from "@/components/ui/Button"
-import { useEffect, useRef, useState } from "react"
-import { easing } from "maath"
+import { useEffect, useMemo, useRef, useState } from "react"
 import useDeviceSize from "@/hooks/useDeviceSize"
 import { products } from "@/data"
+import { useControls } from "leva"
+import { useProductAnimation } from "@/hooks/useProductAnimation"
+import { desktopCFG, mobileCFG } from "@/config/productConfig"
 
-const CFG = {
-  center: {
-    position: [0, 0, 0],
-    rotation: [0, 0, 0],
-    scale: 0.75,
-  },
-  left: {
-    position: [-2.5, 0, 0],
-    rotation: [0, -2.25, 0],
-    scale: 0.5,
-  },
-  right: {
-    position: [2.5, 0, 0],
-    rotation: [0, -0.75, 0],
-    scale: 0.5,
-  },
+const getPositionKey = (i, selected, selectedItem) => {
+  if (selected) return "center"
+  if (i === (selectedItem + 1) % products.length) return "right"
+  return "left"
 }
 
-const Rig = (props) => {
-  const ref = useRef()
-  // const scroll = useScroll()
-
-  // useFrame((state, delta) => {
-  //   ref.current.rotation.y = -scroll.offset * (Math.PI / 2)
-
-  //   console.log(scroll.offset)
-
-  //   // easing.damp3(
-  //   //   state.camera.position,
-  //   //   [-state.pointer.x * 2, state.pointer.y, 3],
-  //   //   0.3,
-  //   //   delta
-  //   // )
-  // })
-
-  return <group ref={ref} {...props} />
-}
-
-const Item = ({ slug, positionKey, selectedItem, setSelectedItem }) => {
-  const product = products.find((p) => p.slug === slug)
+const Item = ({
+  product,
+  i,
+  selectedItem,
+  setSelectedItem,
+  CFG,
+  isMobile,
+  animationTrigger,
+}) => {
   const ref = useRef()
   const [hovered, hover] = useState(false)
+  const selected = selectedItem === i
 
-  useFrame((state, delta) => {
-    easing.damp3(ref.current.scale, hovered ? scale + 0.125 : scale, 0.1, delta)
-    easing.damp3(
-      ref.current.rotation,
-      [0, Math.sin(state.clock.getElapsedTime()) * 0.125, 0],
-      0.25,
-      delta
-    )
+  // Add state to track if animation is in reset state
+  const [isResetting, setIsResetting] = useState(false)
+
+  // Reset animation when animationTrigger changes
+  useEffect(() => {
+    if (animationTrigger > 0) {
+      setIsResetting(true)
+
+      // Staggered delay based on index for cascading effect
+      const timer = setTimeout(() => {
+        setIsResetting(false)
+      }, 50 + i * 100)
+
+      return () => clearTimeout(timer)
+    }
+  }, [animationTrigger, i])
+
+  const positionKey = getPositionKey(i, selected, selectedItem)
+
+  // Use high position when resetting, otherwise use normal target position
+  const targetPosition = isResetting ? [0, 10, 0] : CFG[positionKey].position
+
+  const targetRotation = (state) =>
+    selected || hovered
+      ? [0, Math.sin(state.clock.getElapsedTime()) * 0.125, 0]
+      : [0, Math.sin(state.clock.getElapsedTime() * 0.75) * 0.0625, 0]
+  const targetScale = hovered
+    ? CFG[positionKey].scale + 0.05
+    : CFG[positionKey].scale
+
+  useProductAnimation({
+    ref,
+    position: targetPosition,
+    rotation: targetRotation,
+    scale: targetScale,
   })
 
-  
-  const position = CFG[positionKey].position
-  const scale = CFG[positionKey].scale
+  // Event Handlers
+  const handlePointerOver = (e) => {
+    if (!selected && !isMobile) {
+      e.stopPropagation()
+      hover(true)
+    }
+  }
+  const handlePointerOut = () => {
+    if (!selected && !isMobile) hover(false)
+  }
+  const handleClick = () => {
+    setSelectedItem(i)
+    hover(false)
+  }
+
+  useEffect(() => {
+    if (isMobile) return
+
+    document.body.style.cursor = hovered ? "pointer" : "auto"
+  }, [hovered, isMobile])
 
   return (
     <>
       <group
         ref={ref}
-        position={position}
-        scale={scale}
-        onPointerOver={(e) => (e.stopPropagation(), hover(true))}
-        onPointerOut={() => hover(false)}
-        onClick={() => setSelectedItem(slug)}
+        position={[0, 10, 0]} // Initial position - will be overridden by the useFrame hook
+        onPointerOver={handlePointerOver}
+        onPointerOut={handlePointerOut}
+        onClick={handleClick}
         castShadow
         receiveShadow
       >
-        <Tub slug={slug} />
+        <Tub slug={product.slug} />
       </group>
-      {positionKey === "center" && (
-        <Html center position={[position[0], -1.25, position[2]]}>
-          <div className="w-[200px] flex flex-col items-center justify-center">
-            <h3 className="subheading text-xl tracking-wide w-fit">
+      {selected && (
+        <Html center position={[targetPosition[0], -0.8, targetPosition[2]]}>
+          <div className="w-[200px] flex flex-col items-center justify-center text-center">
+            <h3 className="subheading text-base md:text-xl tracking-wide w-fit select-none">
               {product.name}
             </h3>
-            <div>
-              <Button href={`/products/${slug}`} className="mt-4 w-fit h-fit">
-                Shop now
-              </Button>
+            <div className="flex flex-col gap-2">
+              <div className="flex gap-2 justify-center items-center">
+                <p className="line-through text-neutral-500">
+                  ${product.stockData[0].price}
+                </p>
+                <p className="font-bold text-base">
+                  ${product.stockData[0].salePrice}
+                </p>
+              </div>
+              <div className="mt-2">
+                <Button
+                  href={`/products/${product.slug}`}
+                  className="w-fit h-fit"
+                >
+                  Buy now
+                </Button>
+              </div>
             </div>
           </div>
         </Html>
@@ -98,99 +132,99 @@ const Item = ({ slug, positionKey, selectedItem, setSelectedItem }) => {
   )
 }
 
-const NewItems = () => {
-  const [selectedItem, setSelectedItem] = useState(null)
-
-  return (
-    <>
-      <Item
-        slug={"whey-isolate"}
-        positionKey="center"
-        selectedItem={selectedItem}
-        setSelectedItem={setSelectedItem}
-      />
-      <Item
-        slug={"pre-workout"}
-        positionKey="left"
-        selectedItem={selectedItem}
-        setSelectedItem={setSelectedItem}
-      />
-      <Item
-        slug={"creatine"}
-        positionKey="right"
-        selectedItem={selectedItem}
-        setSelectedItem={setSelectedItem}
-      />
-    </>
-  )
-}
-
-const Items = () => {
-  const ref = useRef()
-  const [hovered, hover] = useState(false)
+const Items = ({ animationTrigger }) => {
+  const [selectedItem, setSelectedItem] = useState(0)
   const { isMobile } = useDeviceSize()
 
-  useFrame((state, delta) => {
-    easing.damp3(ref.current.scale, hovered ? 0.825 : 0.75, 0.1, delta)
-    easing.damp3(
-      ref.current.rotation,
-      [0, Math.sin(state.clock.getElapsedTime()) * 0.125, 0],
-      0.25,
-      delta
-    )
-  })
-
-  // Not working well - not priority
-  useEffect(() => {
-    document.body.style.cursor = hovered ? "pointer" : "auto"
-    return () => (document.body.style.cursor = "auto")
-  }, [hovered])
+  const CFG = useMemo(() => (isMobile ? mobileCFG : desktopCFG), [isMobile])
 
   return (
     <>
-      <group
-        position={[0, 0, 0]}
-        scale={0.75}
-        ref={ref}
-        onPointerOver={(e) => (e.stopPropagation(), hover(true))}
-        onPointerOut={() => hover(false)}
-        castShadow
-        receiveShadow
-      >
-        <Tub slug={"whey-isolate"} />
-      </group>
-      <Html center position={[0, -1.25, 0]}>
-        <div className="w-[200px] flex flex-col items-center justify-center">
-          <h3 className="subheading text-xl tracking-wide w-fit">
-            Whey Isolate
-          </h3>
-          <div>
-            <Button href="/products/whey-isolate" className="mt-4 w-fit h-fit">
-              Shop now
-            </Button>
-          </div>
-        </div>
-      </Html>
-      <Tub slug={"pre-workout"} {...CFG.left} castShadow receiveShadow />
-      <Tub slug={"creatine"} {...CFG.right} castShadow receiveShadow />
+      {products.map((product, i) => {
+        return (
+          <Item
+            key={`product-${i}`}
+            i={i}
+            product={product}
+            selectedItem={selectedItem}
+            setSelectedItem={setSelectedItem}
+            isMobile={isMobile}
+            CFG={CFG}
+            animationTrigger={animationTrigger}
+          />
+        )
+      })}
     </>
   )
 }
 
 export default function Products() {
+  const { l1Pos, l2Pos, l3Pos } = useControls({
+    // Light position controls array
+    l1Pos: { value: [0, -0.5, 0] },
+    l2Pos: { value: [-1.7, -0.5, -0.9] },
+    l3Pos: { value: [1.7, -0.5, 0.9] },
+  })
+
+  // Add state for animation trigger and intersection observer
+  const [animationTrigger, setAnimationTrigger] = useState(0)
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    // Set up the intersection observer
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // Increment the animation trigger when container enters viewport
+          setAnimationTrigger((prev) => prev + 1)
+        }
+      },
+      { threshold: 0.1 } // Trigger when 10% of element is visible
+    )
+
+    // Observe the canvas container
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current)
+      }
+      observer.disconnect()
+    }
+  }, [])
+
   return (
     <>
-      <div id="canvas-container" className="w-full h-[65vh]">
+      <div
+        id="canvas-container"
+        className="w-full h-screen md:h-[100vh]"
+        ref={containerRef}
+      >
         <Canvas camera={{ fov: 50, position: [0, 0, 3] }}>
-          {/* <OrbitControls enableZoom={false} /> */}
-          <ScrollControls pages={3} damping={0.1}>
-            <ambientLight intensity={1.25} />
-            <directionalLight position={[2, 2, 0]} intensity={0.5} />
-            <directionalLight position={[-2, 2, 0]} intensity={0.5} />
-            <Rig>
-              <NewItems />
-            </Rig>
-          </ScrollControls>
+          <ambientLight intensity={0.35} />
+          <directionalLight position={l1Pos} intensity={0.5} />
+          <directionalLight position={l2Pos} intensity={0.75} />
+          <directionalLight position={l3Pos} intensity={0.75} />
+          <Items animationTrigger={animationTrigger} />
+          <Backdrop
+            castShadow
+            floor={4}
+            position={[0, -1, -2.2125]}
+            scale={[50, 10, 4]}
+          >
+            <meshStandardMaterial color="#000000" />
+          </Backdrop>
+          <ContactShadows
+            position={[0, -0.8, 0]}
+            scale={10}
+            blur={8}
+            far={2}
+            color="#ffffff"
+          />
+
+          <Environment preset="city" environmentIntensity={0.5} />
         </Canvas>
       </div>
     </>

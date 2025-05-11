@@ -33,6 +33,6 @@
     "src/components/ui/Cart.tsx",
     "src/components/ui/Header.jsx",
     "next.config.js"
-, "src/components/icons/Cart.jsx", "tailwind.config.js", "src/components/landing/Products.jsx"  ],
+, "src/components/icons/Cart.jsx", "tailwind.config.js", "src/components/landing/Products.jsx", "src/hooks/useProductAnimation.js"  ],
   "exclude": ["node_modules"]
 }
