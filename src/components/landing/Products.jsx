@@ -7,7 +7,6 @@ import Button from "@/components/ui/Button"
 import { useEffect, useMemo, useRef, useState } from "react"
 import useDeviceSize from "@/hooks/useDeviceSize"
 import { products } from "@/data"
-import { useControls } from "leva"
 import { useProductAnimation } from "@/hooks/useProductAnimation"
 import { desktopCFG, mobileCFG } from "@/config/productConfig"
 
@@ -64,7 +63,7 @@ const Item = ({ product, i, selectedItem, setSelectedItem, CFG, isMobile }) => {
     <>
       <group
         ref={ref}
-        position={[0, 10, 0]} // Initial position - will be overridden by the useFrame hook
+        position={[0, 10, 0]}
         onPointerOver={handlePointerOver}
         onPointerOut={handlePointerOut}
         onClick={handleClick}
@@ -74,28 +73,27 @@ const Item = ({ product, i, selectedItem, setSelectedItem, CFG, isMobile }) => {
         <Tub slug={product.slug} />
       </group>
       {selected && (
-        <Html center position={[targetPosition[0], -0.8, targetPosition[2]]}>
+        <Html center position={[targetPosition[0], -0.85, targetPosition[2]]}>
           <div className="w-[200px] flex flex-col items-center justify-center text-center">
-            <h3 className="subheading text-base md:text-xl tracking-wide w-fit select-none">
-              {product.name}
-            </h3>
-            <div className="flex flex-col gap-2">
-              <div className="flex gap-2 justify-center items-center">
-                <p className="line-through text-neutral-500">
-                  ${product.stockData[0].price}
-                </p>
-                <p className="font-bold text-base">
-                  ${product.stockData[0].salePrice}
-                </p>
-              </div>
-              <div className="mt-2">
-                <Button
-                  href={`/products/${product.slug}`}
-                  className="w-fit h-fit"
-                >
-                  Buy now
-                </Button>
-              </div>
+            {/* Product Name Title */}
+            <h3 className="select-none h3">{product.name}</h3>
+            {/* Price */}
+            <p className="flex gap-2 items-center">
+              <span className="line-through text-neutral-500">
+                ${product.stockData[0].price}
+              </span>
+              <span className="font-bold">
+                ${product.stockData[0].salePrice}
+              </span>
+            </p>
+            {/* Button */}
+            <div>
+              <Button
+                href={`/products/${product.slug}`}
+                text="View Product"
+                wrapperClassName="mt-2 md:mt-8"
+                className="w-fit h-fit"
+              />
             </div>
           </div>
         </Html>
@@ -130,26 +128,29 @@ const Items = () => {
 }
 
 export default function Products() {
-  const { l1Pos, l2Pos, l3Pos } = useControls({
-    // Light position controls array
-    l1Pos: { value: [0, -0.5, 0] },
-    l2Pos: { value: [-1.7, -0.5, -0.9] },
-    l3Pos: { value: [1.7, -0.5, 0.9] },
-  })
-
   return (
     <>
       <div id="canvas-container" className="w-full h-screen md:h-[100vh]">
-        <Canvas camera={{ fov: 50, position: [0, 0, 3] }}>
-          {/* <OrbitControls
-            enableZoom={false}
-            minAzimuthAngle={minAzimuthAngle}
-            maxAzimuthAngle={maxAzimuthAngle}
-          /> */}
+        <Canvas camera={{ fov: 50, position: [0, 0, 3] }} className="z-20">
+          <Html
+            center
+            position={[0, 0.95, 0]}
+            className="w-full relative"
+            wrapperClass="w-full relative"
+          >
+            <div className="relative w-full flex flex-col items-center justify-center">
+              <h2 className="uppercase subheading text-neutral-400 mb-2">
+                No Noise — Just Results.
+              </h2>
+              <h2 className="h2 uppercase text-center text-white">
+                3 Products. Maximum Output.
+              </h2>
+            </div>
+          </Html>
           <ambientLight intensity={0.35} />
-          <directionalLight position={l1Pos} intensity={0.5} />
-          <directionalLight position={l2Pos} intensity={0.75} />
-          <directionalLight position={l3Pos} intensity={0.75} />
+          <directionalLight position={[0, -0.5, 0]} intensity={0.5} />
+          <directionalLight position={[-1.7, -0.5, -0.9]} intensity={0.75} />
+          <directionalLight position={[1.7, -0.5, 0.9]} intensity={0.75} />
           <Items />
           <Backdrop
             castShadow

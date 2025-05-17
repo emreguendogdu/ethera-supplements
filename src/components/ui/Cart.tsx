@@ -60,17 +60,17 @@ export default function Cart() {
   return (
     <AnimatePresence>
       <div
-        className={`fixed inset-0 h-screen z-20 transition-all duration-300 ${
+        className={`fixed inset-0 h-screen z-50 transition-all duration-300 ${
           displayCart ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
       >
         <div
           id="overlay"
-          className="hidden md:block fixed w-full h-full bg-black opacity-55 z-20"
+          className="hidden md:block fixed w-full h-full bg-black opacity-55 z-40"
           onClick={() => setDisplayCart(false)}
         />
         <motion.div
-          className="fixed right-0 w-[100vw] md:w-[50vw] h-full max-h-screen z-30 bg-black px-8 md:px-16 py-8 flex flex-col items-center justify-between gap-8 md:gap-16 border-l border-l-neutral-950"
+          className="fixed right-0 w-[100vw] md:w-[50vw] h-full max-h-screen z-60 bg-black px-8 md:px-16 py-8 flex flex-col items-center justify-between gap-8 md:gap-16 border-l border-l-neutral-950"
           initial="hidden"
           variants={cartVariants}
           animate={displayCart ? "visible" : "hidden"}

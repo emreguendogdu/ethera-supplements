@@ -12,6 +12,24 @@ body {
   overflow-x: hidden;
 }
 
+p,
+a,
+li {
+  @apply text-sm tracking-wide;
+}
+
+p,
+a,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply text-neutral-200 uppercase;
+}
+
 ::-webkit-scrollbar {
   height: 12px;
   width: 12px;
@@ -50,17 +68,20 @@ html {
   }
 
   .h1-styles {
-    /* 72px */
-    @apply heading-base text-4xl md:text-6xl leading-tight;
+    /* 84px */
+    @apply heading-base font-bold leading-none;
+    font-size: clamp(2rem, 5vw, 5rem);
   }
 
   .h2-styles {
     /* 48px */
-    @apply heading-base md:text-4xl font-bold leading-none;
+    @apply heading-base font-bold leading-none;
+    font-size: clamp(1.25rem, 3vw, 2.5rem);
   }
 
   .h3-styles {
     @apply heading-base leading-relaxed;
+    font-size: clamp(1rem, 2vw, 1.5rem);
   }
 
   h1 {
@@ -105,7 +126,7 @@ html {
   }
 
   .subheading {
-    @apply uppercase font-bold text-neutral-200 tracking-widest text-sm;
+    @apply uppercase font-medium text-neutral-400 tracking-wide text-sm;
   }
 
   .select {
@@ -113,7 +134,7 @@ html {
   }
 
   .custom-border {
-    @apply rounded-xl border-[.5px] border-neutral-400 px-4 py-1 w-fit;
+    @apply rounded-xl border border-neutral-800 px-4 py-1 w-fit;
   }
 }
 

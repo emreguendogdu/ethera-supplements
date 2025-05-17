@@ -8,6 +8,7 @@ export default function Button({
   text = "Shop Now",
   href = "/products/",
   className = "",
+  wrapperClassName = "",
   type = "link",
   onClick = () => {},
   style = "animated",
@@ -22,7 +23,7 @@ export default function Button({
   })
 
   return (
-    <div className={`relative w-full`}>
+    <div className={`relative w-full ${wrapperClassName}`}>
       {type === "link" ? (
         <Link className={`button ${className}`} href={href}>
           {text}

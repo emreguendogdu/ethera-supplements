@@ -12,18 +12,18 @@ import { products } from "@/data"
 export default function Footer() {
   return (
     <footer className="relative flex flex-col gap-8 md:gap-16 px-sectionX-m md:px-sectionX py-sectionY-m pb-4">
-      <div className="absolute inset-0 bg-black opacity-50 md:opacity-70 -z-10" />
+      <div className="absolute inset-0 bg-black opacity-50 md:opacity-90 -z-10" />
       <div className="flex flex-wrap justify-center md:flex-nowrap gap-8 md:gap-0 md:justify-between">
         <div className="relative md:w-1/3">
-          <p className="text-2xl font-light">
-            <Link href="/" className="font-bold uppercase">
+          <p className="h3">
+            <Link href="/" className="h3">
               Ethera{" "}
             </Link>
             is a fictional brand <br />
             brought to life by{" "}
             <Link
               href="https://linkedin.com/in/emregnd/"
-              className="font-bold"
+              className="h3 underline"
               target="_blank"
             >
               emregnd.
@@ -38,7 +38,11 @@ export default function Footer() {
           </h3>
           <nav className="flex flex-col gap-2 justify-center md:justify-normal">
             {products.map((product, i) => (
-              <Link key={`fp__${i}`} href={`/products/${product.slug}`}>
+              <Link
+                key={`fp__${i}`}
+                href={`/products/${product.slug}`}
+                className="subheading text-neutral-200"
+              >
                 {product.name}
               </Link>
             ))}

@@ -1,7 +1,7 @@
 import Hero from "@/components/landing/Hero"
 import Products from "@/components/landing/Products"
 import BuyBundle from "@/components/ui/BuyBundle"
-import Reviews from "@/components/landing/Reviews"
+import NewReviews from "@/components/landing/NewReviews"
 
 export default function Home() {
   return (
@@ -9,7 +9,7 @@ export default function Home() {
       <Hero />
       <Products />
       <BuyBundle />
-      <Reviews />
+      <NewReviews />
     </>
   )
 }
