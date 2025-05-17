@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
   --color-background: black;
@@ -10,24 +8,6 @@
 
 body {
   overflow-x: hidden;
-}
-
-p,
-a,
-li {
-  @apply text-sm tracking-wide;
-}
-
-p,
-a,
-li,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  @apply text-neutral-200 uppercase;
 }
 
 ::-webkit-scrollbar {
@@ -47,34 +27,37 @@ h6 {
   background: #000;
 }
 
-/* section, footer {
-  @apply py-sectionY-m md:py-sectionY;
-} */
-
-/* header,
-section,
-footer {
-  @apply px-sectionX-m md:px-sectionX;
-} */
-
 html {
   scrollbar-width: thin;
   scrollbar-color: #1a1a1a black;
 }
 
 @layer base {
+  p,
+  a,
+  li {
+    @apply text-sm tracking-wide text-neutral-200 uppercase;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-neutral-200 uppercase;
+  }
+
   .heading-base {
     @apply text-2xl font-bold tracking-tighter;
   }
 
   .h1-styles {
-    /* 84px */
     @apply heading-base font-bold leading-none;
     font-size: clamp(2rem, 5vw, 5rem);
   }
 
   .h2-styles {
-    /* 48px */
     @apply heading-base font-bold leading-none;
     font-size: clamp(1.25rem, 3vw, 2.5rem);
   }
@@ -110,7 +93,7 @@ html {
   }
 
   .button {
-    @apply relative bg-black px-3 py-2 rounded-md z-10 w-full uppercase block text-sm md:text-base text-center  hover:tracking-wider hover:px-4 transition-all duration-200;
+    @apply relative bg-black px-3 py-2 rounded-md z-10 w-full uppercase block text-sm md:text-base text-center hover:tracking-wider hover:px-4 transition-all duration-200;
   }
 
   .h1 {
