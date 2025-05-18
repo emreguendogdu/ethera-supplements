@@ -54,20 +54,20 @@ export const products: ProductProps[] = [
     stockData: [
       {
         size: 600,
-        price: 29.99,
-        salePrice: 19.99,
+        price: 34.99,
+        salePrice: 24.99,
         stock: 10,
       },
       {
         size: 900,
-        price: 39.99,
-        salePrice: 29.99,
+        price: 49.99,
+        salePrice: 39.99,
         stock: 12,
       },
       {
         size: 1200,
-        price: 49.99,
-        salePrice: 39.99,
+        price: 64.99,
+        salePrice: 54.99,
         stock: 24,
       },
     ],
@@ -161,14 +161,14 @@ export const products: ProductProps[] = [
     stockData: [
       {
         size: 300,
-        price: 19.99,
-        salePrice: 14.99,
+        price: 24.99,
+        salePrice: 19.99,
         stock: 15,
       },
       {
         size: 600,
-        price: 39.99,
-        salePrice: 23.99,
+        price: 44.99,
+        salePrice: 34.99,
         stock: 20,
       },
     ],
@@ -261,8 +261,8 @@ export const products: ProductProps[] = [
     stockData: [
       {
         size: 300,
-        price: 24.99,
-        salePrice: 18.99,
+        price: 39.99,
+        salePrice: 29.99,
         stock: 18,
       },
     ],

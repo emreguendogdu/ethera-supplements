@@ -5,7 +5,7 @@ import Button from "./Button"
 import Image from "next/image"
 import { useCartContext } from "@/context/CartContext"
 
-export default function BuyBundle() {
+export default function BuyBundle({ className = "" }) {
   const { setDisplayCart, addItemToCart } = useCartContext()
   const handleAddToCart = () => {
     addItemToCart({
@@ -25,10 +25,12 @@ export default function BuyBundle() {
   return (
     <section
       id="buy-bundle"
-      className="flex flex-col gap-4 items-center justify-center text-center h-screen py-sectionY-m md:py-sectionY bg-gradient-to-b from-[#0A0A0D] to-black relative z-10"
+      className={`flex flex-col gap-4 items-center justify-center text-center h-screen py-sectionY-m md:py-sectionY bg-gradient-to-b from-[#0A0A0D] to-black relative z-10 ${className}`}
     >
       <div className="flex flex-col gap-4 items-center justify-center text-center">
-        <p className="subheading custom-border">Most Popular</p>
+        <p className="subheading custom-border hover:border-green-500 hover:text-green-500 select-none transition-all">
+          Most Popular
+        </p>
         <div className="relative w-screen h-[35vh] md:w-[400px] md:h-[300px] overflow-hidden ">
           <Image
             src="/images/bundle-tub.webp"
@@ -38,11 +40,11 @@ export default function BuyBundle() {
           />
         </div>
         <div>
-          <h2>Buy Bundle</h2>
-          <h3>
+          <h2 className="uppercase mb-2">Warrior Bundle</h2>
+          <p className="uppercase font-bold">
             Save
             <span className="text-green-500"> 25% more</span>
-          </h3>
+          </p>
         </div>
       </div>
       <div className="flex flex-col gap-8 items-center justify-center">

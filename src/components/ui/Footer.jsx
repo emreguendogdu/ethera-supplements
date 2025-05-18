@@ -11,47 +11,44 @@ import { products } from "@/data"
 
 export default function Footer() {
   return (
-    <footer className="relative flex flex-col gap-8 md:gap-16 px-sectionX-m md:px-sectionX py-sectionY-m pb-4">
+    <footer className="relative flex flex-col gap-8 md:gap-16 p-section-m md:p-section">
       <div className="absolute inset-0 bg-black opacity-50 md:opacity-90 -z-10" />
       <div className="flex flex-wrap justify-center md:flex-nowrap gap-8 md:gap-0 md:justify-between">
-        <div className="relative md:w-1/3">
-          <p className="h3">
-            <Link href="/" className="h3">
-              Ethera{" "}
+        <div className="md:w-1/3">
+          <p className="text-neutral-200">
+            <Link href="/" className="uppercase font-bold">
+              Ethera<sup>®</sup>
             </Link>
-            is a fictional brand <br />
-            brought to life by{" "}
+            is a fictional supplement brand <br />
+            designed and developed by{" "}
             <Link
               href="https://linkedin.com/in/emregnd/"
-              className="h3 underline"
+              className="underline font-bold"
               target="_blank"
             >
-              emregnd.
+              @emregnd
             </Link>
+            .
             <br />
             &copy; 2025 — All rights reserved.
           </p>
         </div>
         <div>
-          <h3 className="border-b border-neutral-700 w-fit leading-none pb-1 mb-2">
+          <p className="border-b border-neutral-700 w-fit leading-none pb-1 mb-2 uppercase">
             Products
-          </h3>
+          </p>
           <nav className="flex flex-col gap-2 justify-center md:justify-normal">
             {products.map((product, i) => (
-              <Link
-                key={`fp__${i}`}
-                href={`/products/${product.slug}`}
-                className="subheading text-neutral-200"
-              >
+              <Link key={`fp__${i}`} href={`/products/${product.slug}`}>
                 {product.name}
               </Link>
             ))}
           </nav>
         </div>
         <div>
-          <h3 className="border-b border-neutral-700 w-fit leading-none pb-1 mb-2">
+          <p className="border-b border-neutral-700 w-fit leading-none pb-1 mb-2 uppercase">
             Tools
-          </h3>
+          </p>
           <nav className="flex flex-col gap-2 justify-center md:justify-normal">
             <p className="select-none">Upcoming</p>
           </nav>
@@ -63,19 +60,6 @@ export default function Footer() {
         <ApplePayLogo />
         <GooglePayLogo />
         <StripeLogo />
-      </div>
-      <div>
-        <Link
-          className="font-bold text-center uppercase [&>span]:block"
-          href="/"
-        >
-          <span className="text-3xl md:text-[9rem] tracking-tight leading-[0.8] text-transparent bg-clip-text bg-gradient-to-b from-[hsl(0,0%,85%)] to-[hsl(0,0%,50%)]">
-            Ethera
-          </span>
-          <span className="text-2xl md:text-4xl tracking-[10%] text-transparent bg-clip-text bg-gradient-to-b from-[hsl(0,0%,50%)] via-[hsl(0,0%,35%)] to-[hsl(0,0%,7.5%)] ">
-            Supplements®
-          </span>
-        </Link>
       </div>
     </footer>
   )

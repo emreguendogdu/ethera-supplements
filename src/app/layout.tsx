@@ -26,9 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.variable} text-smooth relative bg-background text-text font-inter m-0`}
-      >
+      <body className={`${inter.variable} font-main text-smooth relative`}>
         <GlobalProvider>
           <Header />
           {children}

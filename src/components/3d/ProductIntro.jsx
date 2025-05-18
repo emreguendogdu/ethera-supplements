@@ -44,7 +44,7 @@ const animationSequence = (position, rotation, scale, isMobile) => [
   ],
 ]
 
-function Environment({ modalLoaded, setAllowScroll, slug }) {
+function Environment({ isLoaded, setAllowScroll, slug }) {
   const productRef = useRef()
   const { isMobile } = useDeviceSize()
 
@@ -67,10 +67,10 @@ function Environment({ modalLoaded, setAllowScroll, slug }) {
       })
     }
 
-    if (modalLoaded) {
+    if (isLoaded) {
       preloaderAnimate()
     }
-  }, [modalLoaded])
+  }, [isLoaded, isMobile, setAllowScroll])
 
   return (
     <>
@@ -92,7 +92,17 @@ function Environment({ modalLoaded, setAllowScroll, slug }) {
 
 export default function ProductIntro({ slug }) {
   const { setAllowScroll } = useScrollContext()
-  const [modalLoaded, setModalLoaded] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
+  const loaderStateRef = useRef(null)
+
+  useEffect(() => {
+    if (loaderStateRef.current !== null) {
+      console.log("loaderStateRef.current", loaderStateRef.current)
+      setIsLoaded(!loaderStateRef.current)
+      console.log("isLoaded", isLoaded)
+    }
+  }, [loaderStateRef.current])
+
   return (
     <>
       <div
@@ -105,16 +115,21 @@ export default function ProductIntro({ slug }) {
         >
           <Canvas camera={{ fov: 50 }}>
             <Environment
-              modalLoaded={modalLoaded}
+              isLoaded={isLoaded}
               setAllowScroll={setAllowScroll}
               slug={slug}
             />
           </Canvas>
-          <Loader initialState={(active) => setModalLoaded(!active)} />
+          <Loader
+            initialState={(active) => {
+              loaderStateRef.current = active
+              return active
+            }}
+          />
         </motion.div>
         <motion.p
-          className="fixed z-[100] text-4xl w-full md:w-fit left-0 right-0 md:right-auto text-center md:text-left bottom-0 px-0 py-2 md:px-8 md:py-4"
-          style={{ y: " 100%" }}
+          className="fixed z-[100] h2 uppercase w-full md:w-fit left-0 right-0 md:right-auto text-center md:text-left bottom-0 px-0 py-2 md:px-8 md:py-4"
+          style={{ y: "100%" }}
           id="product-preloader-text"
         >
           Ethera Supplements<sup>®</sup>

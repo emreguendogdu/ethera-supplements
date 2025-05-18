@@ -1,15 +1,9 @@
-import Hero from "@/components/landing/Hero"
-import Products from "@/components/landing/Products"
-import BuyBundle from "@/components/ui/BuyBundle"
-import NewReviews from "@/components/landing/NewReviews"
+import LandingPage from "@/components/landing/LandingPage"
 
 export default function Home() {
   return (
     <>
-      <Hero />
-      <Products />
-      <BuyBundle />
-      <NewReviews />
+      <LandingPage />
     </>
   )
 }

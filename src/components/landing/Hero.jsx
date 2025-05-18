@@ -58,10 +58,10 @@ export default function Hero() {
               minimalistic purity with the best products available.
             </p>
             <div className="flex items-center">
-              <p className="subheading inline-block">20% off code: </p>
+              <p className="uppercase inline-block font-bold">20% off code: </p>
               <button
                 onClick={copyDiscountCode}
-                className="ml-1 bg-gradient-radial from-white via-white to-gray-400 text-black px-3 py-1 rounded-lg uppercase font-bold inline-block"
+                className="ml-1 bg-radial from-white via-white to-gray-400 text-black px-3 py-1 rounded-lg uppercase font-bold inline-block cursor-pointer"
               >
                 {DISCOUNT_CODE_COPIED ? "Copied!" : "ETHERA"}
                 {!DISCOUNT_CODE_COPIED && (

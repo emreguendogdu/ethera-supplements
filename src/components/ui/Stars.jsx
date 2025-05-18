@@ -18,9 +18,7 @@ export default function Stars({ rating = 5, reviewsLength = 0 }) {
         <EmptyStar key={i} />
       ))}
       {reviewsLength > 0 && (
-        <span className="text-gray-200 subheading">
-          ({reviewsLength} reviews)
-        </span>
+        <span className="subheading">({reviewsLength} reviews)</span>
       )}
     </div>
   )

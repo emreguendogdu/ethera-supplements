@@ -74,15 +74,15 @@ const Item = ({ product, i, selectedItem, setSelectedItem, CFG, isMobile }) => {
       </group>
       {selected && (
         <Html center position={[targetPosition[0], -0.85, targetPosition[2]]}>
-          <div className="w-[200px] flex flex-col items-center justify-center text-center">
+          <div className="w-[250px] flex flex-col items-center justify-center text-center">
             {/* Product Name Title */}
-            <h3 className="select-none h3">{product.name}</h3>
+            <h2 className="select-none">{product.name}</h2>
             {/* Price */}
-            <p className="flex gap-2 items-center">
-              <span className="line-through text-neutral-500">
+            <p className="flex gap-2 items-center my-2">
+              <span className="line-through text-neutral-500 leading-none">
                 ${product.stockData[0].price}
               </span>
-              <span className="font-bold">
+              <span className="font-bold leading-none">
                 ${product.stockData[0].salePrice}
               </span>
             </p>
@@ -91,7 +91,7 @@ const Item = ({ product, i, selectedItem, setSelectedItem, CFG, isMobile }) => {
               <Button
                 href={`/products/${product.slug}`}
                 text="View Product"
-                wrapperClassName="mt-2 md:mt-8"
+                wrapperClassName="mt-2 md:mt-4"
                 className="w-fit h-fit"
               />
             </div>
@@ -138,13 +138,9 @@ export default function Products() {
             className="w-full relative"
             wrapperClass="w-full relative"
           >
-            <div className="relative w-full flex flex-col items-center justify-center">
-              <h2 className="uppercase subheading text-neutral-400 mb-2">
-                No Noise — Just Results.
-              </h2>
-              <h2 className="h2 uppercase text-center text-white">
-                3 Products. Maximum Output.
-              </h2>
+            <div className="relative w-full flex flex-col gap-2 items-center justify-center">
+              <p className="subheading">0 Noise — Just Results.</p>
+              <h2 className="uppercase">Only 3 Products.</h2>
             </div>
           </Html>
           <ambientLight intensity={0.35} />
