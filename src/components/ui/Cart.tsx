@@ -137,7 +137,7 @@ export default function Cart() {
                       <div className="flex gap-2 [&_button]:text-xl [&_button]:text-neutral-200">
                         <div className="bg-neutral-900 flex items-center gap-2 rounded-lg [&>button]:bg-neutral-950 [&>button]:px-2 [&>*]:py-2">
                           <button
-                            className="rounded-l-lg"
+                            className="rounded-l-lg cursor-pointer"
                             onClick={() => updateQuantity(cartItem, -1)}
                           >
                             {cartItem.quantity === 1 ? "×" : "−"}
@@ -146,7 +146,7 @@ export default function Cart() {
                             {cartItem.quantity}
                           </p>
                           <button
-                            className="rounded-r-lg"
+                            className="rounded-r-lg cursor-pointer"
                             onClick={() => updateQuantity(cartItem, +1)}
                           >
                             +
@@ -190,7 +190,7 @@ export default function Cart() {
                 </motion.button>
                 <div className="flex gap-2 items-center absolute bottom-0">
                   <motion.input
-                    className={`bg-neutral-900 text-neutral-200 p-2 rounded-lg focus:border-none focus:outline-none bg-transparent`}
+                    className={`text-neutral-200 p-2 rounded-lg focus:border-none focus:outline-none bg-transparent`}
                     animate={{
                       opacity: displayDiscountInput ? 1 : 0,
                       display: displayDiscountInput ? "block" : "none",
@@ -199,6 +199,7 @@ export default function Cart() {
                     placeholder="Enter code..."
                     value={discountCode}
                     onChange={(e) => setDiscountCode(e.target.value)}
+                    disabled
                   />
                   <div className="flex items-end gap-2">
                     <motion.button
@@ -217,6 +218,7 @@ export default function Cart() {
                         opacity: displayDiscountInput ? 1 : 0,
                         display: displayDiscountInput ? "block" : "none",
                       }}
+                      className="text-neutral-500"
                     >
                       ✓
                     </motion.button>

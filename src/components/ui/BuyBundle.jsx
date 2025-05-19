@@ -28,7 +28,7 @@ export default function BuyBundle({ className = "" }) {
       className={`flex flex-col gap-4 items-center justify-center text-center h-screen py-sectionY-m md:py-sectionY bg-gradient-to-b from-[#0A0A0D] to-black relative z-10 ${className}`}
     >
       <div className="flex flex-col gap-4 items-center justify-center text-center">
-        <p className="subheading custom-border hover:border-green-500 hover:text-green-500 select-none transition-all">
+        <p className="subheading custom-border border-green-500 text-green-500 select-none transition-all">
           Most Popular
         </p>
         <div className="relative w-screen h-[35vh] md:w-[400px] md:h-[300px] overflow-hidden ">
