@@ -20,11 +20,11 @@ export default function Info() {
       className="flex flex-col items-center justify-center bg-black text-white p-section-m md:p-section w-full relative"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full max-w-6xl mb-12">
-        <div className="relative order-2 md:order-1">
+        <div className="relative h-[300px] w-full md:h-auto">
           <Image
             src="/images/info.webp"
             alt="Supplement bottles"
-            className="w-full h-auto rounded-lg object-contain object-center brightness-110"
+            className="w-full h-full md:h-auto rounded-lg object-cover md:object-contain object-center brightness-110"
             fill
           />
         </div>
