@@ -17,7 +17,7 @@ export default function Footer() {
         <div className="md:w-1/3">
           <p className="text-neutral-200">
             <Link href="/" className="uppercase font-bold">
-              Ethera<sup>®</sup>
+              Ethera{" "}
             </Link>
             is a fictional supplement brand <br />
             designed and developed by{" "}
@@ -26,7 +26,7 @@ export default function Footer() {
               className="underline font-bold"
               target="_blank"
             >
-              @emregnd
+              emregnd
             </Link>
             .
             <br />

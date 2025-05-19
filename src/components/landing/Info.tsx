@@ -1,5 +1,4 @@
 import Image from "next/image"
-import { StarHolder } from "@/components/ui/icons"
 import { Fragment } from "react"
 
 const qualities = [
@@ -23,14 +22,14 @@ export default function Info() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full max-w-6xl mb-12">
         <div className="relative order-2 md:order-1">
           <Image
-            src="/images/real_photo.png"
+            src="/images/info.webp"
             alt="Supplement bottles"
-            className="w-full h-auto rounded-lg object-cover object-right"
+            className="w-full h-auto rounded-lg object-contain object-center brightness-110"
             fill
           />
         </div>
 
-        <div className="flex flex-col justify-center gap-12 order-1 md:order-2">
+        <div className="flex flex-col justify-center gap-12 order-1 md:order-2 py-16">
           <div className="flex flex-col items-center gap-4">
             <p className="uppercase">192 COMMENTS, 5 stars</p>
 
@@ -53,7 +52,6 @@ export default function Info() {
             {qualities.map((item, i) => (
               <div key={i} className="flex gap-4 items-center py-8">
                 <div className="relative w-24 h-24 flex-shrink-0 flex items-center justify-center">
-                  {/* {item.icon} */}
                   <Image
                     src={`/images/icons/quality-${i + 1}.webp`}
                     alt="Icon"

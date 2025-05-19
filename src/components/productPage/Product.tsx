@@ -259,13 +259,21 @@ export default function Product(params: { product: ProductProps }) {
   )
 }
 
+type ReviewProps = {
+  rating: number
+  author: string
+  date: string
+  title: string
+  comment: string
+}
+
 function ReviewSection(params: { product: ProductProps }) {
   const { product } = params
 
   return (
     <ul className="flex flex-col gap-8">
       {product.reviews && product.reviews.length > 0 ? (
-        product.reviews.map((review, i) => (
+        product.reviews.map((review: ReviewProps, i) => (
           <Fragment key={`rws_${i}`}>
             <Review review={review} />
           </Fragment>
@@ -275,14 +283,6 @@ function ReviewSection(params: { product: ProductProps }) {
       )}
     </ul>
   )
-}
-
-type ReviewProps = {
-  rating: number
-  author: string
-  date: string
-  title: string
-  comment: string
 }
 
 const Review = (params: { review: ReviewProps }) => {
