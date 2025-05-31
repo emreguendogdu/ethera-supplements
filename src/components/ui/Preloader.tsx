@@ -47,7 +47,7 @@ export function GlobalPreloader() {
       aria-live="polite"
     >
       <div className="p-8 relative w-full flex flex-col gap-4">
-        <p className="subheading">Assets are loading...</p>
+        <p className="subheading">Loading assets...</p>
         <div className="w-full h-2 bg-neutral-700 rounded-full mx-auto overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)]">
           <div
             className="h-full bg-white rounded-full transition-all duration-400 ease-in-out"

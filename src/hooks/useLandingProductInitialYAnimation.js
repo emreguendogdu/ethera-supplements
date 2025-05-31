@@ -7,8 +7,11 @@ const FINAL_Y_OTHER = -0.125
 const INITIAL_Y = 3
 const DURATION = 1500
 
-const easeInOutCubic = (t) =>
-  t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
+const easeInOut = (t) => {
+  const p = 2 * t * t
+  const q = 1 - Math.pow(-2 * t + 2, 2) / 2
+  return t < 0.5 ? p : q
+}
 
 const lerp = (a, b, t) => a + (b - a) * t
 
@@ -29,7 +32,7 @@ const useLandingProductInitialYAnimation = ({
     const animatePositionY = (timestamp) => {
       if (!start) start = timestamp
       const progress = Math.min((timestamp - start) / DURATION, 1)
-      const easedProgress = easeInOutCubic(progress)
+      const easedProgress = easeInOut(progress)
       const finalY = positionKey === "center" ? FINAL_Y_CENTER : FINAL_Y_OTHER
       setInitialPositionY(lerp(INITIAL_Y, finalY, easedProgress))
       if (progress < 1) {
