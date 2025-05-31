@@ -23,6 +23,7 @@ const Item = ({
   selectedItem,
   setSelectedItem,
   canvasContainerRef,
+  isInView,
 }) => {
   const ref = useRef()
   const { isMobile } = useDeviceSize()
