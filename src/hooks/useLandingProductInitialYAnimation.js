@@ -1,17 +1,14 @@
 "use client"
 
-import { useState, useEffect, useRef, useTransition } from "react"
+import { useState, useEffect } from "react"
 
 const FINAL_Y_CENTER = 0
 const FINAL_Y_OTHER = -0.125
-const INITIAL_Y = 2
+const INITIAL_Y = 3
 const DURATION = 1500
 
-const easeInOutQuad = (t) => {
-  const p = 2 * t * t
-  const q = 1 - Math.pow(-2 * t + 2, 2) / 2
-  return t < 0.5 ? p : q
-}
+const easeInOutCubic = (t) =>
+  t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
 
 const lerp = (a, b, t) => a + (b - a) * t
 
@@ -22,36 +19,31 @@ const useLandingProductInitialYAnimation = ({
   const [initialPositionY, setInitialPositionY] = useState(10)
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false)
   const [isSectionInView, setIsSectionInView] = useState(false)
-  const animationFrameIdRef = useRef(null)
-  const startRef = useRef(null)
-  const [isPending, startTransition] = useTransition()
 
   useEffect(() => {
     if (!canvasContainerRef?.current) return
 
-    let observer
+    let animationFrameId
+    let start = null
 
     const animatePositionY = (timestamp) => {
-      if (!startRef.current) startRef.current = timestamp
-      const progress = Math.min((timestamp - startRef.current) / DURATION, 1)
-      const easedProgress = easeInOutQuad(progress)
+      if (!start) start = timestamp
+      const progress = Math.min((timestamp - start) / DURATION, 1)
+      const easedProgress = easeInOutCubic(progress)
       const finalY = positionKey === "center" ? FINAL_Y_CENTER : FINAL_Y_OTHER
-      startTransition(() => {
-        setInitialPositionY(lerp(INITIAL_Y, finalY, easedProgress))
-      })
+      setInitialPositionY(lerp(INITIAL_Y, finalY, easedProgress))
       if (progress < 1) {
-        animationFrameIdRef.current = requestAnimationFrame(animatePositionY)
+        animationFrameId = requestAnimationFrame(animatePositionY)
       } else {
         setHasAnimatedIn(true)
       }
     }
 
-    observer = new window.IntersectionObserver(
+    const observer = new window.IntersectionObserver(
       ([entry]) => {
         setIsSectionInView(entry.isIntersecting)
         if (entry.isIntersecting && !hasAnimatedIn) {
-          startRef.current = null
-          animationFrameIdRef.current = requestAnimationFrame(animatePositionY)
+          requestAnimationFrame(animatePositionY)
         }
       },
       { threshold: 0.03125 }
@@ -60,12 +52,11 @@ const useLandingProductInitialYAnimation = ({
     observer.observe(canvasContainerRef.current)
     return () => {
       observer.disconnect()
-      if (animationFrameIdRef.current)
-        cancelAnimationFrame(animationFrameIdRef.current)
+      if (animationFrameId) cancelAnimationFrame(animationFrameId)
     }
   }, [canvasContainerRef, hasAnimatedIn, positionKey])
 
-  return { initialPositionY, hasAnimatedIn, isSectionInView, isPending }
+  return { initialPositionY, hasAnimatedIn, isSectionInView }
 }
 
 export default useLandingProductInitialYAnimation
