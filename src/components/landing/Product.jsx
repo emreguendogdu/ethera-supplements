@@ -23,7 +23,7 @@ const Item = ({
   selectedItem,
   setSelectedItem,
   canvasContainerRef,
-  isInView,
+  isSectionInView,
 }) => {
   const ref = useRef()
   const { isMobile } = useDeviceSize()
@@ -37,7 +37,7 @@ const Item = ({
     useLandingProductInitialYAnimation({
       canvasContainerRef,
       positionKey,
-      isInView,
+      isSectionInView,
     })
 
   const { hovered, handlePointerOver, handlePointerOut } =
@@ -49,7 +49,7 @@ const Item = ({
     positionKey,
     selected,
     hovered,
-    shouldAnimate: hasAnimatedIn && isInView,
+    shouldAnimate: hasAnimatedIn && isSectionInView,
   })
 
   const handleClick = () => {

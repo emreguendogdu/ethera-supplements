@@ -1,13 +1,13 @@
 "use client"
 
-import { Canvas } from "@react-three/fiber"
+import { Canvas, useFrame } from "@react-three/fiber"
 import { Backdrop, ContactShadows, Environment, Html } from "@react-three/drei"
 import { useRef, useState } from "react"
 import { products } from "@/data"
 import Item from "./Product"
 import useElementInView from "@/hooks/useElementInView"
 
-const Items = ({ canvasContainerRef, isInView }) => {
+const Items = ({ canvasContainerRef, isSectionInView }) => {
   const [selectedItem, setSelectedItem] = useState(0)
 
   return (
@@ -21,7 +21,7 @@ const Items = ({ canvasContainerRef, isInView }) => {
             selectedItem={selectedItem}
             setSelectedItem={setSelectedItem}
             canvasContainerRef={canvasContainerRef}
-            isInView={isInView}
+            isSectionInView={isSectionInView}
           />
         )
       })}
@@ -32,7 +32,12 @@ const Items = ({ canvasContainerRef, isInView }) => {
 export default function Products() {
   const canvasContainerRef = useRef(null)
 
-  const { isInView } = useElementInView(canvasContainerRef, 0.03125)
+  const { isInView: isSectionInView } = useElementInView(
+    canvasContainerRef,
+    0.03125
+  )
+
+  const DisableRender = () => useFrame(() => null, 1000)
 
   return (
     <>
@@ -42,6 +47,7 @@ export default function Products() {
         ref={canvasContainerRef}
       >
         <Canvas camera={{ fov: 50, position: [0, 0, 3] }} className="z-20">
+          {!isSectionInView && <DisableRender />}
           <Html
             center
             position={[0, 0.95, 0]}
@@ -59,7 +65,7 @@ export default function Products() {
           <directionalLight position={[1.7, -0.5, 0.9]} intensity={0.75} />
           <Items
             canvasContainerRef={canvasContainerRef}
-            isInView={isInView}
+            isSectionInView={isSectionInView}
           />
           <Backdrop
             castShadow
