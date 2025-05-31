@@ -18,10 +18,10 @@ const lerp = (a, b, t) => a + (b - a) * t
 const useLandingProductInitialYAnimation = ({
   canvasContainerRef,
   positionKey,
+  isInView,
 }) => {
   const [initialPositionY, setInitialPositionY] = useState(10)
   const [hasAnimatedIn, setHasAnimatedIn] = useState(false)
-  const [isSectionInView, setIsSectionInView] = useState(false)
 
   useEffect(() => {
     if (!canvasContainerRef?.current) return
@@ -44,7 +44,6 @@ const useLandingProductInitialYAnimation = ({
 
     const observer = new window.IntersectionObserver(
       ([entry]) => {
-        setIsSectionInView(entry.isIntersecting)
         if (entry.isIntersecting && !hasAnimatedIn) {
           requestAnimationFrame(animatePositionY)
         }
@@ -57,9 +56,9 @@ const useLandingProductInitialYAnimation = ({
       observer.disconnect()
       if (animationFrameId) cancelAnimationFrame(animationFrameId)
     }
-  }, [canvasContainerRef, hasAnimatedIn, positionKey])
+  }, [canvasContainerRef, hasAnimatedIn, positionKey, isInView])
 
-  return { initialPositionY, hasAnimatedIn, isSectionInView }
+  return { initialPositionY, hasAnimatedIn }
 }
 
 export default useLandingProductInitialYAnimation

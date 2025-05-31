@@ -32,10 +32,11 @@ const Item = ({
 
   const positionKey = getPositionKey(i, selected, selectedItem)
 
-  const { initialPositionY, hasAnimatedIn, isSectionInView } =
+  const { initialPositionY, hasAnimatedIn } =
     useLandingProductInitialYAnimation({
       canvasContainerRef,
       positionKey,
+      isInView,
     })
 
   const { hovered, handlePointerOver, handlePointerOut } =
@@ -47,7 +48,7 @@ const Item = ({
     positionKey,
     selected,
     hovered,
-    shouldAnimate: hasAnimatedIn && isSectionInView,
+    shouldAnimate: hasAnimatedIn && isInView,
   })
 
   const handleClick = () => {
