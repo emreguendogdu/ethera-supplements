@@ -35,9 +35,7 @@ export default function Hero() {
         className="h-[200vh] md:h-[250vh]"
         ref={heroRef}
       >
-        <div className="fixed top-0 w-full h-screen -z-10">
-          <HeroCanvas scrollYProgress={scrollYProgress} />
-        </div>
+        <HeroCanvas scrollYProgress={scrollYProgress} />
         <motion.div
           className="sticky top-0 h-screen select-none flex flex-col justify-center gap-4 py-20 md:py-0 px-sectionX-m md:px-0 md:grid md:grid-cols-8 md:grid-rows-8"
           style={{

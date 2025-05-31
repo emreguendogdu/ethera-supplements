@@ -30,6 +30,8 @@ export function GlobalPreloader() {
     return null
   }
 
+  console.log("totalAssets", totalAssets)
+
   // Calculate loading progress
   // Object.values(assetsLoaded) will create a new array, but this calculation
   // only runs if allAssetsLoaded is false, and its inputs (assetsLoaded, totalAssets)
@@ -45,10 +47,7 @@ export function GlobalPreloader() {
       aria-live="polite"
     >
       <div className="p-8 relative w-full flex flex-col gap-4">
-        <p className="subheading">
-          {loadedCount} / {totalAssets} Assets Loaded (
-          {Math.round(progressPercentage)}%)
-        </p>
+        <p className="subheading">Assets are loading...</p>
         <div className="w-full h-2 bg-neutral-700 rounded-full mx-auto overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)]">
           <div
             className="h-full bg-white rounded-full transition-all duration-400 ease-in-out"

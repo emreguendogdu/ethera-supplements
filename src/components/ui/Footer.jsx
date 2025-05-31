@@ -12,7 +12,7 @@ import { products } from "@/data"
 export default function Footer() {
   return (
     <footer className="relative flex flex-col gap-8 md:gap-16 p-section-m md:p-section">
-      <div className="absolute inset-0 bg-black opacity-50 md:opacity-90 -z-10" />
+      <div className="absolute inset-0 bg-black opacity-50 md:opacity-75 -z-10" />
       <div className="flex flex-wrap justify-center md:flex-nowrap gap-8 md:gap-0 md:justify-between">
         <div className="md:w-1/3">
           <p className="text-neutral-200">
@@ -23,7 +23,7 @@ export default function Footer() {
             designed and developed by{" "}
             <Link
               href="https://linkedin.com/in/emregnd/"
-              className="underline font-bold"
+              className="font-bold"
               target="_blank"
             >
               emregnd

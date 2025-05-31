@@ -12,22 +12,18 @@ import Info from "./Info"
 import { GlobalPreloader } from "../ui/Preloader"
 
 export default function LandingPage() {
-  // Get actions and state from the loading store
   const { initializeAssets } = useLoadingStore((state) => state.actions)
   const allAssetsLoaded = useLoadingStore((state) => state.allAssetsLoaded)
 
-  // State to control the visibility of the main content after preloading
   const [showContent, setShowContent] = useState(false)
 
   useEffect(() => {
-    // Define all asset IDs that this page expects to load.
-    // This should match the ASSET_IDS used in your TrackedModel components.
     const allPageAssetIds = [
       ASSET_IDS.bodybuilder,
       ...products.map((product) => product.slug),
     ]
     initializeAssets(allPageAssetIds as AssetId[])
-  }, [initializeAssets]) // Run this effect once on mount
+  }, [initializeAssets])
 
   useEffect(() => {
     if (allAssetsLoaded) {
