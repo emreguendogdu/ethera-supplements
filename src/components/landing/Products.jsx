@@ -2,16 +2,12 @@
 
 import { Canvas } from "@react-three/fiber"
 import { Backdrop, ContactShadows, Environment, Html } from "@react-three/drei"
-import { useMemo, useRef, useState } from "react"
-import useDeviceSize from "@/hooks/useDeviceSize"
+import { useRef, useState } from "react"
 import { products } from "@/data"
-import { desktopCFG, mobileCFG } from "@/config/productAnimationConfig"
 import Item from "./Product"
 
-const Items = ({ isMobile, canvasContainerRef }) => {
+const Items = ({ canvasContainerRef }) => {
   const [selectedItem, setSelectedItem] = useState(0)
-
-  const CFG = useMemo(() => (isMobile ? mobileCFG : desktopCFG), [isMobile])
 
   return (
     <>
@@ -23,8 +19,6 @@ const Items = ({ isMobile, canvasContainerRef }) => {
             product={product}
             selectedItem={selectedItem}
             setSelectedItem={setSelectedItem}
-            isMobile={isMobile}
-            CFG={CFG}
             canvasContainerRef={canvasContainerRef}
           />
         )
@@ -34,7 +28,6 @@ const Items = ({ isMobile, canvasContainerRef }) => {
 }
 
 export default function Products() {
-  const { isMobile } = useDeviceSize()
   const canvasContainerRef = useRef(null)
 
   return (
@@ -60,7 +53,7 @@ export default function Products() {
           <directionalLight position={[0, -0.5, 0]} intensity={0.5} />
           <directionalLight position={[-1.7, -0.5, -0.9]} intensity={0.75} />
           <directionalLight position={[1.7, -0.5, 0.9]} intensity={0.75} />
-          <Items isMobile={isMobile} canvasContainerRef={canvasContainerRef} />
+          <Items canvasContainerRef={canvasContainerRef} />
           <Backdrop
             castShadow
             floor={4}

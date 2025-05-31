@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useMemo } from "react"
 import useLandingProductAnimation from "@/hooks/useLandingProductAnimation"
 import { Html } from "@react-three/drei"
 import { Tub } from "@/components/3d/Tub"
@@ -8,6 +8,8 @@ import Button from "@/components/ui/Button"
 import { products } from "@/data"
 import useLandingProductInitialYAnimation from "@/hooks/useLandingProductInitialYAnimation"
 import useLandingProductHover from "@/hooks/useLandingProductHover"
+import useDeviceSize from "@/hooks/useDeviceSize"
+import { desktopCFG, mobileCFG } from "@/config/productAnimationConfig"
 
 const getPositionKey = (i, selected, selectedItem) => {
   if (selected) return "center"
@@ -20,12 +22,13 @@ const Item = ({
   i,
   selectedItem,
   setSelectedItem,
-  CFG,
-  isMobile,
   canvasContainerRef,
 }) => {
   const ref = useRef()
+  const { isMobile } = useDeviceSize()
   const selected = selectedItem === i
+
+  const CFG = useMemo(() => (isMobile ? mobileCFG : desktopCFG), [isMobile])
 
   const positionKey = getPositionKey(i, selected, selectedItem)
 
@@ -44,7 +47,6 @@ const Item = ({
     positionKey,
     selected,
     hovered,
-    isMobile,
     shouldAnimate: hasAnimatedIn && isSectionInView,
   })
 

@@ -31,9 +31,9 @@ const useHeroEnvironmentAnimation = ({
   isInView,
   isMobile,
 }) => {
-  const pulsingLightRef = useRef()
-  const movingLightRef = useRef()
-  const bodybuilderRef = useRef()
+  const pulsingLightRef = useRef(null)
+  const movingLightRef = useRef(null)
+  const bodybuilderRef = useRef(null)
   const currentIntensityRef = useRef(CONFIG.lights.pulsing.baseIntensity)
   const movingLightForwardRef = useRef(true)
 
@@ -106,9 +106,11 @@ const useHeroEnvironmentAnimation = ({
     }
 
     if (movingLightRef.current) {
-      movingLightForwardRef.current
-        ? (movingLightRef.current.position.x += CONFIG.lights.moving.speed)
-        : (movingLightRef.current.position.x -= CONFIG.lights.moving.speed)
+      if (movingLightForwardRef.current) {
+        movingLightRef.current.position.x += CONFIG.lights.moving.speed
+      } else {
+        movingLightRef.current.position.x -= CONFIG.lights.moving.speed
+      }
 
       if (movingLightRef.current.position.x >= CONFIG.lights.moving.bounds) {
         movingLightForwardRef.current = false

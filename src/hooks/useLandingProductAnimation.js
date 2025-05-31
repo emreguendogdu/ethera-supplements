@@ -9,7 +9,6 @@ const useLandingProductAnimation = ({
   positionKey,
   selected,
   hovered,
-  isMobile,
   shouldAnimate = true,
 }) => {
   useFrame((state, delta) => {
