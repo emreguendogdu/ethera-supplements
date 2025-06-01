@@ -11,7 +11,9 @@ const useElementInView = (ref, threshold = 0.25) => {
       ([entry]) => setIsInView(entry.isIntersecting),
       { threshold }
     )
+
     observer.observe(ref.current)
+
     return () => observer.disconnect()
   }, [ref, threshold])
 

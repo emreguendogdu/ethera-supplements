@@ -32,10 +32,7 @@ const Items = ({ canvasContainerRef, isSectionInView }) => {
 export default function Products() {
   const canvasContainerRef = useRef(null)
 
-  const { isInView: isSectionInView } = useElementInView(
-    canvasContainerRef,
-    0.03125
-  )
+  const isSectionInView = useElementInView(canvasContainerRef, 0.03125)
 
   const DisableRender = () => useFrame(() => null, 1000)
 
