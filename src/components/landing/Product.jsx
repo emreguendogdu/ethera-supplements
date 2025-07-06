@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, useMemo } from "react"
+import { useRef, useMemo, useCallback } from "react"
 import useLandingProductAnimation from "@/hooks/useLandingProductAnimation"
 import { Html } from "@react-three/drei"
 import { Tub } from "@/components/3d/Tub"
@@ -8,8 +8,9 @@ import Button from "@/components/ui/Button"
 import { products } from "@/data"
 import useLandingProductInitialYAnimation from "@/hooks/useLandingProductInitialYAnimation"
 import useLandingProductHover from "@/hooks/useLandingProductHover"
-import useDeviceSize from "@/hooks/useDeviceSize"
 import { desktopCFG, mobileCFG } from "@/config/productAnimationConfig"
+
+const initialPositionY = 3
 
 const getPositionKey = (i, selected, selectedItem) => {
   if (selected) return "center"
@@ -24,37 +25,39 @@ const Item = ({
   setSelectedItem,
   canvasContainerRef,
   isSectionInView,
+  CFG,
 }) => {
-  const ref = useRef()
-  const { isMobile } = useDeviceSize()
-  const selected = selectedItem === i
-
-  const CFG = useMemo(() => (isMobile ? mobileCFG : desktopCFG), [isMobile])
+  const ref = useRef(null)
+  const selected = useMemo(() => selectedItem === i, [selectedItem, i])
 
   const positionKey = getPositionKey(i, selected, selectedItem)
 
-  const { initialPositionY, hasAnimatedIn } =
-    useLandingProductInitialYAnimation({
-      canvasContainerRef,
-      positionKey,
-      isSectionInView,
-    })
+  // const { initialPositionY, hasAnimatedIn } =
+  //   useLandingProductInitialYAnimation({
+  //     canvasContainerRef,
+  //     positionKey,
+  //     isSectionInView,
+  //   })
 
-  const { hovered, handlePointerOver, handlePointerOut } =
-    useLandingProductHover(selected, isMobile)
+  const hasAnimatedIn = useMemo(() => false, [])
 
-  useLandingProductAnimation({
+  // const { hovered, handlePointerOver, handlePointerOut } =
+  //   useLandingProductHover(selected, isMobile)
+
+  /*   useLandingProductAnimation({
     ref,
     CFG,
     positionKey,
     selected,
     hovered,
-    shouldAnimate: hasAnimatedIn && isSectionInView,
+    shouldAnimate: hasAnimatedIn && isSec tionInView,
   })
-
-  const handleClick = () => {
+ */
+  const handleClick = useCallback(() => {
     setSelectedItem(i)
-  }
+  }, [i, setSelectedItem])
+
+  console.log("isThis rendering over and over and over and over and over?")
 
   return (
     <>
@@ -78,8 +81,8 @@ const Item = ({
                 CFG[positionKey].scale,
               ]
         }
-        onPointerOver={handlePointerOver}
-        onPointerOut={handlePointerOut}
+        // onPointerOver={handlePointerOver}
+        // onPointerOut={handlePointerOut}
         onClick={handleClick}
         castShadow
         receiveShadow

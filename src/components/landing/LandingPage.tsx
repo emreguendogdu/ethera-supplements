@@ -6,7 +6,7 @@ import { useLoadingStore } from "@/stores/loadingStore"
 import { products } from "@/data"
 import { motion } from "motion/react"
 import Hero from "./Hero"
-import Products from "./Products"
+import ProductsSection from "./ProductsSection"
 import BuyBundle from "../ui/BuyBundle"
 import Info from "./Info"
 import { GlobalPreloader } from "../ui/Preloader"
@@ -38,19 +38,19 @@ export default function LandingPage() {
 
   return (
     <>
-      <GlobalPreloader />
-      <motion.div
+      {/* <GlobalPreloader /> */}
+      {/*  <motion.div
         style={{
           visibility: showContent ? "visible" : "hidden",
           opacity: showContent ? 1 : 0,
           transition: "opacity 0.5s ease-in-out", // Optional fade-in for content
         }}
-      >
-        <Hero />
-        <Products />
-        <BuyBundle />
-        <Info />
-      </motion.div>
+      > */}
+      <Hero />
+      <ProductsSection />
+      <BuyBundle />
+      <Info />
+      {/* </motion.div> */}
     </>
   )
 }

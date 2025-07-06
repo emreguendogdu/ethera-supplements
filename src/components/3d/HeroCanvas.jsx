@@ -1,11 +1,11 @@
 "use client"
 
-import { Suspense, useRef } from "react"
+import { Suspense } from "react"
 import { Loader, PerspectiveCamera } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
 import Bodybuilder from "@/components/3d/Bodybuilder"
 import useDeviceSize from "@/hooks/useDeviceSize"
-import useElementInView from "@/hooks/useElementInView"
+import { useInView } from "react-intersection-observer"
 import useHeroEnvironmentAnimation, {
   CONFIG,
 } from "@/hooks/useHeroEnvironmentAnimation"
@@ -51,20 +51,21 @@ function Environment({ scrollYProgress, isInView, isMobile }) {
 }
 
 export default function HeroCanvas({ scrollYProgress }) {
-  const containerRef = useRef(null)
-  const isInView = useElementInView(containerRef, 0.25)
+  const { ref, inView } = useInView({
+    threshold: 0.25,
+  })
   const { isMobile } = useDeviceSize()
 
   return (
     <div
       id="canvas-container"
       className="fixed top-0 h-screen w-full translate-y-36 -z-20"
-      ref={containerRef}
+      ref={ref}
     >
       <Canvas>
         <Environment
           scrollYProgress={scrollYProgress}
-          isInView={isInView}
+          isInView={inView}
           isMobile={isMobile}
         />
       </Canvas>
