@@ -5,7 +5,6 @@ import { Loader, PerspectiveCamera } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
 import Bodybuilder from "@/components/3d/Bodybuilder"
 import useDeviceSize from "@/hooks/useDeviceSize"
-import { useInView } from "react-intersection-observer"
 import useHeroEnvironmentAnimation, {
   CONFIG,
 } from "@/hooks/useHeroEnvironmentAnimation"
@@ -58,20 +57,17 @@ function Environment({
 
 interface HeroCanvasProps {
   scrollYProgress: MotionValue<number>
+  inView: boolean
 }
 
-export default function HeroCanvas({ scrollYProgress }: HeroCanvasProps) {
-  const { ref, inView } = useInView({
-    threshold: 0.25,
-  })
+export default function HeroCanvas({
+  scrollYProgress,
+  inView,
+}: HeroCanvasProps) {
   const { isMobile } = useDeviceSize()
 
   return (
-    <div
-      id="canvas-container"
-      className="absolute top-0 h-screen w-full translate-y-36 -z-20"
-      ref={ref}
-    >
+    <div id="canvas-container" className="fixed top-0 h-screen w-full -z-20">
       <Canvas>
         {!inView && <DisableRender />}
         <Environment

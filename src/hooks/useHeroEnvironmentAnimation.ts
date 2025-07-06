@@ -26,7 +26,7 @@ export const CONFIG = {
   },
   modal: {
     posY: {
-      start: { mobile: -5, desktop: -8.1 },
+      start: { mobile: -6, desktop: -9.1 },
       end: { mobile: -3.5, desktop: -7 },
     },
     rotateZ: { start: -3.25, end: -0.05 },

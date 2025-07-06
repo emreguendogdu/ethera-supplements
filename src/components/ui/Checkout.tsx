@@ -64,14 +64,15 @@ export default function Checkout({ showCheckout, onClose }: CheckoutProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: easeOut, delay: 0.4 }}
         >
-          You've reached the final destination of this demo experience! This
-          e-commerce platform is a showcase of modern web development techniques
-          and interactive design. Enjoyed exploring the features? I'd love to
-          discuss how we can bring similar innovations to your next project.
-          Reach out through the links below or drop me a line at:{" "}
+          You&apos;ve reached the final destination of this demo experience!
+          This e-commerce platform is a showcase of modern web development
+          techniques and interactive design. Enjoyed exploring the features?
+          I&apos;d love to discuss how we can bring similar innovations to your
+          next project. Reach out through the links below or drop me a line at:{" "}
           <Link
             href="mailto:hello@emregnd.com"
             aria-label="Send email to emregnd"
+            className="underline"
           >
             hello@emregnd.com
           </Link>

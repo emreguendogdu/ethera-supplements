@@ -47,6 +47,13 @@
   }
 }
 
+@utility h0-styles {
+  font-size: clamp(4rem, 8vw, 16rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
 @utility h1-styles {
   font-size: clamp(2rem, 5vw, 5rem);
   font-weight: 700;
@@ -122,6 +129,11 @@
   h2,
   .h2 {
     @apply h2-styles;
+  }
+
+  h0,
+  .h0 {
+    @apply h0-styles;
   }
 
   .subheading {

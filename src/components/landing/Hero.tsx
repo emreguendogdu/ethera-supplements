@@ -6,11 +6,14 @@ import { motion, useScroll, useTransform } from "motion/react"
 import { useRef, useState } from "react"
 import Button from "@/components/ui/Button"
 import HeroCanvas from "@/components/3d/HeroCanvas"
+import { useInView } from "react-intersection-observer"
 
 export default function Hero() {
-  const heroRef = useRef<HTMLElement>(null)
   const [DISCOUNT_CODE_COPIED, SET_DISCOUNT_CODE_COPIED] = useState(false)
-
+  const heroRef = useRef<HTMLElement>(null)
+  const { ref: inViewRef, inView } = useInView({
+    threshold: 0.25,
+  })
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end 80%"],
@@ -33,10 +36,13 @@ export default function Hero() {
       <motion.section
         id="hero"
         className="h-[200vh] md:h-[250vh]"
-        ref={heroRef}
+        ref={(node) => {
+          heroRef.current = node
+          inViewRef(node)
+        }}
         aria-label="Hero section"
       >
-        <HeroCanvas scrollYProgress={scrollYProgress} />
+        <HeroCanvas scrollYProgress={scrollYProgress} inView={inView} />
         <motion.div
           className="sticky top-0 h-screen select-none flex flex-col justify-center gap-4 py-20 md:py-0 px-sectionX-m md:px-0 md:grid md:grid-cols-8 md:grid-rows-8"
           style={{

@@ -116,7 +116,13 @@ const Environment = ({
     return () => {
       isAnimationFinished.current = false
     }
-  }, [isLoaded, isMobile, setAllowScroll])
+  }, [
+    isLoaded,
+    isMobile,
+    setAllowScroll,
+    isAnimationFinished,
+    setShowPreloader,
+  ])
 
   return (
     <>
