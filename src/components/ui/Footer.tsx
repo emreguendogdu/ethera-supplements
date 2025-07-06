@@ -14,16 +14,7 @@ export default function Footer() {
   return (
     <footer className="relative flex flex-col gap-8 md:gap-16 p-section-m md:p-section">
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black opacity-50 md:opacity-75 -z-10">
-        <Image
-          src="/images/footer.webp"
-          alt="Greek God lying down statue in Vatican City, shot by Francisco Ghisletti, took from Unsplash"
-          aria-label="Greek God lying down statue in Vatican City, shot by Francisco Ghisletti, took from Unsplash"
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover opacity-20 -z-10"
-        />
-      </div>
+      <div className="absolute inset-0 bg-black opacity-50 md:opacity-75 -z-10" />
       <div className="flex flex-wrap justify-center md:flex-nowrap gap-8 md:gap-0 md:justify-between">
         <div className="md:w-1/3">
           <p className="text-neutral-200">
@@ -71,11 +62,6 @@ export default function Footer() {
         <ApplePayLogo />
         <GooglePayLogo />
         <StripeLogo />
-      </div>
-      <div className="absolute left-1/2 bottom-0 -translate-x-1/2 translate-y-1/2">
-        <span className="h0 text-neutral-600 uppercase whitespace-nowrap">
-          Ethera Supplements<sup>®</sup>
-        </span>
       </div>
     </footer>
   )
