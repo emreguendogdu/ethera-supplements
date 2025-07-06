@@ -5,6 +5,8 @@ import { Canvas } from "@react-three/fiber"
 import { Tub } from "@/components/3d/Tub"
 import useDeviceSize from "@/hooks/useDeviceSize"
 import { ReactNode } from "react"
+import DisableRender from "../DisableRender"
+import { useInView } from "react-intersection-observer"
 
 interface EnvironmentProps {
   children: ReactNode
@@ -32,10 +34,14 @@ interface ProductCanvasProps {
 
 export default function ProductCanvas({ slug }: ProductCanvasProps) {
   const { isMobile } = useDeviceSize()
+  const { ref, inView } = useInView({
+    threshold: 0.25,
+  })
   return (
     <div
       id="canvas-container"
       className="w-full h-[50vh] md:w-full md:h-[100vh] md:flex-1 md:sticky md:top-0 self-center"
+      ref={ref}
     >
       <Canvas
         camera={{
@@ -43,6 +49,7 @@ export default function ProductCanvas({ slug }: ProductCanvasProps) {
           fov: 50,
         }}
       >
+        {!inView && <DisableRender />}
         <OrbitControls
           enablePan={false}
           enableZoom={false}

@@ -10,6 +10,7 @@ import useDeviceSize from "@/hooks/useDeviceSize"
 import { useScrollContext } from "@/context/ScrollContext"
 import { Suspense } from "react"
 import { Group } from "three"
+import DisableRender from "../DisableRender"
 
 const transition = {
   duration: 1.5,
@@ -33,8 +34,13 @@ const animationSequence = (
   ["#product-preloader-text", { y: 0 }, { ...transition, at: 0 }],
   [position, { y: 0 }, { ...transition, at: 0 }],
   [rotation, { x: 0, y: 0 }, { ...transition, at: 0 }],
-  [position, { x: isMobile ? -0.15 : -2 }, { ...transition, at: 1.45 }],
+  [position, { x: isMobile ? 0 : -2 }, { ...transition, at: 1.45 }],
   [rotation, { y: isMobile ? 0.15 : 1 }, { ...transition, at: 1.45 }],
+  [
+    scale,
+    { x: isMobile ? 0.65 : 1, y: isMobile ? 0.65 : 1, z: isMobile ? 0.65 : 1 },
+    { ...transition, at: 1.45 },
+  ],
   [
     "#product-preloader-text",
     { scale: 0 },
@@ -61,9 +67,17 @@ interface EnvironmentProps {
   isLoaded: boolean
   setAllowScroll: (allow: boolean) => void
   slug: string
+  isAnimationFinished: React.MutableRefObject<boolean>
+  setShowPreloader: (show: boolean) => void
 }
 
-const Environment = ({ isLoaded, setAllowScroll, slug }: EnvironmentProps) => {
+const Environment = ({
+  isLoaded,
+  setAllowScroll,
+  slug,
+  isAnimationFinished,
+  setShowPreloader,
+}: EnvironmentProps) => {
   const productRef = useRef<Group>(null)
   const { isMobile } = useDeviceSize()
 
@@ -87,12 +101,20 @@ const Environment = ({ isLoaded, setAllowScroll, slug }: EnvironmentProps) => {
           isMobile
         ) as AnimationSequence
       ).then(() => {
+        isAnimationFinished.current = true
         setAllowScroll(true)
+        setTimeout(() => {
+          setShowPreloader(false)
+        }, 250)
       })
     }
 
-    if (isLoaded) {
+    if (isLoaded && !isAnimationFinished.current) {
       preloaderAnimate()
+    }
+
+    return () => {
+      isAnimationFinished.current = false
     }
   }, [isLoaded, isMobile, setAllowScroll])
 
@@ -121,41 +143,53 @@ interface ProductIntroProps {
 export default function ProductIntro({ slug }: ProductIntroProps) {
   const { setAllowScroll } = useScrollContext()
   const [isLoaded, setIsLoaded] = useState(false)
-  const loaderStateRef = useRef<boolean | null>(null)
+  const isAnimationFinished = useRef(false)
+  const [loaderActive, setLoaderActive] = useState(true)
+  const [showPreloader, setShowPreloader] = useState(true)
 
   const handleLoaderChange = (active: boolean) => {
-    loaderStateRef.current = active
-    setIsLoaded(!active)
+    setTimeout(() => {
+      setLoaderActive(active)
+    }, 0)
     return active
   }
 
+  useEffect(() => {
+    setIsLoaded(!loaderActive)
+  }, [loaderActive])
+
   return (
     <>
-      <div
-        id="product-preloader"
-        className="w-full h-screen fixed inset-0 z-[100]"
-      >
-        <motion.div
-          id="preloader-canvas-container"
-          className="fixed w-full h-full z-[99] bg-black"
+      {showPreloader && (
+        <div
+          id="product-preloader"
+          className="w-full h-screen absolute inset-0 z-[100]"
         >
-          <Canvas camera={{ fov: 50 }}>
-            <Environment
-              isLoaded={isLoaded}
-              setAllowScroll={setAllowScroll}
-              slug={slug}
-            />
-          </Canvas>
-          <Loader initialState={handleLoaderChange} />
-        </motion.div>
-        <motion.p
-          className="fixed z-[100] h2 uppercase w-full md:w-fit left-0 right-0 md:right-auto text-center md:text-left bottom-0 px-0 py-2 md:px-8 md:py-4"
-          style={{ y: "100%" }}
-          id="product-preloader-text"
-        >
-          Ethera Supplements<sup>®</sup>
-        </motion.p>
-      </div>
+          <motion.div
+            id="preloader-canvas-container"
+            className="fixed w-full h-full z-[99] bg-black"
+          >
+            <Canvas camera={{ fov: 50 }}>
+              {(!isLoaded || isAnimationFinished.current) && <DisableRender />}
+              <Environment
+                isLoaded={isLoaded}
+                setAllowScroll={setAllowScroll}
+                slug={slug}
+                isAnimationFinished={isAnimationFinished}
+                setShowPreloader={setShowPreloader}
+              />
+            </Canvas>
+            <Loader initialState={handleLoaderChange} />
+          </motion.div>
+          <motion.p
+            className="fixed z-[100] h2 uppercase w-full md:w-fit left-0 right-0 md:right-auto text-center md:text-left bottom-0 px-0 py-2 md:px-8 md:py-4"
+            style={{ y: "100%" }}
+            id="product-preloader-text"
+          >
+            Ethera Supplements<sup>®</sup>
+          </motion.p>
+        </div>
+      )}
     </>
   )
 }

@@ -10,6 +10,7 @@ import useHeroEnvironmentAnimation, {
   CONFIG,
 } from "@/hooks/useHeroEnvironmentAnimation"
 import { MotionValue } from "motion/react"
+import DisableRender from "../DisableRender"
 
 interface EnvironmentProps {
   scrollYProgress: MotionValue<number>
@@ -68,10 +69,11 @@ export default function HeroCanvas({ scrollYProgress }: HeroCanvasProps) {
   return (
     <div
       id="canvas-container"
-      className="fixed top-0 h-screen w-full translate-y-36 -z-20"
+      className="absolute top-0 h-screen w-full translate-y-36 -z-20"
       ref={ref}
     >
       <Canvas>
+        {!inView && <DisableRender />}
         <Environment
           scrollYProgress={scrollYProgress}
           isInView={inView}

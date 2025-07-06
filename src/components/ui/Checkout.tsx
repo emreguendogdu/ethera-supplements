@@ -48,15 +48,15 @@ export default function Checkout({ showCheckout, onClose }: CheckoutProps) {
         role="main"
         aria-label="Checkout information"
       >
-        <motion.h1
+        <motion.h2
           id="checkout-title"
           className="h2"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: easeOut, delay: 0.3 }}
         >
-          Thank you for your interest—but you can&apos;t go further :(
-        </motion.h1>
+          This is Where the Journey Ends (For Now!)
+        </motion.h2>
 
         <motion.p
           id="checkout-description"
@@ -64,12 +64,16 @@ export default function Checkout({ showCheckout, onClose }: CheckoutProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: easeOut, delay: 0.4 }}
         >
-          This website is just the concept work done by Moyra— a premium digital
-          lab. If you like this project and would like to outsource something
-          similar, don&apos;t hesitate to contact us. Click the below button or
-          use our email:{" "}
-          <Link href="mailto:hello@moyra.co" aria-label="Send email to Moyra">
-            hello@moyra.co
+          You've reached the final destination of this demo experience! This
+          e-commerce platform is a showcase of modern web development techniques
+          and interactive design. Enjoyed exploring the features? I'd love to
+          discuss how we can bring similar innovations to your next project.
+          Reach out through the links below or drop me a line at:{" "}
+          <Link
+            href="mailto:hello@emregnd.com"
+            aria-label="Send email to emregnd"
+          >
+            hello@emregnd.com
           </Link>
         </motion.p>
 
@@ -84,9 +88,9 @@ export default function Checkout({ showCheckout, onClose }: CheckoutProps) {
           <Button
             text="LinkedIn"
             type="link"
-            href="https://www.linkedin.com/company/moyra-co/"
+            href="https://www.linkedin.com/in/emregnd/"
           />
-          <Button text="Email" type="link" href="mailto:hello@moyra.co" />
+          <Button text="Portfolio" type="link" href="https://emregnd.com" />
         </motion.nav>
       </motion.main>
 
@@ -96,11 +100,11 @@ export default function Checkout({ showCheckout, onClose }: CheckoutProps) {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, ease: easeOut, delay: 0.6 }}
         role="img"
-        aria-label="Moyra company showcase image"
+        aria-label="Portfolio project showcase image"
       >
         <Image
           src="/images/info.webp"
-          alt="Premium supplement bottles showcasing Moyra's digital design work"
+          alt="Premium supplement bottles showcasing front-end development work"
           className="rounded-lg object-cover object-center brightness-110"
           fill
         />
