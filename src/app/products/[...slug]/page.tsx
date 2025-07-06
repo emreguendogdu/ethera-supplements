@@ -3,7 +3,11 @@ import { products } from "@/data"
 import ProductIntro from "@/components/3d/ProductIntro"
 import Button from "@/components/ui/Button"
 
-export default async function page({ params }) {
+interface PageProps {
+  params: Promise<{ slug: string[] }>
+}
+
+export default async function page({ params }: PageProps) {
   const { slug } = await params
   const product = products.find((p) => p.slug === slug[0])
 
@@ -20,7 +24,7 @@ export default async function page({ params }) {
 
   return (
     <>
-      <ProductIntro slug={slug} />
+      <ProductIntro slug={slug[0]} />
       <Product product={product} />
     </>
   )

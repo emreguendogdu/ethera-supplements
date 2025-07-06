@@ -3,10 +3,16 @@
 import { useCartContext } from "@/context/CartContext"
 import { products } from "@/data"
 import Link from "next/link"
-import { CartIcon } from "@/components/ui/icons"
+import { CartIcon } from "@/components/ui/Icons"
 
 export default function Header() {
-  const { cart, setDisplayCart } = useCartContext()
+  const cartContext = useCartContext()
+
+  if (!cartContext) {
+    throw new Error("Header must be used within a CartProvider")
+  }
+
+  const { cart, setDisplayCart } = cartContext
 
   return (
     <>

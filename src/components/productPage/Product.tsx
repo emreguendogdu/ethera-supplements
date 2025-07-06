@@ -1,6 +1,6 @@
 "use client"
 
-import Stars from "@/components/ui/Stars"
+import Stars from "../ui/Stars"
 import React, { Fragment, useCallback, useState } from "react"
 import { CartContextType, useCartContext } from "@/context/CartContext"
 import BuyBundle from "@/components/ui/BuyBundle"
@@ -8,7 +8,7 @@ import { ProductProps } from "@/data"
 import ProductCanvas from "@/components/3d/ProductCanvas"
 import Button from "../ui/Button"
 import { motion } from "motion/react"
-import { CaretDown } from "@/components/ui/icons"
+import { CaretDown } from "@/components/ui/Icons"
 
 export default function Product(params: { product: ProductProps }) {
   const { product } = params

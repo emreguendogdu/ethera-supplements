@@ -2,11 +2,11 @@
 
 import { useState, useEffect, useCallback } from "react"
 
-const useLandingProductHover = (selected, isMobile) => {
+const useLandingProductHover = (selected: boolean, isMobile: boolean) => {
   const [hovered, setHovered] = useState(false)
 
   const handlePointerOver = useCallback(
-    (e) => {
+    (e: React.PointerEvent) => {
       if (!selected && !isMobile) {
         e.stopPropagation()
         setHovered(true)

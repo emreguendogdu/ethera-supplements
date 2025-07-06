@@ -1,31 +1,29 @@
 "use client"
 
-import { Canvas, useFrame } from "@react-three/fiber"
+import { Canvas } from "@react-three/fiber"
 import { Backdrop, ContactShadows, Environment, Html } from "@react-three/drei"
-import { useRef, useMemo } from "react"
-import Items from "./Products"
-import useDeviceSize from "@/hooks/useDeviceSize"
-import { desktopCFG, mobileCFG } from "@/config/productAnimationConfig"
+import { useRef } from "react"
 import { useInView } from "react-intersection-observer"
-
-const DisableRender = () => useFrame(() => null, 1000)
+import Items from "./Products"
+import DisableRender from "../DisableRender"
 
 export default function ProductsSection() {
-  const { ref: canvasContainerRef, inView } = useInView({
+  const canvasContainerRef = useRef<HTMLDivElement>(null!)
+  const { ref: inViewRef, inView } = useInView({
     threshold: 0.03125,
   })
 
-  const { isMobile } = useDeviceSize()
-  const CFG = useMemo(() => (isMobile ? mobileCFG : desktopCFG), [isMobile])
+  // Combine refs
+  const setRefs = (element: HTMLDivElement | null) => {
+    if (element) {
+      canvasContainerRef.current = element
+      inViewRef(element)
+    }
+  }
 
-  console.log("CFG", CFG)
   return (
-    <>
-      <div
-        id="canvas-container"
-        className="w-full h-screen md:h-[100vh]"
-        ref={canvasContainerRef}
-      >
+    <section className="w-full h-screen md:h-[100vh]">
+      <div id="canvas-container" className="w-full h-full" ref={setRefs}>
         <Canvas camera={{ fov: 50, position: [0, 0, 3] }} className="z-20">
           {!inView && <DisableRender />}
           <Html
@@ -34,22 +32,22 @@ export default function ProductsSection() {
             className="w-full relative"
             wrapperClass="w-full relative"
           >
-            <div className="relative w-full flex flex-col gap-2 items-center justify-center">
+            <header className="relative w-full flex flex-col gap-2 items-center justify-center">
               <p className="subheading">Zero Noise — Just Results.</p>
               <h2 className="uppercase">Only 3 Products.</h2>
-            </div>
+            </header>
           </Html>
           <ambientLight intensity={0.35} />
           <directionalLight position={[0, -0.5, 0]} intensity={0.5} />
           <directionalLight position={[-1.7, -0.5, -0.9]} intensity={0.75} />
           <directionalLight position={[1.7, -0.5, 0.9]} intensity={0.75} />
-          {/* <Items
+          <Items
             canvasContainerRef={canvasContainerRef}
             isSectionInView={inView}
-            CFG={CFG}
-          /> */}
+          />
           <Backdrop
             castShadow
+            receiveShadow
             floor={4}
             position={[0, -1, -2.2125]}
             scale={[50, 10, 4]}
@@ -67,6 +65,6 @@ export default function ProductsSection() {
           <Environment preset="city" environmentIntensity={0.5} />
         </Canvas>
       </div>
-    </>
+    </section>
   )
 }

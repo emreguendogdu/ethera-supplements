@@ -1,7 +1,11 @@
 import { CartProvider } from "@/context/CartContext"
 import { ScrollProvider } from "@/context/ScrollContext"
 
-export default function GlobalProvider({ children }) {
+interface GlobalProviderProps {
+  children: React.ReactNode
+}
+
+export default function GlobalProvider({ children }: GlobalProviderProps) {
   return (
     <ScrollProvider>
       <CartProvider>{children}</CartProvider>

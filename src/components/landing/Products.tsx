@@ -1,10 +1,15 @@
 "use client"
 
-import { useState } from "react"
+import { RefObject, useState } from "react"
 import { products } from "@/data"
 import Item from "./Product"
 
-const Items = ({ canvasContainerRef, isSectionInView, CFG }) => {
+interface ItemsProps {
+  canvasContainerRef: RefObject<HTMLDivElement>
+  isSectionInView: boolean
+}
+
+const Items = ({ canvasContainerRef, isSectionInView }: ItemsProps) => {
   const [selectedItem, setSelectedItem] = useState(0)
 
   return (
@@ -19,7 +24,6 @@ const Items = ({ canvasContainerRef, isSectionInView, CFG }) => {
             setSelectedItem={setSelectedItem}
             canvasContainerRef={canvasContainerRef}
             isSectionInView={isSectionInView}
-            CFG={CFG}
           />
         )
       })}

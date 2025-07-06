@@ -6,7 +6,7 @@ import {
   VisaLogo,
   GooglePayLogo,
   ApplePayLogo,
-} from "@/components/ui/icons"
+} from "@/components/ui/Icons"
 import { products } from "@/data"
 
 export default function Footer() {

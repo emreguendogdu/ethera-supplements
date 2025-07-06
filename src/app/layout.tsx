@@ -2,11 +2,13 @@ import { Inter } from "next/font/google"
 import "./index.css"
 
 import Header from "@/components/ui/Header"
-import Footer from "@/components/ui/Footer"
-import Cart from "@/components/ui/Cart"
 
 import GlobalProvider from "@/provider/GlobalProvider"
 import { Metadata } from "next"
+import { lazy } from "react"
+
+const Cart = lazy(() => import("@/components/ui/Cart"))
+const Footer = lazy(() => import("@/components/ui/Footer"))
 
 const inter = Inter({
   variable: "--font-inter",

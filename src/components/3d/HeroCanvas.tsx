@@ -9,19 +9,25 @@ import { useInView } from "react-intersection-observer"
 import useHeroEnvironmentAnimation, {
   CONFIG,
 } from "@/hooks/useHeroEnvironmentAnimation"
+import { MotionValue } from "motion/react"
 
-function Environment({ scrollYProgress, isInView, isMobile }) {
-  const {
-    pulsingLightRef,
-    movingLightRef,
-    bodybuilderRef,
-    modelPosition,
-    modelRotation,
-  } = useHeroEnvironmentAnimation({
-    scrollYProgress,
-    isInView,
-    isMobile,
-  })
+interface EnvironmentProps {
+  scrollYProgress: MotionValue<number>
+  isInView: boolean
+  isMobile: boolean
+}
+
+function Environment({
+  scrollYProgress,
+  isInView,
+  isMobile,
+}: EnvironmentProps) {
+  const { pulsingLightRef, movingLightRef, modelPosition, modelRotation } =
+    useHeroEnvironmentAnimation({
+      scrollYProgress,
+      isInView,
+      isMobile,
+    })
   return (
     <>
       <PerspectiveCamera makeDefault position={[0, 3, 0]} />
@@ -40,7 +46,6 @@ function Environment({ scrollYProgress, isInView, isMobile }) {
       />
       <Suspense fallback={null}>
         <Bodybuilder
-          ref={bodybuilderRef}
           position={modelPosition}
           rotation={modelRotation}
           scale={isMobile ? 0.65 : 1}
@@ -50,7 +55,11 @@ function Environment({ scrollYProgress, isInView, isMobile }) {
   )
 }
 
-export default function HeroCanvas({ scrollYProgress }) {
+interface HeroCanvasProps {
+  scrollYProgress: MotionValue<number>
+}
+
+export default function HeroCanvas({ scrollYProgress }: HeroCanvasProps) {
   const { ref, inView } = useInView({
     threshold: 0.25,
   })

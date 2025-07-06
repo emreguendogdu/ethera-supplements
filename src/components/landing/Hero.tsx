@@ -1,6 +1,6 @@
 "use client"
 
-import { CopyIcon } from "@/components/ui/icons"
+import { CopyIcon } from "@/components/ui/Icons"
 import { discountCode } from "@/data"
 import { motion, useScroll, useTransform } from "motion/react"
 import { useRef, useState } from "react"
@@ -8,7 +8,7 @@ import Button from "@/components/ui/Button"
 import HeroCanvas from "@/components/3d/HeroCanvas"
 
 export default function Hero() {
-  const heroRef = useRef()
+  const heroRef = useRef<HTMLElement>(null)
   const [DISCOUNT_CODE_COPIED, SET_DISCOUNT_CODE_COPIED] = useState(false)
 
   const { scrollYProgress } = useScroll({
@@ -34,6 +34,7 @@ export default function Hero() {
         id="hero"
         className="h-[200vh] md:h-[250vh]"
         ref={heroRef}
+        aria-label="Hero section"
       >
         <HeroCanvas scrollYProgress={scrollYProgress} />
         <motion.div
@@ -44,12 +45,12 @@ export default function Hero() {
             y: contentDivY,
           }}
         >
-          <div className="col-start-2 col-span-6 row-start-3 row-span-6">
+          <header className="col-start-2 col-span-6 row-start-3 row-span-6">
             <h1 className="uppercase">
               Build muscle. <br />
               Boost strength. <br /> No BS.
             </h1>
-          </div>
+          </header>
           <div className="col-start-5 col-end-7 row-start-5 row-span-4 flex flex-col gap-4">
             <p>
               Ethera is a <strong>supplement</strong> brand that aims
@@ -60,6 +61,11 @@ export default function Hero() {
               <button
                 onClick={copyDiscountCode}
                 className="ml-1 bg-radial from-white via-white to-gray-400 text-black px-3 py-1 rounded-lg uppercase font-bold inline-block cursor-pointer"
+                aria-label={
+                  DISCOUNT_CODE_COPIED
+                    ? "Discount code copied"
+                    : "Copy discount code ETHERA"
+                }
               >
                 {DISCOUNT_CODE_COPIED ? "Copied!" : "ETHERA"}
                 {!DISCOUNT_CODE_COPIED && (
@@ -68,7 +74,7 @@ export default function Hero() {
               </button>
             </div>
             <div className="relative w-3/5">
-              <Button>Shop Now</Button>
+              <Button text="Shop Now" />
             </div>
           </div>
         </motion.div>

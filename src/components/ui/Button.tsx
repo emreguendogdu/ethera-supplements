@@ -1,8 +1,17 @@
 "use client"
 
-import { motion, useTransform } from "framer-motion"
-import { useTime } from "motion/react"
+import { motion, useTransform, useTime } from "motion/react"
 import Link from "next/link"
+
+type ButtonProps = {
+  text?: string
+  href?: string
+  className?: string
+  wrapperClassName?: string
+  type?: "link" | "button"
+  onClick?: () => void
+  style?: "animated" | "static"
+}
 
 export default function Button({
   text = "Shop Now",
@@ -12,7 +21,7 @@ export default function Button({
   type = "link",
   onClick = () => {},
   style = "animated",
-}) {
+}: ButtonProps) {
   const time = useTime()
 
   const rotate = useTransform(time, [0, 4500], [0, 360], {

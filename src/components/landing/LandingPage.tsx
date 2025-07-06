@@ -4,12 +4,12 @@ import { ASSET_IDS, AssetId } from "@/stores/loadingStore"
 import { useEffect, useState } from "react"
 import { useLoadingStore } from "@/stores/loadingStore"
 import { products } from "@/data"
-import { motion } from "motion/react"
 import Hero from "./Hero"
 import ProductsSection from "./ProductsSection"
 import BuyBundle from "../ui/BuyBundle"
 import Info from "./Info"
 import { GlobalPreloader } from "../ui/Preloader"
+import { motion } from "motion/react"
 
 export default function LandingPage() {
   const { initializeAssets } = useLoadingStore((state) => state.actions)
@@ -38,19 +38,19 @@ export default function LandingPage() {
 
   return (
     <>
-      {/* <GlobalPreloader /> */}
-      {/*  <motion.div
+      <GlobalPreloader />
+      <motion.main
         style={{
           visibility: showContent ? "visible" : "hidden",
           opacity: showContent ? 1 : 0,
           transition: "opacity 0.5s ease-in-out", // Optional fade-in for content
         }}
-      > */}
-      <Hero />
-      <ProductsSection />
-      <BuyBundle />
-      <Info />
-      {/* </motion.div> */}
+      >
+        <Hero />
+        <ProductsSection />
+        <BuyBundle />
+        <Info />
+      </motion.main>
     </>
   )
 }

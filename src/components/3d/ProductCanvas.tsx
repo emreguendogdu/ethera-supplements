@@ -4,11 +4,16 @@ import { OrbitControls } from "@react-three/drei"
 import { Canvas } from "@react-three/fiber"
 import { Tub } from "@/components/3d/Tub"
 import useDeviceSize from "@/hooks/useDeviceSize"
+import { ReactNode } from "react"
 
-function Environment({ children }) {
+interface EnvironmentProps {
+  children: ReactNode
+}
+
+const Environment = ({ children }: EnvironmentProps) => {
   return (
     <>
-      <group className="relative -translate-y-1/2">
+      <group>
         <directionalLight position={[0, 0, 5]} />
         <directionalLight position={[0, 0, -5]} />
         <directionalLight position={[0, 6, 0]} />
@@ -21,7 +26,11 @@ function Environment({ children }) {
   )
 }
 
-export default function ProductCanvas({ slug }) {
+interface ProductCanvasProps {
+  slug: string
+}
+
+export default function ProductCanvas({ slug }: ProductCanvasProps) {
   const { isMobile } = useDeviceSize()
   return (
     <div

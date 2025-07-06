@@ -1,4 +1,4 @@
-export function CartIcon(props) {
+export function CartIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -19,7 +19,7 @@ export function CartIcon(props) {
   )
 }
 
-export function CaretDown(props) {
+export function CaretDown(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +40,7 @@ export function CaretDown(props) {
   )
 }
 
-export function CopyIcon(props) {
+export function CopyIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +57,7 @@ export function CopyIcon(props) {
   )
 }
 
-export function DeleteIcon(props) {
+export function DeleteIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +74,7 @@ export function DeleteIcon(props) {
   )
 }
 
-export function ApplePayLogo(props) {
+export function ApplePayLogo(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +91,7 @@ export function ApplePayLogo(props) {
   )
 }
 
-export function GooglePayLogo(props) {
+export function GooglePayLogo(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -124,7 +124,7 @@ export function GooglePayLogo(props) {
   )
 }
 
-export function MastercardLogo(props) {
+export function MastercardLogo(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +141,7 @@ export function MastercardLogo(props) {
   )
 }
 
-export function StripeLogo(props) {
+export function StripeLogo(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -158,7 +158,7 @@ export function StripeLogo(props) {
   )
 }
 
-export function VisaLogo(props) {
+export function VisaLogo(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -188,7 +188,7 @@ export function VisaLogo(props) {
   )
 }
 
-export function Star(props) {
+export function Star(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -205,7 +205,7 @@ export function Star(props) {
   )
 }
 
-export function HalfStar(props) {
+export function HalfStar(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -222,7 +222,7 @@ export function HalfStar(props) {
   )
 }
 
-export function EmptyStar(props) {
+export function EmptyStar(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -239,7 +239,10 @@ export function EmptyStar(props) {
   )
 }
 
-export function PartialStar({ fillPercentage = 50, ...props }) {
+export function PartialStar({
+  fillPercentage = 50,
+  ...props
+}: React.SVGProps<SVGSVGElement> & { fillPercentage?: number }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -265,7 +268,7 @@ export function PartialStar({ fillPercentage = 50, ...props }) {
   )
 }
 
-export const StarHolder = (props) => (
+export const StarHolder = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="48"

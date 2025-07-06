@@ -1,24 +1,25 @@
 import { useLoadingStore } from "@/stores/loadingStore"
 import { useGLTF } from "@react-three/drei"
 import { useEffect, useRef } from "react"
-import { Mesh, MeshStandardMaterial } from "three"
-import { GLTF } from "three/examples/jsm/loaders/GLTFLoader"
+import { Mesh, MeshStandardMaterial, Scene } from "three"
 
-type GLTFResult = GLTF & {
+type GLTFResult = {
   nodes: {
     Object_2: Mesh
   }
   materials: {
     defaultMat: MeshStandardMaterial
   }
+  scene: Scene
 }
 
-export default function Bodybuilder(props: {
-  ref: React.RefObject<Mesh>
+interface BodybuilderProps {
   position: [number, number, number]
   rotation: [number, number, number]
   scale: number
-}) {
+}
+
+export default function Bodybuilder(props: BodybuilderProps) {
   const { nodes, materials, scene } = useGLTF(
     "/3d/bodybuilder_base_mesh1k.glb"
   ) as unknown as GLTFResult

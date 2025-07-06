@@ -5,10 +5,11 @@ import { Canvas } from "@react-three/fiber"
 import { Tub } from "@/components/3d/Tub"
 import { animate } from "motion"
 import { useEffect, useRef, useState } from "react"
-import { motion } from "motion/react"
+import { AnimationSequence, motion } from "motion/react"
 import useDeviceSize from "@/hooks/useDeviceSize"
 import { useScrollContext } from "@/context/ScrollContext"
 import { Suspense } from "react"
+import { Group } from "three"
 
 const transition = {
   duration: 1.5,
@@ -16,7 +17,19 @@ const transition = {
   mass: 3,
 }
 
-const animationSequence = (position, rotation, scale, isMobile) => [
+interface AnimationSequenceParams {
+  position: { x: number; y: number; z: number }
+  rotation: { x: number; y: number; z: number }
+  scale: { x: number; y: number; z: number }
+  isMobile: boolean
+}
+
+const animationSequence = (
+  position: AnimationSequenceParams["position"],
+  rotation: AnimationSequenceParams["rotation"],
+  scale: AnimationSequenceParams["scale"],
+  isMobile: boolean
+) => [
   ["#product-preloader-text", { y: 0 }, { ...transition, at: 0 }],
   [position, { y: 0 }, { ...transition, at: 0 }],
   [rotation, { x: 0, y: 0 }, { ...transition, at: 0 }],
@@ -44,8 +57,14 @@ const animationSequence = (position, rotation, scale, isMobile) => [
   ],
 ]
 
-function Environment({ isLoaded, setAllowScroll, slug }) {
-  const productRef = useRef()
+interface EnvironmentProps {
+  isLoaded: boolean
+  setAllowScroll: (allow: boolean) => void
+  slug: string
+}
+
+const Environment = ({ isLoaded, setAllowScroll, slug }: EnvironmentProps) => {
+  const productRef = useRef<Group>(null)
   const { isMobile } = useDeviceSize()
 
   useEffect(() => {
@@ -53,7 +72,7 @@ function Environment({ isLoaded, setAllowScroll, slug }) {
 
     window.scrollTo(0, 0)
     setAllowScroll(false)
-  }, [])
+  }, [setAllowScroll])
 
   useEffect(() => {
     if (!productRef.current) return
@@ -61,7 +80,12 @@ function Environment({ isLoaded, setAllowScroll, slug }) {
 
     const preloaderAnimate = async () => {
       await animate(
-        animationSequence(position, rotation, scale, isMobile)
+        animationSequence(
+          position,
+          rotation,
+          scale,
+          isMobile
+        ) as AnimationSequence
       ).then(() => {
         setAllowScroll(true)
       })
@@ -83,25 +107,27 @@ function Environment({ isLoaded, setAllowScroll, slug }) {
       <directionalLight position={[-5, 0, 0]} />
       <group ref={productRef} position={[0, -3, 0]} rotation={[1, 0, 0]}>
         <Suspense fallback={null}>
-          <Tub slug={slug} position={[0, 0, 0]} />
+          <Tub slug={slug} />
         </Suspense>
       </group>
     </>
   )
 }
 
-export default function ProductIntro({ slug }) {
+interface ProductIntroProps {
+  slug: string
+}
+
+export default function ProductIntro({ slug }: ProductIntroProps) {
   const { setAllowScroll } = useScrollContext()
   const [isLoaded, setIsLoaded] = useState(false)
-  const loaderStateRef = useRef(null)
+  const loaderStateRef = useRef<boolean | null>(null)
 
-  useEffect(() => {
-    if (loaderStateRef.current !== null) {
-      console.log("loaderStateRef.current", loaderStateRef.current)
-      setIsLoaded(!loaderStateRef.current)
-      console.log("isLoaded", isLoaded)
-    }
-  }, [loaderStateRef.current])
+  const handleLoaderChange = (active: boolean) => {
+    loaderStateRef.current = active
+    setIsLoaded(!active)
+    return active
+  }
 
   return (
     <>
@@ -120,12 +146,7 @@ export default function ProductIntro({ slug }) {
               slug={slug}
             />
           </Canvas>
-          <Loader
-            initialState={(active) => {
-              loaderStateRef.current = active
-              return active
-            }}
-          />
+          <Loader initialState={handleLoaderChange} />
         </motion.div>
         <motion.p
           className="fixed z-[100] h2 uppercase w-full md:w-fit left-0 right-0 md:right-auto text-center md:text-left bottom-0 px-0 py-2 md:px-8 md:py-4"

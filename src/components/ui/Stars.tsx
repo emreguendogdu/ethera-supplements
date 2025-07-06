@@ -1,7 +1,12 @@
-import { Star, PartialStar, EmptyStar } from "@/components/ui/icons"
+import { Star, PartialStar, EmptyStar } from "@/components/ui/Icons"
 
-export default function Stars({ rating = 5, reviewsLength = 0 }) {
-  const safeRating = Math.max(0, Math.min(5, parseFloat(rating) || 0))
+interface StarsProps {
+  rating?: number
+  reviewsLength?: number
+}
+
+export default function Stars({ rating = 5, reviewsLength = 0 }: StarsProps) {
+  const safeRating = Math.max(0, Math.min(5, rating || 0))
 
   const fullStars = Math.floor(safeRating)
   const decimalPart = (safeRating - fullStars) * 100 // Convert to percentage

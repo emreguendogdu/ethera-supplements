@@ -1,16 +1,15 @@
 "use client"
 import { useEffect } from "react"
-import Lenis from "@studio-freight/lenis"
+import Lenis from "lenis"
 
 export function useLenis() {
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
-      easing: (t) => 1 - Math.pow(1 - t, 3),
-      smooth: true,
+      easing: (t: number) => 1 - Math.pow(1 - t, 3),
     })
 
-    function raf(time) {
+    function raf(time: number) {
       lenis.raf(time)
       requestAnimationFrame(raf)
     }
@@ -18,7 +17,7 @@ export function useLenis() {
     requestAnimationFrame(raf)
 
     return () => {
-      lenis.destroy() 
+      lenis.destroy()
     }
   }, [])
 }

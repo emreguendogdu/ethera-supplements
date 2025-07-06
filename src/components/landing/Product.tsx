@@ -1,21 +1,36 @@
 "use client"
 
-import { useRef, useMemo, useCallback } from "react"
+import { useRef, useMemo, RefObject, Dispatch, SetStateAction } from "react"
 import useLandingProductAnimation from "@/hooks/useLandingProductAnimation"
 import { Html } from "@react-three/drei"
 import { Tub } from "@/components/3d/Tub"
 import Button from "@/components/ui/Button"
-import { products } from "@/data"
+import { products, ProductProps } from "@/data"
 import useLandingProductInitialYAnimation from "@/hooks/useLandingProductInitialYAnimation"
 import useLandingProductHover from "@/hooks/useLandingProductHover"
+import useDeviceSize from "@/hooks/useDeviceSize"
 import { desktopCFG, mobileCFG } from "@/config/productAnimationConfig"
+import { Group } from "three"
 
-const initialPositionY = 3
+type PositionKey = "center" | "left" | "right"
 
-const getPositionKey = (i, selected, selectedItem) => {
+const getPositionKey = (
+  i: number,
+  selected: boolean,
+  selectedItem: number
+): PositionKey => {
   if (selected) return "center"
   if (i === (selectedItem + 1) % products.length) return "right"
   return "left"
+}
+
+interface ItemProps {
+  product: ProductProps
+  i: number
+  selectedItem: number
+  setSelectedItem: Dispatch<SetStateAction<number>>
+  canvasContainerRef: RefObject<HTMLDivElement>
+  isSectionInView: boolean
 }
 
 const Item = ({
@@ -25,39 +40,56 @@ const Item = ({
   setSelectedItem,
   canvasContainerRef,
   isSectionInView,
-  CFG,
-}) => {
-  const ref = useRef(null)
-  const selected = useMemo(() => selectedItem === i, [selectedItem, i])
+}: ItemProps) => {
+  const ref = useRef<Group>(null!)
+  const { isMobile } = useDeviceSize()
+  const selected = selectedItem === i
+
+  const CFG = useMemo(() => (isMobile ? mobileCFG : desktopCFG), [isMobile])
 
   const positionKey = getPositionKey(i, selected, selectedItem)
 
-  // const { initialPositionY, hasAnimatedIn } =
-  //   useLandingProductInitialYAnimation({
-  //     canvasContainerRef,
-  //     positionKey,
-  //     isSectionInView,
-  //   })
+  const { initialPositionY, hasAnimatedIn } =
+    useLandingProductInitialYAnimation({
+      canvasContainerRef,
+      positionKey,
+      isInView: isSectionInView,
+    })
 
-  const hasAnimatedIn = useMemo(() => false, [])
+  const { hovered, handlePointerOver, handlePointerOut } =
+    useLandingProductHover(selected, isMobile)
 
-  // const { hovered, handlePointerOver, handlePointerOut } =
-  //   useLandingProductHover(selected, isMobile)
+  // Convert CFG to the format expected by the hook
+  const animationCFG = useMemo(() => {
+    const converted: Record<
+      string,
+      { position: [number, number, number]; scale: number }
+    > = {}
+    Object.keys(CFG).forEach((key) => {
+      converted[key] = {
+        position: CFG[key as keyof typeof CFG].position as [
+          number,
+          number,
+          number
+        ],
+        scale: CFG[key as keyof typeof CFG].scale,
+      }
+    })
+    return converted
+  }, [CFG])
 
-  /*   useLandingProductAnimation({
+  useLandingProductAnimation({
     ref,
-    CFG,
+    CFG: animationCFG,
     positionKey,
     selected,
     hovered,
-    shouldAnimate: hasAnimatedIn && isSec tionInView,
+    shouldAnimate: hasAnimatedIn && isSectionInView,
   })
- */
-  const handleClick = useCallback(() => {
-    setSelectedItem(i)
-  }, [i, setSelectedItem])
 
-  console.log("isThis rendering over and over and over and over and over?")
+  const handleClick = () => {
+    setSelectedItem(i)
+  }
 
   return (
     <>
@@ -81,8 +113,8 @@ const Item = ({
                 CFG[positionKey].scale,
               ]
         }
-        // onPointerOver={handlePointerOver}
-        // onPointerOut={handlePointerOut}
+        onPointerOver={handlePointerOver}
+        onPointerOut={handlePointerOut}
         onClick={handleClick}
         castShadow
         receiveShadow

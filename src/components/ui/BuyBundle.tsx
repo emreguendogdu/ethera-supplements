@@ -5,8 +5,19 @@ import Button from "./Button"
 import Image from "next/image"
 import { useCartContext } from "@/context/CartContext"
 
-export default function BuyBundle({ className = "" }) {
-  const { setDisplayCart, addItemToCart } = useCartContext()
+interface BuyBundleProps {
+  className?: string
+}
+
+export default function BuyBundle({ className = "" }: BuyBundleProps) {
+  const cartContext = useCartContext()
+
+  if (!cartContext) {
+    throw new Error("BuyBundle must be used within a CartProvider")
+  }
+
+  const { setDisplayCart, addItemToCart } = cartContext
+
   const handleAddToCart = () => {
     addItemToCart({
       slug: "bundle",
