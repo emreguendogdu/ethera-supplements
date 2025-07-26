@@ -8,7 +8,6 @@ import {
   ApplePayLogo,
 } from "@/components/ui/Icons"
 import { products } from "@/data"
-import Image from "next/image"
 
 export default function Footer() {
   return (
