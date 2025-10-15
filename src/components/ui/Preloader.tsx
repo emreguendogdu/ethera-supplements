@@ -1,46 +1,46 @@
-"use client"
+"use client";
 
-import React, { useEffect, useState } from "react"
-import { useLoadingStore } from "@/stores/loadingStore"
-import { useScrollContext } from "@/context/ScrollContext"
-import { motion } from "motion/react"
+import React, { useEffect, useState } from "react";
+import { useLoadingStore } from "@/stores/loadingStore";
+import { useScrollContext } from "@/context/ScrollContext";
+import { motion } from "motion/react";
 
 export function GlobalPreloader() {
   // Subscribe to relevant parts of the loading store individually
   // to avoid creating new objects on each render, which can cause issues
   // with useSyncExternalStore and the "getServerSnapshot" warning.
-  const allAssetsLoaded = useLoadingStore((state) => state.allAssetsLoaded)
-  const assetsLoaded = useLoadingStore((state) => state.assetsLoaded)
-  const totalAssets = useLoadingStore((state) => state.totalAssets)
+  const allAssetsLoaded = useLoadingStore((state) => state.allAssetsLoaded);
+  const assetsLoaded = useLoadingStore((state) => state.assetsLoaded);
+  const totalAssets = useLoadingStore((state) => state.totalAssets);
 
-  const { setAllowScroll } = useScrollContext()
-  const [isHidden, setIsHidden] = useState(false)
+  const { setAllowScroll } = useScrollContext();
+  const [isHidden, setIsHidden] = useState(false);
 
   useEffect(() => {
     if (allAssetsLoaded) {
-      setAllowScroll(true)
-      const timeout = setTimeout(() => setIsHidden(true), 700)
-      return () => clearTimeout(timeout)
+      setAllowScroll(true);
+      const timeout = setTimeout(() => setIsHidden(true), 700);
+      return () => clearTimeout(timeout);
     } else {
-      setAllowScroll(false)
-      setIsHidden(false)
+      setAllowScroll(false);
+      setIsHidden(false);
     }
     return () => {
-      setAllowScroll(true)
-    }
-  }, [allAssetsLoaded, setAllowScroll])
+      setAllowScroll(true);
+    };
+  }, [allAssetsLoaded, setAllowScroll]);
 
   // Calculate loading progress
   // Object.values(assetsLoaded) will create a new array, but this calculation
   // only runs if allAssetsLoaded is false, and its inputs (assetsLoaded, totalAssets)
   // are now stable if their underlying values haven't changed.
-  const loadedCount = Object.values(assetsLoaded).filter(Boolean).length
+  const loadedCount = Object.values(assetsLoaded).filter(Boolean).length;
   const progressPercentage =
-    totalAssets > 0 ? (loadedCount / totalAssets) * 100 : 0
+    totalAssets > 0 ? (loadedCount / totalAssets) * 100 : 0;
 
   return (
     <motion.div
-      className="fixed inset-0 w-full h-full bg-neutral-900/95 text-neutral-100 flex items-end z-[9999] opacity-100 transition-opacity duration-700 ease-in-out "
+      className="fixed inset-0 w-full h-full bg-neutral-900/95 text-neutral-100 flex items-end z-[9999] opacity-100 transition-opacity duration-700 ease-in-out"
       role="status"
       aria-live="polite"
       initial={{ opacity: 1 }}
@@ -67,5 +67,5 @@ export function GlobalPreloader() {
         </h2>
       </div>
     </motion.div>
-  )
+  );
 }

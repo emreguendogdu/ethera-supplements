@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, RefObject } from "react"
+import { useState, useEffect } from "react"
 
 const FINAL_Y_CENTER = 0
 const FINAL_Y_OTHER = -0.125
@@ -16,7 +16,6 @@ const easeInOut = (t: number): number => {
 const lerp = (a: number, b: number, t: number): number => a + (b - a) * t
 
 interface UseLandingProductInitialYAnimationProps {
-  canvasContainerRef: RefObject<HTMLDivElement>
   positionKey: "center" | string
   isInView: boolean
 }
@@ -27,47 +26,38 @@ interface UseLandingProductInitialYAnimationReturn {
 }
 
 const useLandingProductInitialYAnimation = ({
-  canvasContainerRef,
   positionKey,
   isInView,
 }: UseLandingProductInitialYAnimationProps): UseLandingProductInitialYAnimationReturn => {
-  const [initialPositionY, setInitialPositionY] = useState<number>(10)
+  const [initialPositionY, setInitialPositionY] = useState<number>(INITIAL_Y)
   const [hasAnimatedIn, setHasAnimatedIn] = useState<boolean>(false)
 
   useEffect(() => {
-    if (!canvasContainerRef?.current) return
+    if (isInView && !hasAnimatedIn) {
+      let animationFrameId: number | null = null
+      let start: number | null = null
 
-    let animationFrameId: number | null = null
-    let start: number | null = null
+      const animatePositionY = (timestamp: number): void => {
+        if (!start) start = timestamp
+        const progress = Math.min((timestamp - start) / DURATION, 1)
+        const easedProgress = easeInOut(progress)
+        const finalY = positionKey === "center" ? FINAL_Y_CENTER : FINAL_Y_OTHER
+        setInitialPositionY(lerp(INITIAL_Y, finalY, easedProgress))
 
-    const animatePositionY = (timestamp: number): void => {
-      if (!start) start = timestamp
-      const progress = Math.min((timestamp - start) / DURATION, 1)
-      const easedProgress = easeInOut(progress)
-      const finalY = positionKey === "center" ? FINAL_Y_CENTER : FINAL_Y_OTHER
-      setInitialPositionY(lerp(INITIAL_Y, finalY, easedProgress))
-      if (progress < 1) {
-        animationFrameId = requestAnimationFrame(animatePositionY)
-      } else {
-        setHasAnimatedIn(true)
+        if (progress < 1) {
+          animationFrameId = requestAnimationFrame(animatePositionY)
+        } else {
+          setHasAnimatedIn(true)
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(animatePositionY)
+
+      return () => {
+        if (animationFrameId) cancelAnimationFrame(animationFrameId)
       }
     }
-
-    const observer = new window.IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasAnimatedIn) {
-          requestAnimationFrame(animatePositionY)
-        }
-      },
-      { threshold: 0.03125 }
-    )
-
-    observer.observe(canvasContainerRef.current)
-    return () => {
-      observer.disconnect()
-      if (animationFrameId) cancelAnimationFrame(animationFrameId)
-    }
-  }, [canvasContainerRef, hasAnimatedIn, positionKey, isInView])
+  }, [isInView, hasAnimatedIn, positionKey])
 
   return { initialPositionY, hasAnimatedIn }
 }
