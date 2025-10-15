@@ -1,36 +1,36 @@
-"use client"
+"use client";
 
-import { useRef, useMemo, RefObject, Dispatch, SetStateAction } from "react"
-import useLandingProductAnimation from "@/hooks/useLandingProductAnimation"
-import { Html } from "@react-three/drei"
-import { Tub } from "@/components/3d/Tub"
-import Button from "@/components/ui/Button"
-import { products, ProductProps } from "@/data"
-import useLandingProductInitialYAnimation from "@/hooks/useLandingProductInitialYAnimation"
-import useLandingProductHover from "@/hooks/useLandingProductHover"
-import useDeviceSize from "@/hooks/useDeviceSize"
-import { desktopCFG, mobileCFG } from "@/config/productAnimationConfig"
-import { Group } from "three"
+import { useRef, useMemo, RefObject, Dispatch, SetStateAction } from "react";
+import useLandingProductAnimation from "@/hooks/useLandingProductAnimation";
+import { Html } from "@react-three/drei";
+import { Tub } from "@/components/3d/Tub";
+import Button from "@/components/ui/Button";
+import { products, ProductProps } from "@/data";
+import useLandingProductInitialYAnimation from "@/hooks/useLandingProductInitialYAnimation";
+import useLandingProductHover from "@/hooks/useLandingProductHover";
+import useDeviceSize from "@/hooks/useDeviceSize";
+import { desktopCFG, mobileCFG } from "@/config/productAnimationConfig";
+import { Group } from "three";
 
-type PositionKey = "center" | "left" | "right"
+type PositionKey = "center" | "left" | "right";
 
 const getPositionKey = (
   i: number,
   selected: boolean,
   selectedItem: number
 ): PositionKey => {
-  if (selected) return "center"
-  if (i === (selectedItem + 1) % products.length) return "right"
-  return "left"
-}
+  if (selected) return "center";
+  if (i === (selectedItem + 1) % products.length) return "right";
+  return "left";
+};
 
 interface ItemProps {
-  product: ProductProps
-  i: number
-  selectedItem: number
-  setSelectedItem: Dispatch<SetStateAction<number>>
-  canvasContainerRef: RefObject<HTMLDivElement>
-  isSectionInView: boolean
+  product: ProductProps;
+  i: number;
+  selectedItem: number;
+  setSelectedItem: Dispatch<SetStateAction<number>>;
+  canvasContainerRef: RefObject<HTMLDivElement>;
+  isSectionInView: boolean;
 }
 
 const Item = ({
@@ -41,30 +41,29 @@ const Item = ({
   canvasContainerRef,
   isSectionInView,
 }: ItemProps) => {
-  const ref = useRef<Group>(null!)
-  const { isMobile } = useDeviceSize()
-  const selected = selectedItem === i
+  const ref = useRef<Group>(null!);
+  const { isMobile } = useDeviceSize();
+  const selected = selectedItem === i;
 
-  const CFG = useMemo(() => (isMobile ? mobileCFG : desktopCFG), [isMobile])
+  const CFG = useMemo(() => (isMobile ? mobileCFG : desktopCFG), [isMobile]);
 
-  const positionKey = getPositionKey(i, selected, selectedItem)
+  const positionKey = getPositionKey(i, selected, selectedItem);
 
   const { initialPositionY, hasAnimatedIn } =
     useLandingProductInitialYAnimation({
-      canvasContainerRef,
       positionKey,
       isInView: isSectionInView,
-    })
+    });
 
   const { hovered, handlePointerOver, handlePointerOut } =
-    useLandingProductHover(selected, isMobile)
+    useLandingProductHover(selected, isMobile);
 
   // Convert CFG to the format expected by the hook
   const animationCFG = useMemo(() => {
     const converted: Record<
       string,
       { position: [number, number, number]; scale: number }
-    > = {}
+    > = {};
     Object.keys(CFG).forEach((key) => {
       converted[key] = {
         position: CFG[key as keyof typeof CFG].position as [
@@ -73,10 +72,10 @@ const Item = ({
           number
         ],
         scale: CFG[key as keyof typeof CFG].scale,
-      }
-    })
-    return converted
-  }, [CFG])
+      };
+    });
+    return converted;
+  }, [CFG]);
 
   useLandingProductAnimation({
     ref,
@@ -85,11 +84,11 @@ const Item = ({
     selected,
     hovered,
     shouldAnimate: hasAnimatedIn && isSectionInView,
-  })
+  });
 
   const handleClick = () => {
-    setSelectedItem(i)
-  }
+    setSelectedItem(i);
+  };
 
   return (
     <>
@@ -155,7 +154,7 @@ const Item = ({
         </Html>
       )}
     </>
-  )
-}
+  );
+};
 
-export default Item
+export default Item;

@@ -1,25 +1,16 @@
-"use client"
+"use client";
 
-import { Canvas } from "@react-three/fiber"
-import { Backdrop, ContactShadows, Environment, Html } from "@react-three/drei"
-import { useRef } from "react"
-import { useInView } from "react-intersection-observer"
-import Items from "./Products"
-import DisableRender from "../DisableRender"
+import { Canvas } from "@react-three/fiber";
+import { Backdrop, ContactShadows, Environment, Html } from "@react-three/drei";
+import { useRef } from "react";
+import { useInView } from "react-intersection-observer";
+import Items from "./Products";
+import DisableRender from "../DisableRender";
 
 export default function ProductsSection() {
-  const canvasContainerRef = useRef<HTMLDivElement>(null!)
   const { ref: inViewRef, inView } = useInView({
     threshold: 0.03125,
-  })
-
-  // Combine refs
-  const setRefs = (element: HTMLDivElement | null) => {
-    if (element) {
-      canvasContainerRef.current = element
-      inViewRef(element)
-    }
-  }
+  });
 
   return (
     <section className="w-full h-screen md:h-[100vh]">
@@ -41,10 +32,7 @@ export default function ProductsSection() {
           <directionalLight position={[0, -0.5, 0]} intensity={0.5} />
           <directionalLight position={[-1.7, -0.5, -0.9]} intensity={0.75} />
           <directionalLight position={[1.7, -0.5, 0.9]} intensity={0.75} />
-          <Items
-            canvasContainerRef={canvasContainerRef}
-            isSectionInView={inView}
-          />
+          <Items isSectionInView={inView} />
           <Backdrop
             castShadow
             receiveShadow
@@ -66,5 +54,5 @@ export default function ProductsSection() {
         </Canvas>
       </div>
     </section>
-  )
+  );
 }

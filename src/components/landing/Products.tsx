@@ -1,16 +1,15 @@
-"use client"
+"use client";
 
-import { RefObject, useState } from "react"
-import { products } from "@/data"
-import Item from "./Product"
+import { RefObject, useState } from "react";
+import { products } from "@/data";
+import Item from "./Product";
 
 interface ItemsProps {
-  canvasContainerRef: RefObject<HTMLDivElement>
-  isSectionInView: boolean
+  isSectionInView: boolean;
 }
 
-const Items = ({ canvasContainerRef, isSectionInView }: ItemsProps) => {
-  const [selectedItem, setSelectedItem] = useState(0)
+const Items = ({ isSectionInView }: ItemsProps) => {
+  const [selectedItem, setSelectedItem] = useState(0);
 
   return (
     <>
@@ -22,13 +21,12 @@ const Items = ({ canvasContainerRef, isSectionInView }: ItemsProps) => {
             product={product}
             selectedItem={selectedItem}
             setSelectedItem={setSelectedItem}
-            canvasContainerRef={canvasContainerRef}
             isSectionInView={isSectionInView}
           />
-        )
+        );
       })}
     </>
-  )
-}
+  );
+};
 
-export default Items
+export default Items;
