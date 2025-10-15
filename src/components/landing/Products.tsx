@@ -1,6 +1,6 @@
 "use client";
 
-import { RefObject, useState } from "react";
+import { useState } from "react";
 import { products } from "@/data";
 import Item from "./Product";
 

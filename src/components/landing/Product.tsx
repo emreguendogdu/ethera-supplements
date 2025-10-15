@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo, RefObject, Dispatch, SetStateAction } from "react";
+import { useRef, useMemo, Dispatch, SetStateAction } from "react";
 import useLandingProductAnimation from "@/hooks/useLandingProductAnimation";
 import { Html } from "@react-three/drei";
 import { Tub } from "@/components/3d/Tub";
@@ -29,7 +29,6 @@ interface ItemProps {
   i: number;
   selectedItem: number;
   setSelectedItem: Dispatch<SetStateAction<number>>;
-  canvasContainerRef: RefObject<HTMLDivElement>;
   isSectionInView: boolean;
 }
 
@@ -38,7 +37,6 @@ const Item = ({
   i,
   selectedItem,
   setSelectedItem,
-  canvasContainerRef,
   isSectionInView,
 }: ItemProps) => {
   const ref = useRef<Group>(null!);

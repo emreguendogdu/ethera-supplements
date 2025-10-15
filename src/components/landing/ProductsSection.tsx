@@ -2,7 +2,6 @@
 
 import { Canvas } from "@react-three/fiber";
 import { Backdrop, ContactShadows, Environment, Html } from "@react-three/drei";
-import { useRef } from "react";
 import { useInView } from "react-intersection-observer";
 import Items from "./Products";
 import DisableRender from "../DisableRender";
@@ -14,7 +13,7 @@ export default function ProductsSection() {
 
   return (
     <section className="w-full h-screen md:h-[100vh]">
-      <div id="canvas-container" className="w-full h-full" ref={setRefs}>
+      <div id="canvas-container" className="w-full h-full" ref={inViewRef}>
         <Canvas camera={{ fov: 50, position: [0, 0, 3] }} className="z-20">
           {!inView && <DisableRender />}
           <Html
