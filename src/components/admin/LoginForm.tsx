@@ -4,7 +4,11 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 
-export default function LoginForm() {
+interface LoginFormProps {
+  onCancel?: () => void;
+}
+
+export default function LoginForm({ onCancel }: LoginFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -97,6 +101,16 @@ export default function LoginForm() {
           >
             {isLoading ? "Signing in..." : "Sign In"}
           </button>
+
+          {onCancel && (
+            <button
+              type="button"
+              onClick={onCancel}
+              className="w-full mt-2 px-4 py-2 text-gray-500 hover:text-gray-900 transition-colors text-sm"
+            >
+              Back to Demo Mode
+            </button>
+          )}
         </form>
       </div>
     </div>

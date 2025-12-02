@@ -8,9 +8,14 @@ import { toast } from "sonner";
 type FlavorManagerProps = {
   product: Product;
   onUpdate: () => Promise<void>;
+  isReadOnly?: boolean;
 };
 
-export default function FlavorManager({ product, onUpdate }: FlavorManagerProps) {
+export default function FlavorManager({
+  product,
+  onUpdate,
+  isReadOnly = false,
+}: FlavorManagerProps) {
   const [flavors, setFlavors] = useState<ProductFlavor[]>(
     product.product_flavors || []
   );
@@ -109,7 +114,7 @@ export default function FlavorManager({ product, onUpdate }: FlavorManagerProps)
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-gray-900">Flavor Management</h3>
-        {!showAddForm && (
+        {!showAddForm && !isReadOnly && (
           <button
             onClick={() => {
               setShowAddForm(true);
@@ -204,19 +209,25 @@ export default function FlavorManager({ product, onUpdate }: FlavorManagerProps)
                 </div>
               </div>
               <div className="flex space-x-2">
-                <button
-                  onClick={() => handleEdit(flavor as ProductFlavor & { id: string })}
-                  className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
-                >
-                  Edit
-                </button>
-                {"id" in flavor && typeof flavor.id === "string" && (
-                  <button
-                    onClick={() => handleDelete(flavor.id as string)}
-                    className="px-3 py-1 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
-                  >
-                    Delete
-                  </button>
+                {!isReadOnly && (
+                  <>
+                    <button
+                      onClick={() =>
+                        handleEdit(flavor as ProductFlavor & { id: string })
+                      }
+                      className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                    >
+                      Edit
+                    </button>
+                    {"id" in flavor && typeof flavor.id === "string" && (
+                      <button
+                        onClick={() => handleDelete(flavor.id as string)}
+                        className="px-3 py-1 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                      >
+                        Delete
+                      </button>
+                    )}
+                  </>
                 )}
               </div>
             </div>

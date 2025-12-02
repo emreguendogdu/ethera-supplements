@@ -8,11 +8,13 @@ import { toast } from "sonner";
 type ReviewsManagerProps = {
   product: Product;
   onUpdate: () => Promise<void>;
+  isReadOnly?: boolean;
 };
 
 export default function ReviewsManager({
   product,
   onUpdate,
+  isReadOnly = false,
 }: ReviewsManagerProps) {
   const [reviews, setReviews] = useState<ProductReview[]>(
     product.product_reviews || []
@@ -141,7 +143,7 @@ export default function ReviewsManager({
         <h3 className="text-lg font-semibold text-gray-900">
           Reviews Management
         </h3>
-        {!showAddForm && (
+        {!showAddForm && !isReadOnly && (
           <button
             onClick={() => {
               setShowAddForm(true);
@@ -315,21 +317,25 @@ export default function ReviewsManager({
                   <p className="text-gray-700">{review.comment}</p>
                 </div>
                 <div className="flex space-x-2 ml-4">
-                  <button
-                    onClick={() =>
-                      handleEdit(review as ProductReview & { id: string })
-                    }
-                    className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
-                  >
-                    Edit
-                  </button>
-                  {"id" in review && typeof review.id === "string" && (
-                    <button
-                      onClick={() => handleDelete(review.id as string)}
-                      className="px-3 py-1 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
-                    >
-                      Delete
-                    </button>
+                  {!isReadOnly && (
+                    <>
+                      <button
+                        onClick={() =>
+                          handleEdit(review as ProductReview & { id: string })
+                        }
+                        className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                      >
+                        Edit
+                      </button>
+                      {"id" in review && typeof review.id === "string" && (
+                        <button
+                          onClick={() => handleDelete(review.id as string)}
+                          className="px-3 py-1 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                        >
+                          Delete
+                        </button>
+                      )}
+                    </>
                   )}
                 </div>
               </div>

@@ -8,11 +8,13 @@ import { toast } from "sonner";
 type BenefitsManagerProps = {
   product: Product;
   onUpdate: () => Promise<void>;
+  isReadOnly?: boolean;
 };
 
 export default function BenefitsManager({
   product,
   onUpdate,
+  isReadOnly = false,
 }: BenefitsManagerProps) {
   const [benefits, setBenefits] = useState<ProductBenefit[]>(
     product.product_benefits || []
@@ -110,7 +112,7 @@ export default function BenefitsManager({
         <h3 className="text-lg font-semibold text-gray-900">
           Benefits Management
         </h3>
-        {!showAddForm && (
+        {!showAddForm && !isReadOnly && (
           <button
             onClick={() => {
               setShowAddForm(true);
@@ -184,21 +186,25 @@ export default function BenefitsManager({
                   )}
                 </div>
                 <div className="flex space-x-2 ml-4">
-                  <button
-                    onClick={() =>
-                      handleEdit(benefit as ProductBenefit & { id: string })
-                    }
-                    className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
-                  >
-                    Edit
-                  </button>
-                  {"id" in benefit && typeof benefit.id === "string" && (
-                    <button
-                      onClick={() => handleDelete(benefit.id as string)}
-                      className="px-3 py-1 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
-                    >
-                      Delete
-                    </button>
+                  {!isReadOnly && (
+                    <>
+                      <button
+                        onClick={() =>
+                          handleEdit(benefit as ProductBenefit & { id: string })
+                        }
+                        className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                      >
+                        Edit
+                      </button>
+                      {"id" in benefit && typeof benefit.id === "string" && (
+                        <button
+                          onClick={() => handleDelete(benefit.id as string)}
+                          className="px-3 py-1 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                        >
+                          Delete
+                        </button>
+                      )}
+                    </>
                   )}
                 </div>
               </div>

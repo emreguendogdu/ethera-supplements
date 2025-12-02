@@ -8,11 +8,13 @@ import { toast } from "sonner";
 type NutritionManagerProps = {
   product: Product;
   onUpdate: () => Promise<void>;
+  isReadOnly?: boolean;
 };
 
 export default function NutritionManager({
   product,
   onUpdate,
+  isReadOnly = false,
 }: NutritionManagerProps) {
   const nutrition = product.product_nutrition;
   const [isLoading, setIsLoading] = useState(false);
@@ -152,6 +154,7 @@ export default function NutritionManager({
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                 placeholder="30g (1 scoop)"
+                disabled={isReadOnly}
               />
             </div>
 
@@ -173,6 +176,7 @@ export default function NutritionManager({
                 step="0.1"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
                 placeholder="30"
+                disabled={isReadOnly}
               />
             </div>
           </div>
@@ -193,6 +197,7 @@ export default function NutritionManager({
               rows={6}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent font-mono text-sm"
               placeholder='{"calories": 100, "protein": 25, "carbs": 5}'
+              disabled={isReadOnly}
             />
             <p className="mt-1 text-xs text-gray-500">
               Enter nutrition amounts as JSON object (keys can be unquoted,
@@ -215,23 +220,26 @@ export default function NutritionManager({
               placeholder="Ultra-filtered Whey Protein Isolate (milk), Natural and Artificial Flavors, Sunflower Lecithin, Stevia Leaf Extract, Salt."
               required
               rows={4}
+              disabled={isReadOnly}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
             />
           </div>
         </div>
 
         <div className="flex justify-end">
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            {isLoading
-              ? "Saving..."
-              : nutrition && (nutrition as any).id
-              ? "Update"
-              : "Save"}
-          </button>
+          {!isReadOnly && (
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              {isLoading
+                ? "Saving..."
+                : nutrition && (nutrition as any).id
+                ? "Update"
+                : "Save"}
+            </button>
+          )}
         </div>
       </form>
     </div>

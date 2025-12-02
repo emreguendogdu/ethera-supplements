@@ -6,6 +6,7 @@ import { Product } from "@/types/product";
 type ProductEditorProps = {
   product: Product;
   onUpdate: (product: Product) => Promise<void>;
+  isReadOnly?: boolean;
 };
 
 const generateSlug = (text: string): string => {
@@ -21,6 +22,7 @@ const generateSlug = (text: string): string => {
 export default function ProductEditor({
   product,
   onUpdate,
+  isReadOnly = false,
 }: ProductEditorProps) {
   const [formData, setFormData] = useState({
     name: product.name || "",
@@ -111,6 +113,7 @@ export default function ProductEditor({
           required
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder:opacity-50"
           placeholder="Whey Isolate"
+          disabled={isReadOnly}
         />
       </div>
 
@@ -131,6 +134,7 @@ export default function ProductEditor({
           pattern="[a-z0-9-]+"
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder:opacity-50"
           placeholder="whey-isolate"
+          disabled={isReadOnly}
         />
         <p className="mt-1 text-xs text-gray-500">
           Lowercase letters, numbers, and hyphens only. (e.g: whey-isolate)
@@ -153,6 +157,7 @@ export default function ProductEditor({
           rows={6}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder:opacity-50"
           placeholder="Peak purity for maximum growth."
+          disabled={isReadOnly}
         />
       </div>
 
@@ -172,17 +177,20 @@ export default function ProductEditor({
           rows={4}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder:opacity-50"
           placeholder="Mix 1 scoop (30g) with 250ml of cold water or milk. Consume 1-2 servings daily. Ideally taken immediately post-workout to kickstart recovery, or between meals to hit protein targets."
+          disabled={isReadOnly}
         />
       </div>
 
       <div className="flex justify-end">
-        <button
-          type="submit"
-          disabled={isSaving || !hasChanges}
-          className="px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-        >
-          {isSaving ? "Saving..." : "Save Changes"}
-        </button>
+        {!isReadOnly && (
+          <button
+            type="submit"
+            disabled={isSaving || !hasChanges}
+            className="px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            {isSaving ? "Saving..." : "Save Changes"}
+          </button>
+        )}
       </div>
     </form>
   );

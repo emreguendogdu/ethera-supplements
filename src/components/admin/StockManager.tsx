@@ -8,9 +8,14 @@ import { toast } from "sonner";
 type StockManagerProps = {
   product: Product;
   onUpdate: () => Promise<void>;
+  isReadOnly?: boolean;
 };
 
-export default function StockManager({ product, onUpdate }: StockManagerProps) {
+export default function StockManager({
+  product,
+  onUpdate,
+  isReadOnly = false,
+}: StockManagerProps) {
   const [stockItems, setStockItems] = useState<ProductStock[]>(
     product.product_stock || []
   );
@@ -113,7 +118,7 @@ export default function StockManager({ product, onUpdate }: StockManagerProps) {
         <h3 className="text-lg font-semibold text-gray-900">
           Stock Management
         </h3>
-        {!showAddForm && (
+        {!showAddForm && !isReadOnly && (
           <button
             onClick={() => {
               setShowAddForm(true);
@@ -267,21 +272,25 @@ export default function StockManager({ product, onUpdate }: StockManagerProps) {
                 </div>
               </div>
               <div className="flex space-x-2 ml-4">
-                <button
-                  onClick={() =>
-                    handleEdit(item as ProductStock & { id: string })
-                  }
-                  className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
-                >
-                  Edit
-                </button>
-                {"id" in item && typeof item.id === "string" && (
-                  <button
-                    onClick={() => handleDelete(item.id as string)}
-                    className="px-3 py-1 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
-                  >
-                    Delete
-                  </button>
+                {!isReadOnly && (
+                  <>
+                    <button
+                      onClick={() =>
+                        handleEdit(item as ProductStock & { id: string })
+                      }
+                      className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                    >
+                      Edit
+                    </button>
+                    {"id" in item && typeof item.id === "string" && (
+                      <button
+                        onClick={() => handleDelete(item.id as string)}
+                        className="px-3 py-1 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                      >
+                        Delete
+                      </button>
+                    )}
+                  </>
                 )}
               </div>
             </div>
