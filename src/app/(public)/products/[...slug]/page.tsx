@@ -33,6 +33,8 @@ export default async function page({ params }: PageProps) {
   );
 }
 
+export const revalidate = 604800;
+
 export async function generateStaticParams() {
   const products = await getAllProducts();
   return products.map((product) => ({

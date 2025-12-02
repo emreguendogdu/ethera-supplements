@@ -77,7 +77,6 @@ export default function BenefitsManager({
           : "Benefit added successfully"
       );
     } catch (error) {
-      console.error("Error saving benefit:", error);
       toast.error("Failed to save benefit");
     } finally {
       setIsLoading(false);
@@ -99,7 +98,6 @@ export default function BenefitsManager({
       await onUpdate();
       toast.success("Benefit deleted successfully");
     } catch (error) {
-      console.error("Error deleting benefit:", error);
       toast.error("Failed to delete benefit");
     } finally {
       setIsLoading(false);

@@ -1,7 +1,8 @@
+import { cache } from "react";
 import { supabase } from "./supabase";
 import { Product } from "../types/product";
 
-export async function getAllProducts(): Promise<Product[]> {
+export const getAllProducts = cache(async (): Promise<Product[]> => {
   const { data: products, error } = await supabase.from("products").select(`
       *,
       product_flavors (*),
@@ -13,28 +14,33 @@ export async function getAllProducts(): Promise<Product[]> {
     `);
 
   if (error) {
-    console.error("Error fetching products:", error);
     return [];
   }
 
-  return products.map((p: any) => ({
-    ...p,
-    glbUrl: getGlbUrl(p),
-    product_reviews: p.product_reviews?.map((review: any) => ({
-      ...review,
-      date: review.created_at
-        ? new Date(review.created_at).toISOString().split("T")[0]
-        : new Date().toISOString().split("T")[0],
-    })),
-    product_nutrition: p.product_nutrition || null,
-  }));
-}
+  const mappedProducts = products.map((p: any) => {
+    const glbUrl = getGlbUrl(p);
+    return {
+      ...p,
+      glbUrl,
+      product_reviews: p.product_reviews?.map((review: any) => ({
+        ...review,
+        date: review.created_at
+          ? new Date(review.created_at).toISOString().split("T")[0]
+          : new Date().toISOString().split("T")[0],
+      })),
+      product_nutrition: p.product_nutrition || null,
+    };
+  });
 
-export async function getProductBySlug(slug: string): Promise<Product | null> {
-  const { data: product, error } = await supabase
-    .from("products")
-    .select(
-      `
+  return mappedProducts;
+});
+
+export const getProductBySlug = cache(
+  async (slug: string): Promise<Product | null> => {
+    const { data: product, error } = await supabase
+      .from("products")
+      .select(
+        `
       *,
       product_flavors (*),
       product_stock (*),
@@ -43,32 +49,36 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
       product_nutrition (*),
       product_media (*)
     `
-    )
-    .eq("slug", slug)
-    .single();
+      )
+      .eq("slug", slug)
+      .single();
 
-  if (error) {
-    console.error(`Error fetching product ${slug}:`, error);
-    return null;
+    if (error) {
+      return null;
+    }
+
+    return {
+      ...product,
+      glbUrl: getGlbUrl(product),
+      product_reviews: product.product_reviews?.map((review: any) => ({
+        ...review,
+        date: review.created_at
+          ? new Date(review.created_at).toISOString().split("T")[0]
+          : new Date().toISOString().split("T")[0],
+      })),
+      product_nutrition: product.product_nutrition || null,
+    };
   }
-
-  return {
-    ...product,
-    glbUrl: getGlbUrl(product),
-    product_reviews: product.product_reviews?.map((review: any) => ({
-      ...review,
-      date: review.created_at
-        ? new Date(review.created_at).toISOString().split("T")[0]
-        : new Date().toISOString().split("T")[0],
-    })),
-    product_nutrition: product.product_nutrition || null,
-  };
-}
+);
 
 function getGlbUrl(product: any): string {
   const getPublicUrl = (path: string) => {
-    if (!path) return "";
-    if (path.startsWith("http")) return path;
+    if (!path) {
+      return "";
+    }
+    if (path.startsWith("http")) {
+      return path;
+    }
     const { data } = supabase.storage.from("products").getPublicUrl(path);
     return data.publicUrl;
   };
@@ -78,13 +88,15 @@ function getGlbUrl(product: any): string {
       m.storage_path.endsWith(".glb")
     );
     if (glbItem) {
-      return getPublicUrl(glbItem.storage_path);
+      const url = getPublicUrl(glbItem.storage_path);
+      return url;
     }
   }
 
   if (product.slug) {
     const autoPath = `${product.slug}/product.glb`;
-    return getPublicUrl(autoPath);
+    const url = getPublicUrl(autoPath);
+    return url;
   }
 
   return "";

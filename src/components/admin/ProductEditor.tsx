@@ -87,7 +87,7 @@ export default function ProductEditor({
         ...formData,
       });
     } catch (error) {
-      console.error("Error saving product:", error);
+      // Error handled by parent component
     } finally {
       setIsSaving(false);
     }

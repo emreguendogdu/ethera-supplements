@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader, PerspectiveCamera } from "@react-three/drei";
+import { Loader, PerspectiveCamera, useProgress } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Tub } from "@/components/3d/Tub";
 import { animate } from "motion";
@@ -153,26 +153,19 @@ export default function ProductIntro({ slug, glbUrl }: ProductIntroProps) {
   const { setAllowScroll } = useScrollContext();
   const [isLoaded, setIsLoaded] = useState(false);
   const isAnimationFinished = useRef(false);
-  const [loaderActive, setLoaderActive] = useState(true);
   const [showPreloader, setShowPreloader] = useState(true);
-
-  const handleLoaderChange = (active: boolean) => {
-    setTimeout(() => {
-      setLoaderActive(active);
-    }, 0);
-    return active;
-  };
+  const { active } = useProgress();
 
   useEffect(() => {
-    setIsLoaded(!loaderActive);
-  }, [loaderActive]);
+    setIsLoaded(!active);
+  }, [active]);
 
   return (
     <>
       {showPreloader && (
         <div
           id="product-preloader"
-          className="w-full h-screen absolute inset-0 z-[100"
+          className="w-full h-screen absolute inset-0 z-100"
         >
           <motion.div
             id="preloader-canvas-container"
@@ -189,7 +182,7 @@ export default function ProductIntro({ slug, glbUrl }: ProductIntroProps) {
                 setShowPreloader={setShowPreloader}
               />
             </Canvas>
-            <Loader initialState={handleLoaderChange} />
+            <Loader />
           </motion.div>
           <motion.p
             className="fixed z-100 h2 uppercase w-full md:w-fit left-0 right-0 md:right-auto text-center md:text-left bottom-0 px-0 py-2 md:px-8 md:py-4"

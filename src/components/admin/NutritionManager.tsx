@@ -112,7 +112,6 @@ export default function NutritionManager({
 
       await onUpdate();
     } catch (error) {
-      console.error("Error saving nutrition:", error);
       const errorMessage =
         error instanceof Error
           ? error.message

@@ -51,7 +51,7 @@ export default function AdminPage() {
         await loadProducts();
       }
     } catch (error) {
-      console.error("Error checking auth:", error);
+      // Error handled silently
     } finally {
       setIsCheckingAuth(false);
     }
@@ -76,7 +76,7 @@ export default function AdminPage() {
         }
       }
     } catch (error) {
-      console.error("Error loading products:", error);
+      // Error handled silently
     } finally {
       setIsLoading(false);
     }
@@ -104,7 +104,6 @@ export default function AdminPage() {
       setSelectedProduct(updatedProduct);
       toast.success("Product updated successfully");
     } catch (error) {
-      console.error("Error saving product:", error);
       toast.error(
         error instanceof Error
           ? error.message

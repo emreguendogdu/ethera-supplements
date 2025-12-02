@@ -78,7 +78,6 @@ export default function FlavorManager({ product, onUpdate }: FlavorManagerProps)
           : "Flavor added successfully"
       );
     } catch (error) {
-      console.error("Error saving flavor:", error);
       toast.error("Failed to save flavor");
     } finally {
       setIsLoading(false);
@@ -100,7 +99,6 @@ export default function FlavorManager({ product, onUpdate }: FlavorManagerProps)
       await onUpdate();
       toast.success("Flavor deleted successfully");
     } catch (error) {
-      console.error("Error deleting flavor:", error);
       toast.error("Failed to delete flavor");
     } finally {
       setIsLoading(false);

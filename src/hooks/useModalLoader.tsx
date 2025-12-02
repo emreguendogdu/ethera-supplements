@@ -86,7 +86,6 @@ export function useModelLoader(modelPath: string) {
           error: error instanceof Error ? error : new Error(String(error)),
           isLoading: false,
         }))
-        console.error("Error loading 3D model:", error)
       }
     )
 

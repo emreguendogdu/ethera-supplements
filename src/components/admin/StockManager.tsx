@@ -80,7 +80,6 @@ export default function StockManager({ product, onUpdate }: StockManagerProps) {
           : "Stock item added successfully"
       );
     } catch (error) {
-      console.error("Error saving stock:", error);
       toast.error("Failed to save stock item");
     } finally {
       setIsLoading(false);
@@ -102,7 +101,6 @@ export default function StockManager({ product, onUpdate }: StockManagerProps) {
       await onUpdate();
       toast.success("Stock item deleted successfully");
     } catch (error) {
-      console.error("Error deleting stock:", error);
       toast.error("Failed to delete stock item");
     } finally {
       setIsLoading(false);

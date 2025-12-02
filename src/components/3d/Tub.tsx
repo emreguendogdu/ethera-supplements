@@ -20,9 +20,14 @@ interface TubProps {
 }
 
 export function Tub({ slug, glbUrl }: TubProps): React.JSX.Element {
-  const url = glbUrl || `/products/${slug}/product.glb`;
-  const result = useGLTF(url);
-  const { nodes, scene } = result as unknown as GLTFResult;
+  const url = glbUrl;
+
+  if (!url) {
+    return <group dispose={null} />;
+  }
+
+  const result = useGLTF(url) as unknown as GLTFResult;
+  const { nodes, scene } = result;
 
   useGLTF.preload(url);
 
@@ -39,6 +44,10 @@ export function Tub({ slug, glbUrl }: TubProps): React.JSX.Element {
       hasReportedLoadRef.current = true; // Mark as reported
     }
   }, [scene, slug, setAssetLoaded]); // Dependencies for the effect
+
+  if (!nodes || !nodes.mesh_0) {
+    return <group dispose={null} />;
+  }
 
   return (
     <group dispose={null}>

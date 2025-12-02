@@ -16,7 +16,6 @@ export async function getDiscountByCode(code: string): Promise<DiscountCode | nu
     .maybeSingle();
 
   if (error) {
-    console.error("Error fetching discount code:", error);
     return null;
   }
 

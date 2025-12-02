@@ -2,7 +2,7 @@
 
 import { ASSET_IDS } from "@/stores/loadingStore";
 import { AssetId } from "@/types/store";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useLoadingStore } from "@/stores/loadingStore";
 import Hero from "./Hero";
 import ProductsSection from "./ProductsSection";
@@ -27,13 +27,16 @@ export default function LandingPage({
 
   const [showContent, setShowContent] = useState(false);
 
-  useEffect(() => {
-    const allPageAssetIds = [
+  const assetIds = useMemo(() => {
+    return [
       ASSET_IDS.bodybuilder,
       ...initialProducts.map((product) => product.slug),
-    ];
-    initializeAssets(allPageAssetIds as AssetId[]);
-  }, [initializeAssets, initialProducts]);
+    ] as AssetId[];
+  }, [initialProducts]);
+
+  useEffect(() => {
+    initializeAssets(assetIds);
+  }, [initializeAssets, assetIds]);
 
   useEffect(() => {
     if (allAssetsLoaded) {

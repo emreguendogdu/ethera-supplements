@@ -6,6 +6,8 @@ import {
   useState,
   createContext,
   ReactNode,
+  useMemo,
+  useCallback,
 } from "react";
 import { ReactLenis, useLenis } from "lenis/react";
 
@@ -24,6 +26,18 @@ export const ScrollProvider = ({ children }: ScrollProviderProps) => {
   const [allowScroll, setAllowScroll] = useState(true);
   const lenis = useLenis(() => {});
 
+  const setAllowScrollMemoized = useCallback((allow: boolean) => {
+    setAllowScroll(allow);
+  }, []);
+
+  const contextValue = useMemo(
+    () => ({
+      allowScroll,
+      setAllowScroll: setAllowScrollMemoized,
+    }),
+    [allowScroll, setAllowScrollMemoized]
+  );
+
   useEffect(() => {
     if (lenis) {
       if (allowScroll) {
@@ -35,7 +49,7 @@ export const ScrollProvider = ({ children }: ScrollProviderProps) => {
   }, [allowScroll, lenis]);
 
   return (
-    <ScrollContext.Provider value={{ allowScroll, setAllowScroll }}>
+    <ScrollContext.Provider value={contextValue}>
       <ReactLenis root>{children}</ReactLenis>
     </ScrollContext.Provider>
   );

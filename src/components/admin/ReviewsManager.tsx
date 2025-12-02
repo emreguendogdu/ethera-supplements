@@ -108,7 +108,6 @@ export default function ReviewsManager({
           : "Review added successfully"
       );
     } catch (error) {
-      console.error("Error saving review:", error);
       toast.error("Failed to save review");
     } finally {
       setIsLoading(false);
@@ -130,7 +129,6 @@ export default function ReviewsManager({
       await onUpdate();
       toast.success("Review deleted successfully");
     } catch (error) {
-      console.error("Error deleting review:", error);
       toast.error("Failed to delete review");
     } finally {
       setIsLoading(false);

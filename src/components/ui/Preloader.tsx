@@ -25,14 +25,13 @@ export function GlobalPreloader() {
         () => setIsHidden(true),
         PRELOAD_FADE_OUT_DURATION_MS
       );
-      return () => clearTimeout(timeout);
+      return () => {
+        clearTimeout(timeout);
+      };
     } else {
       setAllowScroll(false);
       setIsHidden(false);
     }
-    return () => {
-      setAllowScroll(true);
-    };
   }, [allAssetsLoaded, setAllowScroll]);
 
   // Calculate loading progress

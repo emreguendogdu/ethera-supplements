@@ -2,7 +2,7 @@
 
 import { CopyIcon } from "@/components/ui/Icons";
 import { motion, useScroll, useTransform } from "motion/react";
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo, useCallback } from "react";
 import Button from "@/components/ui/Button";
 import HeroCanvas from "@/components/3d/HeroCanvas";
 import { useInView } from "react-intersection-observer";
@@ -27,23 +27,21 @@ export default function Hero({ discountCode }: HeroProps) {
   const contentDivScale = useTransform(scrollYProgress, [0, 0.25], [1, 0.5]);
   const contentDivY = useTransform(scrollYProgress, [0, 0.25], [0, -125]);
 
-  const handleShopNowClick = () => {
+  const handleShopNowClick = useCallback(() => {
     const element = document.getElementById("products-section");
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "center" });
     }
-  };
+  }, []);
 
-  const copyDiscountCode = () => {
+  const copyDiscountCode = useCallback(() => {
     if (!discountCode) return;
     navigator.clipboard.writeText(discountCode.code);
     SET_DISCOUNT_CODE_COPIED(true);
     setTimeout(() => {
       SET_DISCOUNT_CODE_COPIED(false);
     }, 1500);
-  };
-
-  if (!discountCode) return null; // Or render without discount section
+  }, [discountCode]);
 
   return (
     <>
@@ -76,25 +74,27 @@ export default function Hero({ discountCode }: HeroProps) {
               Ethera is a <strong>supplement</strong> brand that aims
               minimalistic purity with the best products available.
             </p>
-            <div className="flex items-center">
-              <p className="uppercase inline-block font-bold">
-                {discountCode.discount}% off code:{" "}
-              </p>
-              <button
-                onClick={copyDiscountCode}
-                className="ml-1 bg-radial from-white via-white to-gray-400 text-black px-3 py-1 rounded-lg uppercase font-bold inline-block cursor-pointer"
-                aria-label={
-                  DISCOUNT_CODE_COPIED
-                    ? "Discount code copied"
-                    : `Copy discount code ${discountCode.code}`
-                }
-              >
-                {DISCOUNT_CODE_COPIED ? "Copied!" : discountCode.code}
-                {!DISCOUNT_CODE_COPIED && (
-                  <CopyIcon className="relative inline ml-1 -translate-y-1/4" />
-                )}
-              </button>
-            </div>
+            {discountCode && (
+              <div className="flex items-center">
+                <p className="uppercase inline-block font-bold">
+                  {discountCode.discount}% off code:{" "}
+                </p>
+                <button
+                  onClick={copyDiscountCode}
+                  className="ml-1 bg-radial from-white via-white to-gray-400 text-black px-3 py-1 rounded-lg uppercase font-bold inline-block cursor-pointer"
+                  aria-label={
+                    DISCOUNT_CODE_COPIED
+                      ? "Discount code copied"
+                      : `Copy discount code ${discountCode.code}`
+                  }
+                >
+                  {DISCOUNT_CODE_COPIED ? "Copied!" : discountCode.code}
+                  {!DISCOUNT_CODE_COPIED && (
+                    <CopyIcon className="relative inline ml-1 -translate-y-1/4" />
+                  )}
+                </button>
+              </div>
+            )}
             <div className="relative w-3/5">
               <Button
                 text="Shop Now"

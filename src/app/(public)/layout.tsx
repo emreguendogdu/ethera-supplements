@@ -19,4 +19,4 @@ export default async function PublicLayout({
   );
 }
 
-export const revalidate = 60;
+export const revalidate = 604800;
