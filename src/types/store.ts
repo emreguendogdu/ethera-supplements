@@ -11,3 +11,4 @@ export interface LoadingState {
     setAssetLoaded: (assetId: AssetId) => void; // Action to mark an asset as loaded
   };
 }
+

@@ -27,3 +27,4 @@ export const CartSummary = ({ totalDiscount, salePrice }: CartSummaryProps) => {
   );
 };
 
+

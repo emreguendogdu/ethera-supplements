@@ -9,3 +9,4 @@ export const useCartScroll = (displayCart: boolean) => {
   }, [displayCart, setAllowScroll]);
 };
 
+

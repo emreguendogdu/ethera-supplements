@@ -16,3 +16,4 @@ export interface CartContextType {
   setDisplayCart: (display: boolean) => void
 }
 
+

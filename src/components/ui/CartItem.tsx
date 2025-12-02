@@ -112,3 +112,4 @@ export const CartItem = ({ cartItem, onQuantityChange }: CartItemProps) => {
   );
 };
 
+
