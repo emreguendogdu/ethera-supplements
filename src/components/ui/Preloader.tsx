@@ -5,6 +5,8 @@ import { useLoadingStore } from "@/stores/loadingStore";
 import { useScrollContext } from "@/context/ScrollContext";
 import { motion } from "motion/react";
 
+export const PRELOAD_FADE_OUT_DURATION_MS = 700;
+
 export function GlobalPreloader() {
   // Subscribe to relevant parts of the loading store individually
   // to avoid creating new objects on each render, which can cause issues
@@ -19,7 +21,10 @@ export function GlobalPreloader() {
   useEffect(() => {
     if (allAssetsLoaded) {
       setAllowScroll(true);
-      const timeout = setTimeout(() => setIsHidden(true), 700);
+      const timeout = setTimeout(
+        () => setIsHidden(true),
+        PRELOAD_FADE_OUT_DURATION_MS
+      );
       return () => clearTimeout(timeout);
     } else {
       setAllowScroll(false);
@@ -45,7 +50,10 @@ export function GlobalPreloader() {
       aria-live="polite"
       initial={{ opacity: 1 }}
       animate={{ opacity: allAssetsLoaded ? 0 : 1 }}
-      transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
+      transition={{
+        duration: PRELOAD_FADE_OUT_DURATION_MS / 1000,
+        ease: [0.4, 0, 0.2, 1],
+      }}
       style={{ display: isHidden ? "none" : "flex" }}
     >
       <div className="p-8 relative w-full flex flex-col gap-4">

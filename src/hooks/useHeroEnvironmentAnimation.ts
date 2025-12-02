@@ -15,7 +15,7 @@ export const CONFIG = {
     pulsing: {
       position: [-10, 5, 5] as [number, number, number],
       baseIntensity: 0.35,
-      pulseRange: 0.15,
+      pulseRange: 0.15, 
     },
     moving: {
       position: [-10, 5, 5] as [number, number, number],

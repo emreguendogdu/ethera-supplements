@@ -1,18 +1,22 @@
-"use client"
+"use client";
 
-import { useCartContext } from "@/context/CartContext"
-import { products } from "@/data"
-import Link from "next/link"
-import { CartIcon } from "@/components/ui/Icons"
+import { useCartContext } from "@/context/CartContext";
+import Link from "next/link";
+import { CartIcon } from "@/components/ui/Icons";
+import { Product } from "@/types/product";
 
-export default function Header() {
-  const cartContext = useCartContext()
+interface HeaderProps {
+  products: Product[];
+}
+
+export default function Header({ products }: HeaderProps) {
+  const cartContext = useCartContext();
 
   if (!cartContext) {
-    throw new Error("Header must be used within a CartProvider")
+    throw new Error("Header must be used within a CartProvider");
   }
 
-  const { cart, setDisplayCart } = cartContext
+  const { cart, setDisplayCart } = cartContext;
 
   return (
     <>
@@ -45,5 +49,5 @@ export default function Header() {
         </button>
       </header>
     </>
-  )
+  );
 }

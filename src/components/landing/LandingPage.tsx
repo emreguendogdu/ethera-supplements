@@ -1,40 +1,50 @@
-"use client"
+"use client";
 
-import { ASSET_IDS, AssetId } from "@/stores/loadingStore"
-import { useEffect, useState } from "react"
-import { useLoadingStore } from "@/stores/loadingStore"
-import { products } from "@/data"
-import Hero from "./Hero"
-import ProductsSection from "./ProductsSection"
-import BuyBundle from "../ui/BuyBundle"
-import Info from "./Info"
-import { GlobalPreloader } from "../ui/Preloader"
-import { motion } from "motion/react"
+import { ASSET_IDS } from "@/stores/loadingStore";
+import { AssetId } from "@/types/store";
+import { useEffect, useState } from "react";
+import { useLoadingStore } from "@/stores/loadingStore";
+import Hero from "./Hero";
+import ProductsSection from "./ProductsSection";
+import BuyBundle from "../ui/BuyBundle";
+import Info from "./Info";
+import { GlobalPreloader, PRELOAD_FADE_OUT_DURATION_MS } from "../ui/Preloader";
+import { motion } from "motion/react";
+import { DiscountCode } from "@/lib/discount";
+import { Product } from "@/types/product";
 
-export default function LandingPage() {
-  const { initializeAssets } = useLoadingStore((state) => state.actions)
-  const allAssetsLoaded = useLoadingStore((state) => state.allAssetsLoaded)
+interface LandingPageProps {
+  initialProducts: Product[];
+  discountCode: DiscountCode | null;
+}
 
-  const [showContent, setShowContent] = useState(false)
+export default function LandingPage({
+  initialProducts,
+  discountCode,
+}: LandingPageProps) {
+  const { initializeAssets } = useLoadingStore((state) => state.actions);
+  const allAssetsLoaded = useLoadingStore((state) => state.allAssetsLoaded);
+
+  const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
     const allPageAssetIds = [
       ASSET_IDS.bodybuilder,
-      ...products.map((product) => product.slug),
-    ]
-    initializeAssets(allPageAssetIds as AssetId[])
-  }, [initializeAssets])
+      ...initialProducts.map((product) => product.slug),
+    ];
+    initializeAssets(allPageAssetIds as AssetId[]);
+  }, [initializeAssets, initialProducts]);
 
   useEffect(() => {
     if (allAssetsLoaded) {
       // Optional: Add a small delay before showing content for a smoother transition
       // if your preloader has a fade-out animation.
       const timer = setTimeout(() => {
-        setShowContent(true)
-      }, 500) // Match this delay to your preloader's fade-out duration
-      return () => clearTimeout(timer)
+        setShowContent(true);
+      }, PRELOAD_FADE_OUT_DURATION_MS - 200); // Match this delay to your preloader's fade-out duration
+      return () => clearTimeout(timer);
     }
-  }, [allAssetsLoaded])
+  }, [allAssetsLoaded]);
 
   return (
     <>
@@ -46,11 +56,11 @@ export default function LandingPage() {
           transition: "opacity 0.5s ease-in-out", // Optional fade-in for content
         }}
       >
-        <Hero />
-        <ProductsSection />
-        <BuyBundle />
+        <Hero discountCode={discountCode} />
+        <ProductsSection products={initialProducts} />
+        <BuyBundle products={initialProducts} />
         <Info />
       </motion.main>
     </>
-  )
+  );
 }

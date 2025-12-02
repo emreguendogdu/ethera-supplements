@@ -1,41 +1,44 @@
-"use client"
+"use client";
 
-import React from "react"
-import { AssetId, useLoadingStore } from "@/stores/loadingStore"
-import { useGLTF } from "@react-three/drei"
-import { useEffect, useRef } from "react"
-import { Mesh, MeshStandardMaterial, BufferGeometry } from "three"
-import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js"
+import React from "react";
+import { useLoadingStore } from "@/stores/loadingStore";
+import { AssetId } from "@/types/store";
+import { useGLTF } from "@react-three/drei";
+import { useEffect, useRef } from "react";
+import { Mesh, MeshStandardMaterial, BufferGeometry } from "three";
+import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 type GLTFResult = GLTF & {
   nodes: {
-    mesh_0: Mesh
-  }
-}
+    mesh_0: Mesh;
+  };
+};
 
 interface TubProps {
-  slug: string
+  slug: string;
+  glbUrl?: string;
 }
 
-export function Tub({ slug }: TubProps): React.JSX.Element {
-  const result = useGLTF(`/3d/${slug}-tub.glb`)
-  const { nodes, scene } = result as unknown as GLTFResult
+export function Tub({ slug, glbUrl }: TubProps): React.JSX.Element {
+  const url = glbUrl || `/products/${slug}/product.glb`;
+  const result = useGLTF(url);
+  const { nodes, scene } = result as unknown as GLTFResult;
 
-  useGLTF.preload(`/3d/${slug}-tub.glb`)
+  useGLTF.preload(url);
 
   // Get the action to update the loading store
-  const { setAssetLoaded } = useLoadingStore((state) => state.actions)
+  const { setAssetLoaded } = useLoadingStore((state) => state.actions);
 
   // Use a ref to ensure setAssetLoaded is called only once per model instance
-  const hasReportedLoadRef = useRef(false)
+  const hasReportedLoadRef = useRef(false);
 
   useEffect(() => {
     // When the scene object is available (model is loaded) and we haven't reported it yet
     if (scene && !hasReportedLoadRef.current) {
-      setAssetLoaded(slug as AssetId)
-      hasReportedLoadRef.current = true // Mark as reported
+      setAssetLoaded(slug as AssetId);
+      hasReportedLoadRef.current = true; // Mark as reported
     }
-  }, [scene, slug, setAssetLoaded]) // Dependencies for the effect
+  }, [scene, slug, setAssetLoaded]); // Dependencies for the effect
 
   return (
     <group dispose={null}>
@@ -46,5 +49,5 @@ export function Tub({ slug }: TubProps): React.JSX.Element {
         material={nodes.mesh_0.material as MeshStandardMaterial}
       />
     </group>
-  )
+  );
 }

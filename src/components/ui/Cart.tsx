@@ -1,54 +1,51 @@
-"use client"
+"use client";
 
-import {
-  CartContextType,
-  CartItemType,
-  useCartContext,
-} from "@/context/CartContext"
-import { useScrollContext } from "@/context/ScrollContext"
-import Image from "next/image"
-import { useEffect, useMemo, useState } from "react"
-import Button from "./Button"
-import { AnimatePresence, motion } from "motion/react"
-import { easeIn, easeOut } from "motion"
-import Checkout from "./Checkout"
+import { useCartContext } from "@/context/CartContext";
+import { CartContextType, CartItemType } from "@/types/cart";
+import { useScrollContext } from "@/context/ScrollContext";
+import Image from "next/image";
+import { useEffect, useMemo, useState } from "react";
+import Button from "./Button";
+import { AnimatePresence, motion } from "motion/react";
+import { easeIn, easeOut } from "motion";
+import Checkout from "./Checkout";
 
 const cartVariants = {
   hidden: { x: "100%" },
   visible: { x: 0, transition: { duration: 0.5, ease: easeOut } },
   exit: { width: 0, transition: { duration: 0.5, ease: easeIn } },
-}
+};
 
 export default function Cart() {
   const { cart, displayCart, setDisplayCart, addItemToCart } =
-    useCartContext() as CartContextType
-  const { setAllowScroll } = useScrollContext()
-  const [displayDiscountInput, setDisplayDiscountInput] = useState(false)
-  const [salePrice, setSalePrice] = useState(0)
-  const [discountCode, setDiscountCode] = useState("")
-  const [showCheckout, setShowCheckout] = useState(false)
+    useCartContext() as CartContextType;
+  const { setAllowScroll } = useScrollContext();
+  const [displayDiscountInput, setDisplayDiscountInput] = useState(false);
+  const [salePrice, setSalePrice] = useState(0);
+  const [discountCode, setDiscountCode] = useState("");
+  const [showCheckout, setShowCheckout] = useState(false);
 
   const updateQuantity = (cartItem: CartItemType, newQuantity: number) => {
     return addItemToCart({
       ...cartItem,
       quantity: newQuantity,
-    })
-  }
+    });
+  };
 
   const handleCheckout = () => {
-    setShowCheckout(true)
-  }
+    setShowCheckout(true);
+  };
 
   const handleCloseCheckout = () => {
-    setShowCheckout(false)
-  }
+    setShowCheckout(false);
+  };
 
   const priceWithoutDiscounts = useMemo(() => {
     return cart?.cartItems?.reduce(
       (acc, item) => acc + item.quantity! * item.price,
       0
-    )
-  }, [cart?.cartItems])
+    );
+  }, [cart?.cartItems]);
 
   useMemo(() => {
     setSalePrice(
@@ -56,16 +53,16 @@ export default function Cart() {
         (acc, item) => acc + item.quantity! * item.salePrice,
         0
       )
-    )
-  }, [cart?.cartItems])
+    );
+  }, [cart?.cartItems]);
 
   useEffect(() => {
     if (displayCart) {
-      setAllowScroll(false)
+      setAllowScroll(false);
     } else {
-      setAllowScroll(true)
+      setAllowScroll(true);
     }
-  }, [displayCart, setAllowScroll])
+  }, [displayCart, setAllowScroll]);
 
   return (
     <AnimatePresence>
@@ -88,7 +85,7 @@ export default function Cart() {
           tabIndex={0}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
-              setDisplayCart(false)
+              setDisplayCart(false);
             }
           }}
         />
@@ -263,7 +260,7 @@ export default function Cart() {
                     display: displayDiscountInput ? "none" : "block",
                   }}
                   onClick={() => {
-                    setDisplayDiscountInput(true)
+                    setDisplayDiscountInput(true);
                   }}
                   aria-label="Enter promotion code"
                 >
@@ -286,7 +283,7 @@ export default function Cart() {
                   <div className="flex items-end gap-2">
                     <motion.button
                       onClick={() => {
-                        setDisplayDiscountInput(false)
+                        setDisplayDiscountInput(false);
                       }}
                       animate={{
                         opacity: displayDiscountInput ? 1 : 0,
@@ -337,5 +334,5 @@ export default function Cart() {
         </motion.section>
       </aside>
     </AnimatePresence>
-  )
+  );
 }

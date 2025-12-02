@@ -1,15 +1,5 @@
-import { products } from "@/data"
 import { create } from "zustand"
-
-const productsSlugs = {
-  ...products.reduce(
-    (acc, product) => ({
-      ...acc,
-      [product.slug]: product.slug,
-    }),
-    {}
-  ),
-}
+import { AssetId, LoadingState } from "../types/store"
 
 /**
  * Define unique IDs for each of your 3D assets.
@@ -17,22 +7,7 @@ const productsSlugs = {
  */
 export const ASSET_IDS = {
   bodybuilder: "bodybuilder",
-  ...productsSlugs,
 } as const
-
-// Create a TypeScript type from the ASSET_IDS values
-export type AssetId = (typeof ASSET_IDS)[keyof typeof ASSET_IDS]
-
-// Define the structure of our loading state
-interface LoadingState {
-  assetsLoaded: Record<AssetId, boolean> // Tracks loaded status for each asset
-  totalAssets: number // Total number of assets to load
-  allAssetsLoaded: boolean // True if all assets are loaded
-  actions: {
-    initializeAssets: (assetIds: AssetId[]) => void // Action to set up the store with assets
-    setAssetLoaded: (assetId: AssetId) => void // Action to mark an asset as loaded
-  }
-}
 
 /**
  * Create the Zustand store for managing global loading state.

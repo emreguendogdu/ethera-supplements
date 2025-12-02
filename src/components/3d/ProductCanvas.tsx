@@ -1,15 +1,15 @@
-"use client"
+"use client";
 
-import { OrbitControls } from "@react-three/drei"
-import { Canvas } from "@react-three/fiber"
-import { Tub } from "@/components/3d/Tub"
-import useDeviceSize from "@/hooks/useDeviceSize"
-import { ReactNode } from "react"
-import DisableRender from "../DisableRender"
-import { useInView } from "react-intersection-observer"
+import { OrbitControls } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { Tub } from "@/components/3d/Tub";
+import useDeviceSize from "@/hooks/useDeviceSize";
+import { ReactNode } from "react";
+import DisableRender from "../DisableRender";
+import { useInView } from "react-intersection-observer";
 
 interface EnvironmentProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 const Environment = ({ children }: EnvironmentProps) => {
@@ -25,18 +25,19 @@ const Environment = ({ children }: EnvironmentProps) => {
         <ambientLight intensity={0.5} />
       </group>
     </>
-  )
-}
+  );
+};
 
 interface ProductCanvasProps {
-  slug: string
+  slug: string;
+  glbUrl?: string;
 }
 
-export default function ProductCanvas({ slug }: ProductCanvasProps) {
-  const { isMobile } = useDeviceSize()
+export default function ProductCanvas({ slug, glbUrl }: ProductCanvasProps) {
+  const { isMobile } = useDeviceSize();
   const { ref, inView } = useInView({
     threshold: 0.25,
-  })
+  });
   return (
     <div
       id="canvas-container"
@@ -57,9 +58,9 @@ export default function ProductCanvas({ slug }: ProductCanvasProps) {
           autoRotateSpeed={0.65}
         />
         <Environment>
-          <Tub slug={slug} />
+          <Tub slug={slug} glbUrl={glbUrl} />
         </Environment>
       </Canvas>
     </div>
-  )
+  );
 }

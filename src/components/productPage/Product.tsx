@@ -1,35 +1,43 @@
-"use client"
+"use client";
 
-import Stars from "../ui/Stars"
-import React, { Fragment, useCallback, useState } from "react"
-import { CartContextType, useCartContext } from "@/context/CartContext"
-import BuyBundle from "@/components/ui/BuyBundle"
-import { ProductProps } from "@/data"
-import ProductCanvas from "@/components/3d/ProductCanvas"
-import Button from "../ui/Button"
-import { motion } from "motion/react"
-import { CaretDown } from "@/components/ui/Icons"
+import Stars from "../ui/Stars";
+import React, { Fragment, useCallback, useState } from "react";
+import { useCartContext } from "@/context/CartContext";
+import BuyBundle from "@/components/ui/BuyBundle";
+import { Product, ProductReview } from "@/types/product";
+import { CartContextType } from "@/types/cart";
+import ProductCanvas from "@/components/3d/ProductCanvas";
+import Button from "../ui/Button";
+import { motion } from "motion/react";
+import { CaretDown } from "@/components/ui/Icons";
 
-export default function Product(params: { product: ProductProps }) {
-  const { product } = params
-  const { setDisplayCart, addItemToCart } = useCartContext() as CartContextType
+export default function ProductPage(params: { product: Product; allProducts: Product[] }) {
+  const { product, allProducts } = params;
+  const { setDisplayCart, addItemToCart } = useCartContext() as CartContextType;
+
+  const nutrition = product.product_nutrition?.[0];
+  const flavors = product.product_flavors || [];
+  const stockData = product.product_stock || [];
+  const reviews = product.product_reviews || [];
+  const benefits = product.product_benefits || [];
+
   const [SELECTED_FLAVOR, SET_SELECTED_FLAVOR] = useState(
-    product.flavor[0].name
-  )
-  const [SELECTED_SIZE, SET_SELECTED_SIZE] = useState(product.stockData[0].size)
+    flavors[0]?.name || ""
+  );
+  const [SELECTED_SIZE, SET_SELECTED_SIZE] = useState(stockData[0]?.size || 0);
   const [prices, setPrices] = useState([
-    product.stockData[0].price,
-    product.stockData[0].salePrice,
-  ])
+    stockData[0]?.price || 0,
+    stockData[0]?.sale_price || 0,
+  ]);
   const [infoVisible, setInfoVisible] = useState({
     benefits: false,
     howToUse: true,
     nutritionFacts: true,
-  })
+  });
 
   const toggleInfoVisible = useCallback((section: keyof typeof infoVisible) => {
-    setInfoVisible((prev) => ({ ...prev, [section]: !prev[section] }))
-  }, [])
+    setInfoVisible((prev) => ({ ...prev, [section]: !prev[section] }));
+  }, []);
 
   const handleAddToCart = () => {
     addItemToCart({
@@ -38,23 +46,22 @@ export default function Product(params: { product: ProductProps }) {
       name: product.name,
       flavor: SELECTED_FLAVOR,
       size: SELECTED_SIZE,
-      price: product.stockData[0].price,
-      salePrice: product.stockData[0].salePrice,
-    })
+      price: stockData[0].price,
+      salePrice: stockData[0].sale_price,
+    });
 
-    setDisplayCart(true)
-  }
+    setDisplayCart(true);
+  };
 
   const handleSetSize = (e: React.ChangeEvent<HTMLInputElement>) => {
-    SET_SELECTED_SIZE(Number(e.target.value))
-    const selectedStock = product.stockData.find(
-      (stock) => stock.size === Number(e.target.value)
-    )
+    const newSize = Number(e.target.value);
+    SET_SELECTED_SIZE(newSize);
+    const selectedStock = stockData.find((stock) => stock.size === newSize);
     setPrices([
-      selectedStock?.price || product.stockData[0].price,
-      selectedStock?.salePrice || product.stockData[0].salePrice,
-    ])
-  }
+      selectedStock?.price || stockData[0].price,
+      selectedStock?.sale_price || stockData[0].sale_price,
+    ]);
+  };
 
   return (
     <>
@@ -62,15 +69,15 @@ export default function Product(params: { product: ProductProps }) {
         id="product"
         className="relative min-h-screen flex flex-col md:flex-row gap-8 md:gap-16 p-section-m md:px-section md:pt-section md:pb-section-m"
       >
-        <ProductCanvas slug={product.slug} />
+        <ProductCanvas slug={product.slug} glbUrl={product.glbUrl} />
         <div className="md:flex-1 flex flex-col gap-4 md:gap-8">
           <header>
-            <Stars reviewsLength={81} />
+            <Stars reviewsLength={reviews.length} />
             <h1>{product.name}</h1>
             <p className="uppercase font-bold my-2">{product.description}</p>
           </header>
           <div className="flex flex-col">
-            {product.flavor.map((flavor, i) => (
+            {flavors.map((flavor, i) => (
               <div key={`flvr_${i}`}>
                 <input
                   type="radio"
@@ -98,7 +105,7 @@ export default function Product(params: { product: ProductProps }) {
             ))}
           </div>
           <div className="flex border border-separate border-neutral-900 w-fit">
-            {product.stockData.map((stock, i) => (
+            {stockData.map((stock, i) => (
               <div key={`sz_${i}`}>
                 <input
                   type="radio"
@@ -125,13 +132,18 @@ export default function Product(params: { product: ProductProps }) {
               <p className="h2">${prices[1]}</p>
             </div>
             <p className="text-neutral-300 text-right">
-              {SELECTED_SIZE / product.nutritionFacts.servingSize.size} servings
-              ($
-              {(
-                prices[1] /
-                (SELECTED_SIZE / product.nutritionFacts.servingSize.size)
-              ).toFixed(2)}
-              /each)
+              {nutrition ? (
+                <>
+                  {SELECTED_SIZE / nutrition.serving_size} servings ($
+                  {(
+                    prices[1] /
+                    (SELECTED_SIZE / nutrition.serving_size)
+                  ).toFixed(2)}
+                  /each)
+                </>
+              ) : (
+                "N/A"
+              )}
             </p>
           </div>
           <div className="relative w-full">
@@ -157,8 +169,10 @@ export default function Product(params: { product: ProductProps }) {
               </div>
               {infoVisible.benefits && (
                 <div className="flex flex-col gap-2">
-                  {product.benefits.map((benefit, i) => (
-                    <p key={`bnf__${i}`}>{benefit}</p>
+                  {benefits.map((benefit, i) => (
+                    <p key={`bnf__${i}`}>
+                      {benefit.description || benefit.text || ""}
+                    </p>
                   ))}
                 </div>
               )}
@@ -175,35 +189,33 @@ export default function Product(params: { product: ProductProps }) {
                   }`}
                 />
               </div>
-              {infoVisible.nutritionFacts && (
+              {infoVisible.nutritionFacts && nutrition && (
                 <div className="flex flex-col gap-2">
                   <p>
                     <strong>Serving Size:</strong>{" "}
-                    {product.nutritionFacts.servingSize.description}
+                    {nutrition.serving_size_description}
                   </p>
                   <p className="font-bold">Nutrition Facts (per one serving)</p>
                   <table className="table-auto w-full">
                     <tbody>
-                      {Object.entries(product.nutritionFacts.amount).map(
-                        ([key, value]) => (
-                          <tr
-                            key={key}
-                            className="border-b-[0.5px] border-neutral-500 text-neutral-200"
-                          >
-                            <th className="px-4 py-2 font-medium text-left">
-                              {key
-                                .split(/(?=[A-Z])/)
-                                .join(" ")
-                                .replace(/^\w/, (c) => c.toUpperCase())}
-                            </th>
-                            <td className="px-4 py-2 text-right">{value}</td>
-                          </tr>
-                        )
-                      )}
+                      {Object.entries(nutrition.amount).map(([key, value]) => (
+                        <tr
+                          key={key}
+                          className="border-b-[0.5px] border-neutral-500 text-neutral-200"
+                        >
+                          <th className="px-4 py-2 font-medium text-left">
+                            {key
+                              .split(/(?=[A-Z])/)
+                              .join(" ")
+                              .replace(/^\w/, (c) => c.toUpperCase())}
+                          </th>
+                          <td className="px-4 py-2 text-right">{value}</td>
+                        </tr>
+                      ))}
                     </tbody>
                   </table>
                   <p className="font-bold">Ingredients</p>
-                  <p>{product.nutritionFacts.ingredients}</p>
+                  <p>{nutrition.ingredients}</p>
                 </div>
               )}
             </li>
@@ -219,13 +231,15 @@ export default function Product(params: { product: ProductProps }) {
                   }`}
                 />
               </div>
-              {infoVisible.howToUse && <motion.p>{product.howToUse}</motion.p>}
+              {infoVisible.howToUse && (
+                <motion.p>{product.how_to_use}</motion.p>
+              )}
             </li>
           </ul>
         </div>
       </section>
       <div className="mt-sectionY-m md:mt-sectionY">
-        <BuyBundle />
+        <BuyBundle products={allProducts} />
       </div>
       <section
         id="reviews"
@@ -235,14 +249,14 @@ export default function Product(params: { product: ProductProps }) {
           <h2 className="h2 uppercase">Reviews</h2>
           <Stars rating={4.5} reviewsLength={81} />
         </div>
-        {product.reviews && product.reviews.length > 0 ? (
+        {reviews.length > 0 ? (
           <ReviewSection product={product} />
         ) : (
           <p className="text-center">No reviews yet.</p>
         )}
         <div className="flex justify-center gap-2">
           {Array.from({ length: Math.ceil(81 / 5) }).map((_, index) => {
-            if (index > 4) return null
+            if (index > 4) return null;
             return (
               <motion.p
                 key={`rwsb_${index}`}
@@ -251,29 +265,22 @@ export default function Product(params: { product: ProductProps }) {
               >
                 {index + 1}
               </motion.p>
-            )
+            );
           })}
         </div>
       </section>
     </>
-  )
+  );
 }
 
-type ReviewProps = {
-  rating: number
-  author: string
-  date: string
-  title: string
-  comment: string
-}
-
-function ReviewSection(params: { product: ProductProps }) {
-  const { product } = params
+function ReviewSection(params: { product: Product }) {
+  const { product } = params;
+  const reviews = product.product_reviews || [];
 
   return (
     <ul className="flex flex-col gap-8">
-      {product.reviews && product.reviews.length > 0 ? (
-        product.reviews.map((review: ReviewProps, i) => (
+      {reviews.length > 0 ? (
+        reviews.map((review: ProductReview, i) => (
           <Fragment key={`rws_${i}`}>
             <Review review={review} />
           </Fragment>
@@ -282,11 +289,11 @@ function ReviewSection(params: { product: ProductProps }) {
         <p className="text-center">No reviews yet.</p>
       )}
     </ul>
-  )
+  );
 }
 
-const Review = (params: { review: ReviewProps }) => {
-  const { review } = params
+const Review = (params: { review: ProductReview }) => {
+  const { review } = params;
   return (
     <motion.li
       className="px-8 py-4 pb-6 border border-custom-gray rounded-lg flex flex-col gap-2 relative"
@@ -302,5 +309,5 @@ const Review = (params: { review: ReviewProps }) => {
       <h3>{review.title}</h3>
       <p>{review.comment}</p>
     </motion.li>
-  )
-}
+  );
+};

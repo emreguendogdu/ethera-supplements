@@ -1,22 +1,26 @@
-"use client"
+"use client";
 
-import { products } from "@/data"
-import Button from "./Button"
-import Image from "next/image"
-import { useCartContext } from "@/context/CartContext"
+import Button from "./Button";
+import Image from "next/image";
+import { useCartContext } from "@/context/CartContext";
+import { Product } from "@/types/product";
 
 interface BuyBundleProps {
-  className?: string
+  className?: string;
+  products: Product[];
 }
 
-export default function BuyBundle({ className = "" }: BuyBundleProps) {
-  const cartContext = useCartContext()
+export default function BuyBundle({
+  className = "",
+  products,
+}: BuyBundleProps) {
+  const cartContext = useCartContext();
 
   if (!cartContext) {
-    throw new Error("BuyBundle must be used within a CartProvider")
+    throw new Error("BuyBundle must be used within a CartProvider");
   }
 
-  const { setDisplayCart, addItemToCart } = cartContext
+  const { setDisplayCart, addItemToCart } = cartContext;
 
   const handleAddToCart = () => {
     addItemToCart({
@@ -29,9 +33,19 @@ export default function BuyBundle({ className = "" }: BuyBundleProps) {
         "300g Creatine, 600g Whey Isolate, 300g Pre-Workout (Add flavors in notes)",
       id: "bundle",
       quantity: 1,
-    })
-    setDisplayCart(true)
-  }
+    });
+    setDisplayCart(true);
+  };
+
+  const totalPrice = products.reduce(
+    (sum, item) => sum + (item.product_stock[0]?.price || 0),
+    0
+  );
+
+  const totalSalePrice = products.reduce(
+    (sum, item) => sum + (item.product_stock[0]?.sale_price || 0),
+    0
+  );
 
   return (
     <section
@@ -60,35 +74,19 @@ export default function BuyBundle({ className = "" }: BuyBundleProps) {
       </div>
       <div className="flex flex-col gap-8 items-center justify-center">
         <p className="flex gap-2 items-center">
-          <span className="line-through text-neutral-500">
-            $
-            {Object.values(products).reduce(
-              (sum, item) => sum + item.stockData[0].price,
-              0
-            )}
-          </span>
-          <span className="h2">
-            $
-            {Math.floor(
-              Object.values(products).reduce(
-                (sum, item) => sum + item.stockData[0].salePrice,
-                0
-              ) *
-                0.75 -
-                1 // %25 discount
-            )}
-          </span>
+          <span className="line-through text-neutral-500">${totalPrice}</span>
+          <span className="h2">${Math.floor(totalSalePrice * 0.75 - 1)}</span>
         </p>
         <div className="w-fit">
           <Button
             text="Add to Cart"
             type="button"
             onClick={() => {
-              handleAddToCart()
+              handleAddToCart();
             }}
           />
         </div>
       </div>
     </section>
-  )
+  );
 }

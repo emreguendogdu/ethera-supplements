@@ -1,4 +1,4 @@
-import Link from "next/link"
+import Link from "next/link";
 
 import {
   StripeLogo,
@@ -6,10 +6,14 @@ import {
   VisaLogo,
   GooglePayLogo,
   ApplePayLogo,
-} from "@/components/ui/Icons"
-import { products } from "@/data"
+} from "@/components/ui/Icons";
+import type { Product } from "@/types/product";
 
-export default function Footer() {
+interface FooterProps {
+  products: Product[];
+}
+
+export default function Footer({ products }: FooterProps) {
   return (
     <footer className="relative flex flex-col gap-8 md:gap-16 p-section-m md:p-section">
       {/* Overlay */}
@@ -63,5 +67,5 @@ export default function Footer() {
         <StripeLogo />
       </div>
     </footer>
-  )
+  );
 }

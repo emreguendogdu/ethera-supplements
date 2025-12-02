@@ -5,14 +5,19 @@ import { Backdrop, ContactShadows, Environment, Html } from "@react-three/drei";
 import { useInView } from "react-intersection-observer";
 import Items from "./Products";
 import DisableRender from "../DisableRender";
+import { Product } from "@/types/product";
 
-export default function ProductsSection() {
+interface ProductsSectionProps {
+  products: Product[];
+}
+
+export default function ProductsSection({ products }: ProductsSectionProps) {
   const { ref: inViewRef, inView } = useInView({
     threshold: 0.03125,
   });
 
   return (
-    <section className="w-full h-screen md:h-[100vh]">
+    <section className="w-full h-svh" id="products-section">
       <div id="canvas-container" className="w-full h-full" ref={inViewRef}>
         <Canvas camera={{ fov: 50, position: [0, 0, 3] }} className="z-20">
           {!inView && <DisableRender />}
@@ -31,7 +36,7 @@ export default function ProductsSection() {
           <directionalLight position={[0, -0.5, 0]} intensity={0.5} />
           <directionalLight position={[-1.7, -0.5, -0.9]} intensity={0.75} />
           <directionalLight position={[1.7, -0.5, 0.9]} intensity={0.75} />
-          <Items isSectionInView={inView} />
+          <Items isSectionInView={inView} products={products} />
           <Backdrop
             castShadow
             receiveShadow

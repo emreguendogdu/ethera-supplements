@@ -1,35 +1,49 @@
-"use client"
+"use client";
 
-import { CopyIcon } from "@/components/ui/Icons"
-import { discountCode } from "@/data"
-import { motion, useScroll, useTransform } from "motion/react"
-import { useRef, useState } from "react"
-import Button from "@/components/ui/Button"
-import HeroCanvas from "@/components/3d/HeroCanvas"
-import { useInView } from "react-intersection-observer"
+import { CopyIcon } from "@/components/ui/Icons";
+import { motion, useScroll, useTransform } from "motion/react";
+import { useRef, useState } from "react";
+import Button from "@/components/ui/Button";
+import HeroCanvas from "@/components/3d/HeroCanvas";
+import { useInView } from "react-intersection-observer";
+import { DiscountCode } from "@/lib/discount";
 
-export default function Hero() {
-  const [DISCOUNT_CODE_COPIED, SET_DISCOUNT_CODE_COPIED] = useState(false)
-  const heroRef = useRef<HTMLElement>(null)
+interface HeroProps {
+  discountCode: DiscountCode | null;
+}
+
+export default function Hero({ discountCode }: HeroProps) {
+  const [DISCOUNT_CODE_COPIED, SET_DISCOUNT_CODE_COPIED] = useState(false);
+  const heroRef = useRef<HTMLElement>(null);
   const { ref: inViewRef, inView } = useInView({
     threshold: 0.25,
-  })
+  });
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end 80%"],
-  })
+  });
 
-  const contentDivOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0])
-  const contentDivScale = useTransform(scrollYProgress, [0, 0.25], [1, 0.5])
-  const contentDivY = useTransform(scrollYProgress, [0, 0.25], [0, -125])
+  const contentDivOpacity = useTransform(scrollYProgress, [0, 0.25], [1, 0]);
+  const contentDivScale = useTransform(scrollYProgress, [0, 0.25], [1, 0.5]);
+  const contentDivY = useTransform(scrollYProgress, [0, 0.25], [0, -125]);
+
+  const handleShopNowClick = () => {
+    const element = document.getElementById("products-section");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
 
   const copyDiscountCode = () => {
-    navigator.clipboard.writeText(discountCode.code)
-    SET_DISCOUNT_CODE_COPIED(true)
+    if (!discountCode) return;
+    navigator.clipboard.writeText(discountCode.code);
+    SET_DISCOUNT_CODE_COPIED(true);
     setTimeout(() => {
-      SET_DISCOUNT_CODE_COPIED(false)
-    }, 1500)
-  }
+      SET_DISCOUNT_CODE_COPIED(false);
+    }, 1500);
+  };
+
+  if (!discountCode) return null; // Or render without discount section
 
   return (
     <>
@@ -37,8 +51,8 @@ export default function Hero() {
         id="hero"
         className="h-[200vh] md:h-[250vh]"
         ref={(node) => {
-          heroRef.current = node
-          inViewRef(node)
+          heroRef.current = node;
+          inViewRef(node);
         }}
         aria-label="Hero section"
       >
@@ -63,28 +77,34 @@ export default function Hero() {
               minimalistic purity with the best products available.
             </p>
             <div className="flex items-center">
-              <p className="uppercase inline-block font-bold">20% off code: </p>
+              <p className="uppercase inline-block font-bold">
+                {discountCode.discount}% off code:{" "}
+              </p>
               <button
                 onClick={copyDiscountCode}
                 className="ml-1 bg-radial from-white via-white to-gray-400 text-black px-3 py-1 rounded-lg uppercase font-bold inline-block cursor-pointer"
                 aria-label={
                   DISCOUNT_CODE_COPIED
                     ? "Discount code copied"
-                    : "Copy discount code ETHERA"
+                    : `Copy discount code ${discountCode.code}`
                 }
               >
-                {DISCOUNT_CODE_COPIED ? "Copied!" : "ETHERA"}
+                {DISCOUNT_CODE_COPIED ? "Copied!" : discountCode.code}
                 {!DISCOUNT_CODE_COPIED && (
                   <CopyIcon className="relative inline ml-1 -translate-y-1/4" />
                 )}
               </button>
             </div>
             <div className="relative w-3/5">
-              <Button text="Shop Now" />
+              <Button
+                text="Shop Now"
+                type="button"
+                onClick={handleShopNowClick}
+              />
             </div>
           </div>
         </motion.div>
       </motion.section>
     </>
-  )
+  );
 }

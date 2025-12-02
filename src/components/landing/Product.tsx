@@ -5,7 +5,7 @@ import useLandingProductAnimation from "@/hooks/useLandingProductAnimation";
 import { Html } from "@react-three/drei";
 import { Tub } from "@/components/3d/Tub";
 import Button from "@/components/ui/Button";
-import { products, ProductProps } from "@/data";
+import { Product } from "@/types/product";
 import useLandingProductInitialYAnimation from "@/hooks/useLandingProductInitialYAnimation";
 import useLandingProductHover from "@/hooks/useLandingProductHover";
 import useDeviceSize from "@/hooks/useDeviceSize";
@@ -17,19 +17,21 @@ type PositionKey = "center" | "left" | "right";
 const getPositionKey = (
   i: number,
   selected: boolean,
-  selectedItem: number
+  selectedItem: number,
+  totalProducts: number
 ): PositionKey => {
   if (selected) return "center";
-  if (i === (selectedItem + 1) % products.length) return "right";
+  if (i === (selectedItem + 1) % totalProducts) return "right";
   return "left";
 };
 
 interface ItemProps {
-  product: ProductProps;
+  product: Product;
   i: number;
   selectedItem: number;
   setSelectedItem: Dispatch<SetStateAction<number>>;
   isSectionInView: boolean;
+  totalProducts?: number;
 }
 
 const Item = ({
@@ -38,6 +40,7 @@ const Item = ({
   selectedItem,
   setSelectedItem,
   isSectionInView,
+  totalProducts = 3,
 }: ItemProps) => {
   const ref = useRef<Group>(null!);
   const { isMobile } = useDeviceSize();
@@ -45,7 +48,7 @@ const Item = ({
 
   const CFG = useMemo(() => (isMobile ? mobileCFG : desktopCFG), [isMobile]);
 
-  const positionKey = getPositionKey(i, selected, selectedItem);
+  const positionKey = getPositionKey(i, selected, selectedItem, totalProducts);
 
   const { initialPositionY, hasAnimatedIn } =
     useLandingProductInitialYAnimation({
@@ -116,7 +119,7 @@ const Item = ({
         castShadow
         receiveShadow
       >
-        <Tub slug={product.slug} />
+        <Tub slug={product.slug} glbUrl={product.glbUrl} />
       </group>
       {selected && (
         <Html
@@ -133,10 +136,10 @@ const Item = ({
             {/* Price */}
             <p className="flex gap-2 items-center my-2">
               <span className="line-through text-neutral-500 leading-none">
-                ${product.stockData[0].price}
+                ${product.product_stock[0].price}
               </span>
               <span className="font-bold leading-none">
-                ${product.stockData[0].salePrice}
+                ${product.product_stock[0].sale_price}
               </span>
             </p>
             {/* Button */}
