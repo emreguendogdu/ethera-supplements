@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Product, ProductBenefit } from "@/types/product";
 import { supabase } from "@/lib/supabase";
+import { toast } from "sonner";
 
 type BenefitsManagerProps = {
   product: Product;
@@ -25,13 +26,10 @@ export default function BenefitsManager({
   const [showAddForm, setShowAddForm] = useState(false);
 
   const [formData, setFormData] = useState({
-    description: "",
-    text: "",
+    benefit: "",
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -39,8 +37,7 @@ export default function BenefitsManager({
   const handleEdit = (item: ProductBenefit & { id?: string }) => {
     setEditingId(item.id || "new");
     setFormData({
-      description: item.description || "",
-      text: item.text || "",
+      benefit: item.benefit || "",
     });
     setShowAddForm(true);
   };
@@ -48,7 +45,7 @@ export default function BenefitsManager({
   const handleCancel = () => {
     setShowAddForm(false);
     setEditingId(null);
-    setFormData({ description: "", text: "" });
+    setFormData({ benefit: "" });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -59,14 +56,14 @@ export default function BenefitsManager({
       if (editingId && editingId !== "new") {
         const { error } = await supabase
           .from("product_benefits")
-          .update(formData)
+          .update({ benefit: formData.benefit })
           .eq("id", editingId);
 
         if (error) throw error;
       } else {
         const { error } = await supabase.from("product_benefits").insert({
           product_id: product.id,
-          ...formData,
+          benefit: formData.benefit,
         });
 
         if (error) throw error;
@@ -74,9 +71,14 @@ export default function BenefitsManager({
 
       await onUpdate();
       handleCancel();
+      toast.success(
+        editingId && editingId !== "new"
+          ? "Benefit updated successfully"
+          : "Benefit added successfully"
+      );
     } catch (error) {
       console.error("Error saving benefit:", error);
-      alert("Failed to save benefit");
+      toast.error("Failed to save benefit");
     } finally {
       setIsLoading(false);
     }
@@ -95,9 +97,10 @@ export default function BenefitsManager({
       if (error) throw error;
 
       await onUpdate();
+      toast.success("Benefit deleted successfully");
     } catch (error) {
       console.error("Error deleting benefit:", error);
-      alert("Failed to delete benefit");
+      toast.error("Failed to delete benefit");
     } finally {
       setIsLoading(false);
     }
@@ -114,7 +117,7 @@ export default function BenefitsManager({
             onClick={() => {
               setShowAddForm(true);
               setEditingId("new");
-              setFormData({ description: "", text: "" });
+              setFormData({ benefit: "" });
             }}
             className="px-4 py-2 bg-black text-white text-sm rounded-md hover:bg-gray-800 transition-colors"
           >
@@ -131,33 +134,17 @@ export default function BenefitsManager({
           <div className="space-y-4 mb-4">
             <div>
               <label
-                htmlFor="description"
+                htmlFor="benefit"
                 className="block text-sm font-medium text-gray-700 mb-1"
               >
-                Description
-              </label>
-              <input
-                type="text"
-                id="description"
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="text"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Text
+                Benefit
               </label>
               <textarea
-                id="text"
-                name="text"
-                value={formData.text}
+                id="benefit"
+                name="benefit"
+                value={formData.benefit}
                 onChange={handleChange}
+                placeholder="Loaded with a complete amino profile and high-dose BCAAs to ignite protein synthesis. Consistent use doesn't just repair muscle; it fundamentally changes your body composition and recovery speed when paired with serious training."
                 rows={4}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
               />
@@ -194,13 +181,8 @@ export default function BenefitsManager({
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  {benefit.description && (
-                    <p className="font-medium text-gray-900 mb-1">
-                      {benefit.description}
-                    </p>
-                  )}
-                  {benefit.text && (
-                    <p className="text-gray-700">{benefit.text}</p>
+                  {benefit.benefit && (
+                    <p className="text-gray-700">{benefit.benefit}</p>
                   )}
                 </div>
                 <div className="flex space-x-2 ml-4">

@@ -3,13 +3,17 @@
 import { useState, useEffect } from "react";
 import { Product, ProductReview } from "@/types/product";
 import { supabase } from "@/lib/supabase";
+import { toast } from "sonner";
 
 type ReviewsManagerProps = {
   product: Product;
   onUpdate: () => Promise<void>;
 };
 
-export default function ReviewsManager({ product, onUpdate }: ReviewsManagerProps) {
+export default function ReviewsManager({
+  product,
+  onUpdate,
+}: ReviewsManagerProps) {
   const [reviews, setReviews] = useState<ProductReview[]>(
     product.product_reviews || []
   );
@@ -30,7 +34,9 @@ export default function ReviewsManager({ product, onUpdate }: ReviewsManagerProp
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -46,7 +52,9 @@ export default function ReviewsManager({ product, onUpdate }: ReviewsManagerProp
       title: item.title,
       comment: item.comment,
       author: item.author,
-      date: item.date.split("T")[0],
+      date: item.date
+        ? item.date.split("T")[0]
+        : new Date().toISOString().split("T")[0],
     });
     setShowAddForm(true);
   };
@@ -68,29 +76,40 @@ export default function ReviewsManager({ product, onUpdate }: ReviewsManagerProp
     setIsLoading(true);
 
     try {
+      const { date, ...reviewData } = formData;
+      const dataToSave = {
+        ...reviewData,
+        created_at: date
+          ? new Date(date).toISOString()
+          : new Date().toISOString(),
+      };
+
       if (editingId && editingId !== "new") {
         const { error } = await supabase
           .from("product_reviews")
-          .update(formData)
+          .update(dataToSave)
           .eq("id", editingId);
 
         if (error) throw error;
       } else {
-        const { error } = await supabase
-          .from("product_reviews")
-          .insert({
-            product_id: product.id,
-            ...formData,
-          });
+        const { error } = await supabase.from("product_reviews").insert({
+          product_id: product.id,
+          ...dataToSave,
+        });
 
         if (error) throw error;
       }
 
       await onUpdate();
       handleCancel();
+      toast.success(
+        editingId && editingId !== "new"
+          ? "Review updated successfully"
+          : "Review added successfully"
+      );
     } catch (error) {
       console.error("Error saving review:", error);
-      alert("Failed to save review");
+      toast.error("Failed to save review");
     } finally {
       setIsLoading(false);
     }
@@ -109,9 +128,10 @@ export default function ReviewsManager({ product, onUpdate }: ReviewsManagerProp
       if (error) throw error;
 
       await onUpdate();
+      toast.success("Review deleted successfully");
     } catch (error) {
       console.error("Error deleting review:", error);
-      alert("Failed to delete review");
+      toast.error("Failed to delete review");
     } finally {
       setIsLoading(false);
     }
@@ -120,7 +140,9 @@ export default function ReviewsManager({ product, onUpdate }: ReviewsManagerProp
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900">Reviews Management</h3>
+        <h3 className="text-lg font-semibold text-gray-900">
+          Reviews Management
+        </h3>
         {!showAddForm && (
           <button
             onClick={() => {
@@ -142,11 +164,17 @@ export default function ReviewsManager({ product, onUpdate }: ReviewsManagerProp
       </div>
 
       {showAddForm && (
-        <form onSubmit={handleSubmit} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-gray-50 p-4 rounded-lg border border-gray-200"
+        >
           <div className="space-y-4 mb-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="author" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="author"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Author
                 </label>
                 <input
@@ -157,11 +185,15 @@ export default function ReviewsManager({ product, onUpdate }: ReviewsManagerProp
                   onChange={handleChange}
                   required
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                  placeholder="Emre G."
                 />
               </div>
 
               <div>
-                <label htmlFor="rating" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="rating"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Rating
                 </label>
                 <select
@@ -182,7 +214,10 @@ export default function ReviewsManager({ product, onUpdate }: ReviewsManagerProp
             </div>
 
             <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="title"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Title
               </label>
               <input
@@ -193,11 +228,15 @@ export default function ReviewsManager({ product, onUpdate }: ReviewsManagerProp
                 onChange={handleChange}
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                placeholder="My go-to protein powder!"
               />
             </div>
 
             <div>
-              <label htmlFor="comment" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="comment"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Comment
               </label>
               <textarea
@@ -208,11 +247,15 @@ export default function ReviewsManager({ product, onUpdate }: ReviewsManagerProp
                 required
                 rows={4}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                placeholder="I've been using this protein powder for a few months now and I've noticed a significant improvement in my muscle growth and recovery. I highly recommend it to anyone looking for a high-quality protein powder."
               />
             </div>
 
             <div>
-              <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="date"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Date
               </label>
               <input
@@ -258,18 +301,26 @@ export default function ReviewsManager({ product, onUpdate }: ReviewsManagerProp
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center space-x-2 mb-2">
-                    <span className="font-medium text-gray-900">{review.author}</span>
+                    <span className="font-medium text-gray-900">
+                      {review.author}
+                    </span>
                     <span className="text-gray-500">•</span>
                     <span className="text-sm text-gray-500">{review.date}</span>
                     <span className="text-gray-500">•</span>
-                    <span className="text-yellow-500">{"★".repeat(review.rating)}</span>
+                    <span className="text-yellow-500">
+                      {"★".repeat(review.rating)}
+                    </span>
                   </div>
-                  <h4 className="font-semibold text-gray-900 mb-1">{review.title}</h4>
+                  <h4 className="font-semibold text-gray-900 mb-1">
+                    {review.title}
+                  </h4>
                   <p className="text-gray-700">{review.comment}</p>
                 </div>
                 <div className="flex space-x-2 ml-4">
                   <button
-                    onClick={() => handleEdit(review as ProductReview & { id: string })}
+                    onClick={() =>
+                      handleEdit(review as ProductReview & { id: string })
+                    }
                     className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
                   >
                     Edit
@@ -291,4 +342,3 @@ export default function ReviewsManager({ product, onUpdate }: ReviewsManagerProp
     </div>
   );
 }
-

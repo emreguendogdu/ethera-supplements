@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Product, ProductFlavor } from "@/types/product";
 import { supabase } from "@/lib/supabase";
+import { toast } from "sonner";
 
 type FlavorManagerProps = {
   product: Product;
@@ -71,9 +72,14 @@ export default function FlavorManager({ product, onUpdate }: FlavorManagerProps)
 
       await onUpdate();
       handleCancel();
+      toast.success(
+        editingId && editingId !== "new"
+          ? "Flavor updated successfully"
+          : "Flavor added successfully"
+      );
     } catch (error) {
       console.error("Error saving flavor:", error);
-      alert("Failed to save flavor");
+      toast.error("Failed to save flavor");
     } finally {
       setIsLoading(false);
     }
@@ -92,9 +98,10 @@ export default function FlavorManager({ product, onUpdate }: FlavorManagerProps)
       if (error) throw error;
 
       await onUpdate();
+      toast.success("Flavor deleted successfully");
     } catch (error) {
       console.error("Error deleting flavor:", error);
-      alert("Failed to delete flavor");
+      toast.error("Failed to delete flavor");
     } finally {
       setIsLoading(false);
     }

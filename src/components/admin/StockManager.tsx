@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Product, ProductStock } from "@/types/product";
 import { supabase } from "@/lib/supabase";
+import { toast } from "sonner";
 
 type StockManagerProps = {
   product: Product;
@@ -73,9 +74,14 @@ export default function StockManager({ product, onUpdate }: StockManagerProps) {
 
       await onUpdate();
       handleCancel();
+      toast.success(
+        editingId && editingId !== "new"
+          ? "Stock item updated successfully"
+          : "Stock item added successfully"
+      );
     } catch (error) {
       console.error("Error saving stock:", error);
-      alert("Failed to save stock item");
+      toast.error("Failed to save stock item");
     } finally {
       setIsLoading(false);
     }
@@ -94,9 +100,10 @@ export default function StockManager({ product, onUpdate }: StockManagerProps) {
       if (error) throw error;
 
       await onUpdate();
+      toast.success("Stock item deleted successfully");
     } catch (error) {
       console.error("Error deleting stock:", error);
-      alert("Failed to delete stock item");
+      toast.error("Failed to delete stock item");
     } finally {
       setIsLoading(false);
     }

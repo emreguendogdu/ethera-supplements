@@ -11,11 +11,14 @@ import Button from "../ui/Button";
 import { motion } from "motion/react";
 import { CaretDown } from "@/components/ui/Icons";
 
-export default function ProductPage(params: { product: Product; allProducts: Product[] }) {
+export default function ProductPage(params: {
+  product: Product;
+  allProducts: Product[];
+}) {
   const { product, allProducts } = params;
   const { setDisplayCart, addItemToCart } = useCartContext() as CartContextType;
 
-  const nutrition = product.product_nutrition?.[0];
+  const nutrition = product.product_nutrition;
   const flavors = product.product_flavors || [];
   const stockData = product.product_stock || [];
   const reviews = product.product_reviews || [];
@@ -170,9 +173,7 @@ export default function ProductPage(params: { product: Product; allProducts: Pro
               {infoVisible.benefits && (
                 <div className="flex flex-col gap-2">
                   {benefits.map((benefit, i) => (
-                    <p key={`bnf__${i}`}>
-                      {benefit.description || benefit.text || ""}
-                    </p>
+                    <p key={`bnf__${i}`}>{benefit.benefit || ""}</p>
                   ))}
                 </div>
               )}
@@ -193,7 +194,7 @@ export default function ProductPage(params: { product: Product; allProducts: Pro
                 <div className="flex flex-col gap-2">
                   <p>
                     <strong>Serving Size:</strong>{" "}
-                    {nutrition.serving_size_description}
+                    {nutrition.serving_description}
                   </p>
                   <p className="font-bold">Nutrition Facts (per one serving)</p>
                   <table className="table-auto w-full">

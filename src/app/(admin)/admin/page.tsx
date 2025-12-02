@@ -5,6 +5,7 @@ import { Product } from "@/types/product";
 import { getAllProducts } from "@/lib/products";
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
+import { toast } from "sonner";
 import ProductEditor from "@/components/admin/ProductEditor";
 import StockManager from "@/components/admin/StockManager";
 import FlavorManager from "@/components/admin/FlavorManager";
@@ -85,68 +86,30 @@ export default function AdminPage() {
     setSelectedProduct(product);
   };
 
-  const handleProductCreate = async () => {
-    const newProduct: Partial<Product> = {
-      id: "new",
-      name: "",
-      slug: "",
-      description: "",
-      how_to_use: "",
-      product_flavors: [],
-      product_stock: [],
-      product_reviews: [],
-      product_benefits: [],
-      product_nutrition: [],
-      product_media: [],
-      glbUrl: "",
-    };
-    setSelectedProduct(newProduct as Product);
-    setActiveTab("products");
-  };
-
   const handleProductUpdate = async (updatedProduct: Product) => {
     try {
-      if (updatedProduct.id === "new") {
-        const { data, error } = await supabase
-          .from("products")
-          .insert({
-            name: updatedProduct.name,
-            slug: updatedProduct.slug,
-            description: updatedProduct.description,
-            how_to_use: updatedProduct.how_to_use,
-          })
-          .select()
-          .single();
+      const { error } = await supabase
+        .from("products")
+        .update({
+          name: updatedProduct.name,
+          slug: updatedProduct.slug,
+          description: updatedProduct.description,
+          how_to_use: updatedProduct.how_to_use,
+        })
+        .eq("id", updatedProduct.id);
 
-        if (error) throw error;
+      if (error) throw error;
 
-        await loadProducts();
-        if (data) {
-          const fullProduct = await getAllProducts();
-          const createdProduct = fullProduct.find((p) => p.id === data.id);
-          if (createdProduct) {
-            setSelectedProduct(createdProduct);
-          }
-        }
-      } else {
-        const { error } = await supabase
-          .from("products")
-          .update({
-            name: updatedProduct.name,
-            slug: updatedProduct.slug,
-            description: updatedProduct.description,
-            how_to_use: updatedProduct.how_to_use,
-          })
-          .eq("id", updatedProduct.id);
-
-        if (error) throw error;
-
-        await loadProducts();
-        setSelectedProduct(updatedProduct);
-      }
+      await loadProducts();
+      setSelectedProduct(updatedProduct);
+      toast.success("Product updated successfully");
     } catch (error) {
       console.error("Error saving product:", error);
-      alert("Failed to save product");
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Failed to save product. Please try again."
+      );
     }
   };
 
@@ -177,18 +140,9 @@ export default function AdminPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Admin Panel</h1>
-              <p className="text-sm text-gray-600 mt-1">
-                Manage products, stock, and inventory
-              </p>
+              <h1 className="text-2xl font-bold text-gray-900">Ethera Admin</h1>
             </div>
             <div className="flex items-center gap-3">
-              <button
-                onClick={handleProductCreate}
-                className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 transition-colors"
-              >
-                Add Product
-              </button>
               <button
                 onClick={handleSignOut}
                 className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors text-sm"
@@ -258,22 +212,12 @@ export default function AdminPage() {
                   <div className="flex items-center justify-between mb-6">
                     <div>
                       <h2 className="text-xl font-bold text-gray-900">
-                        {selectedProduct.id === "new"
-                          ? "New Product"
-                          : selectedProduct.name}
+                        {selectedProduct.name}{" "}
+                        <span className="text-xs text-gray-600 font-normal ml-2">
+                          {selectedProduct.id}
+                        </span>
                       </h2>
-                      <p className="text-sm text-gray-600 mt-1">
-                        {selectedProduct.id === "new"
-                          ? "Create a new product"
-                          : `ID: ${selectedProduct.id}`}
-                      </p>
                     </div>
-                    <button
-                      onClick={() => setSelectedProduct(null)}
-                      className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
-                    >
-                      Close
-                    </button>
                   </div>
 
                   <div className="border-b border-gray-200 mb-6">
@@ -310,76 +254,36 @@ export default function AdminPage() {
                         onUpdate={handleProductUpdate}
                       />
                     )}
-                    {activeTab === "stock" &&
-                      (selectedProduct.id === "new" ? (
-                        <div className="text-center py-12 text-gray-500">
-                          <p>
-                            Please create the product first before managing
-                            stock.
-                          </p>
-                        </div>
-                      ) : (
-                        <StockManager
-                          product={selectedProduct}
-                          onUpdate={loadProducts}
-                        />
-                      ))}
-                    {activeTab === "flavors" &&
-                      (selectedProduct.id === "new" ? (
-                        <div className="text-center py-12 text-gray-500">
-                          <p>
-                            Please create the product first before managing
-                            flavors.
-                          </p>
-                        </div>
-                      ) : (
-                        <FlavorManager
-                          product={selectedProduct}
-                          onUpdate={loadProducts}
-                        />
-                      ))}
-                    {activeTab === "reviews" &&
-                      (selectedProduct.id === "new" ? (
-                        <div className="text-center py-12 text-gray-500">
-                          <p>
-                            Please create the product first before managing
-                            reviews.
-                          </p>
-                        </div>
-                      ) : (
-                        <ReviewsManager
-                          product={selectedProduct}
-                          onUpdate={loadProducts}
-                        />
-                      ))}
-                    {activeTab === "benefits" &&
-                      (selectedProduct.id === "new" ? (
-                        <div className="text-center py-12 text-gray-500">
-                          <p>
-                            Please create the product first before managing
-                            benefits.
-                          </p>
-                        </div>
-                      ) : (
-                        <BenefitsManager
-                          product={selectedProduct}
-                          onUpdate={loadProducts}
-                        />
-                      ))}
-                    {activeTab === "nutrition" &&
-                      (selectedProduct.id === "new" ? (
-                        <div className="text-center py-12 text-gray-500">
-                          <p>
-                            Please create the product first before managing
-                            nutrition data.
-                          </p>
-                        </div>
-                      ) : (
-                        <NutritionManager
-                          product={selectedProduct}
-                          onUpdate={loadProducts}
-                        />
-                      ))}
+                    {activeTab === "stock" && (
+                      <StockManager
+                        product={selectedProduct}
+                        onUpdate={loadProducts}
+                      />
+                    )}
+                    {activeTab === "flavors" && (
+                      <FlavorManager
+                        product={selectedProduct}
+                        onUpdate={loadProducts}
+                      />
+                    )}
+                    {activeTab === "reviews" && (
+                      <ReviewsManager
+                        product={selectedProduct}
+                        onUpdate={loadProducts}
+                      />
+                    )}
+                    {activeTab === "benefits" && (
+                      <BenefitsManager
+                        product={selectedProduct}
+                        onUpdate={loadProducts}
+                      />
+                    )}
+                    {activeTab === "nutrition" && (
+                      <NutritionManager
+                        product={selectedProduct}
+                        onUpdate={loadProducts}
+                      />
+                    )}
                   </div>
                 </div>
               </div>

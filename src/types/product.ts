@@ -19,12 +19,11 @@ export interface ProductReview {
 }
 
 export interface ProductBenefit {
-  description?: string;
-  text?: string;
+  benefit?: string;
 }
 
 export interface ProductNutrition {
-  serving_size_description: string;
+  serving_description: string;
   serving_size: number;
   amount: Record<string, string | number>;
   ingredients: string;
@@ -46,7 +45,7 @@ export interface Product {
   product_stock: ProductStock[];
   product_reviews: ProductReview[];
   product_benefits: ProductBenefit[];
-  product_nutrition: ProductNutrition[];
+  product_nutrition: ProductNutrition | null;
   product_media: ProductMedia[];
   glbUrl: string;
 }

@@ -20,6 +20,13 @@ export async function getAllProducts(): Promise<Product[]> {
   return products.map((p: any) => ({
     ...p,
     glbUrl: getGlbUrl(p),
+    product_reviews: p.product_reviews?.map((review: any) => ({
+      ...review,
+      date: review.created_at
+        ? new Date(review.created_at).toISOString().split("T")[0]
+        : new Date().toISOString().split("T")[0],
+    })),
+    product_nutrition: p.product_nutrition || null,
   }));
 }
 
@@ -48,6 +55,13 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   return {
     ...product,
     glbUrl: getGlbUrl(product),
+    product_reviews: product.product_reviews?.map((review: any) => ({
+      ...review,
+      date: review.created_at
+        ? new Date(review.created_at).toISOString().split("T")[0]
+        : new Date().toISOString().split("T")[0],
+    })),
+    product_nutrition: product.product_nutrition || null,
   };
 }
 
