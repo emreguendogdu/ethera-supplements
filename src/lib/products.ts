@@ -59,11 +59,7 @@ function getGlbUrl(product: any): string {
     return data.publicUrl;
   };
 
-  if (product.glb_storage_path) {
-    return getPublicUrl(product.glb_storage_path);
-  }
-
-  if (product.product_media) {
+  if (product.product_media && product.product_media.length > 0) {
     const glbItem = product.product_media.find((m: any) =>
       m.storage_path.endsWith(".glb")
     );
@@ -72,5 +68,10 @@ function getGlbUrl(product: any): string {
     }
   }
 
-  return `/products/${product.slug}/product.glb`;
+  if (product.slug) {
+    const autoPath = `${product.slug}/product.glb`;
+    return getPublicUrl(autoPath);
+  }
+
+  return "";
 }

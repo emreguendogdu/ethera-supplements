@@ -92,7 +92,6 @@ export default function AdminPage() {
       slug: "",
       description: "",
       how_to_use: "",
-      glb_storage_path: "",
       product_flavors: [],
       product_stock: [],
       product_reviews: [],
@@ -115,7 +114,6 @@ export default function AdminPage() {
             slug: updatedProduct.slug,
             description: updatedProduct.description,
             how_to_use: updatedProduct.how_to_use,
-            glb_storage_path: updatedProduct.glb_storage_path || null,
           })
           .select()
           .single();
@@ -138,7 +136,6 @@ export default function AdminPage() {
             slug: updatedProduct.slug,
             description: updatedProduct.description,
             how_to_use: updatedProduct.how_to_use,
-            glb_storage_path: updatedProduct.glb_storage_path,
           })
           .eq("id", updatedProduct.id);
 

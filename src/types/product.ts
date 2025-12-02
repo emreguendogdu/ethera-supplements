@@ -42,7 +42,6 @@ export interface Product {
   name: string;
   description: string;
   how_to_use: string;
-  glb_storage_path?: string;
   product_flavors: ProductFlavor[];
   product_stock: ProductStock[];
   product_reviews: ProductReview[];

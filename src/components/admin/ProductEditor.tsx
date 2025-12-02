@@ -27,7 +27,6 @@ export default function ProductEditor({
     slug: product.slug || "",
     description: product.description || "",
     how_to_use: product.how_to_use || "",
-    glb_storage_path: product.glb_storage_path || "",
   });
   const [isSaving, setIsSaving] = useState(false);
   const isNewProduct = product.id === "new";
@@ -137,27 +136,6 @@ export default function ProductEditor({
           rows={4}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder:opacity-50"
         />
-      </div>
-
-      <div>
-        <label
-          htmlFor="glb_storage_path"
-          className="block text-sm font-medium text-gray-700 mb-2"
-        >
-          GLB Storage Path
-        </label>
-        <input
-          type="text"
-          id="glb_storage_path"
-          name="glb_storage_path"
-          value={formData.glb_storage_path}
-          onChange={handleChange}
-          placeholder="{product-slug}/product.glb"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder:opacity-50"
-        />
-        <p className="mt-1 text-xs text-gray-500">
-          Path to the 3D model file in Supabase storage.
-        </p>
       </div>
 
       <div className="flex justify-end">
