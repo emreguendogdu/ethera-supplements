@@ -274,7 +274,7 @@ export default function ReviewsManager({ product, onUpdate }: ReviewsManagerProp
                   >
                     Edit
                   </button>
-                  {"id" in review && review.id && (
+                  {"id" in review && typeof review.id === "string" && (
                     <button
                       onClick={() => handleDelete(review.id as string)}
                       className="px-3 py-1 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"

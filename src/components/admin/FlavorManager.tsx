@@ -205,7 +205,7 @@ export default function FlavorManager({ product, onUpdate }: FlavorManagerProps)
                 >
                   Edit
                 </button>
-                {"id" in flavor && flavor.id && (
+                {"id" in flavor && typeof flavor.id === "string" && (
                   <button
                     onClick={() => handleDelete(flavor.id as string)}
                     className="px-3 py-1 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"

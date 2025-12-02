@@ -9,7 +9,10 @@ type BenefitsManagerProps = {
   onUpdate: () => Promise<void>;
 };
 
-export default function BenefitsManager({ product, onUpdate }: BenefitsManagerProps) {
+export default function BenefitsManager({
+  product,
+  onUpdate,
+}: BenefitsManagerProps) {
   const [benefits, setBenefits] = useState<ProductBenefit[]>(
     product.product_benefits || []
   );
@@ -26,7 +29,9 @@ export default function BenefitsManager({ product, onUpdate }: BenefitsManagerPr
     text: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -59,12 +64,10 @@ export default function BenefitsManager({ product, onUpdate }: BenefitsManagerPr
 
         if (error) throw error;
       } else {
-        const { error } = await supabase
-          .from("product_benefits")
-          .insert({
-            product_id: product.id,
-            ...formData,
-          });
+        const { error } = await supabase.from("product_benefits").insert({
+          product_id: product.id,
+          ...formData,
+        });
 
         if (error) throw error;
       }
@@ -103,7 +106,9 @@ export default function BenefitsManager({ product, onUpdate }: BenefitsManagerPr
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900">Benefits Management</h3>
+        <h3 className="text-lg font-semibold text-gray-900">
+          Benefits Management
+        </h3>
         {!showAddForm && (
           <button
             onClick={() => {
@@ -119,10 +124,16 @@ export default function BenefitsManager({ product, onUpdate }: BenefitsManagerPr
       </div>
 
       {showAddForm && (
-        <form onSubmit={handleSubmit} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-gray-50 p-4 rounded-lg border border-gray-200"
+        >
           <div className="space-y-4 mb-4">
             <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Description
               </label>
               <input
@@ -136,7 +147,10 @@ export default function BenefitsManager({ product, onUpdate }: BenefitsManagerPr
             </div>
 
             <div>
-              <label htmlFor="text" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="text"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Text
               </label>
               <textarea
@@ -181,7 +195,9 @@ export default function BenefitsManager({ product, onUpdate }: BenefitsManagerPr
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   {benefit.description && (
-                    <p className="font-medium text-gray-900 mb-1">{benefit.description}</p>
+                    <p className="font-medium text-gray-900 mb-1">
+                      {benefit.description}
+                    </p>
                   )}
                   {benefit.text && (
                     <p className="text-gray-700">{benefit.text}</p>
@@ -189,12 +205,14 @@ export default function BenefitsManager({ product, onUpdate }: BenefitsManagerPr
                 </div>
                 <div className="flex space-x-2 ml-4">
                   <button
-                    onClick={() => handleEdit(benefit as ProductBenefit & { id: string })}
+                    onClick={() =>
+                      handleEdit(benefit as ProductBenefit & { id: string })
+                    }
                     className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
                   >
                     Edit
                   </button>
-                  {"id" in benefit && benefit.id && (
+                  {"id" in benefit && typeof benefit.id === "string" && (
                     <button
                       onClick={() => handleDelete(benefit.id as string)}
                       className="px-3 py-1 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
@@ -211,4 +229,3 @@ export default function BenefitsManager({ product, onUpdate }: BenefitsManagerPr
     </div>
   );
 }
-

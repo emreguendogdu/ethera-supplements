@@ -9,7 +9,10 @@ type NutritionManagerProps = {
   onUpdate: () => Promise<void>;
 };
 
-export default function NutritionManager({ product, onUpdate }: NutritionManagerProps) {
+export default function NutritionManager({
+  product,
+  onUpdate,
+}: NutritionManagerProps) {
   const [nutritionItems, setNutritionItems] = useState<ProductNutrition[]>(
     product.product_nutrition || []
   );
@@ -28,7 +31,9 @@ export default function NutritionManager({ product, onUpdate }: NutritionManager
     ingredients: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -41,7 +46,10 @@ export default function NutritionManager({ product, onUpdate }: NutritionManager
     setFormData({
       serving_size_description: item.serving_size_description,
       serving_size: item.serving_size,
-      amount: typeof item.amount === "string" ? item.amount : JSON.stringify(item.amount),
+      amount:
+        typeof item.amount === "string"
+          ? item.amount
+          : JSON.stringify(item.amount),
       ingredients: item.ingredients,
     });
     setShowAddForm(true);
@@ -83,12 +91,10 @@ export default function NutritionManager({ product, onUpdate }: NutritionManager
 
         if (error) throw error;
       } else {
-        const { error } = await supabase
-          .from("product_nutrition")
-          .insert({
-            product_id: product.id,
-            ...dataToSave,
-          });
+        const { error } = await supabase.from("product_nutrition").insert({
+          product_id: product.id,
+          ...dataToSave,
+        });
 
         if (error) throw error;
       }
@@ -104,7 +110,8 @@ export default function NutritionManager({ product, onUpdate }: NutritionManager
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this nutrition data?")) return;
+    if (!confirm("Are you sure you want to delete this nutrition data?"))
+      return;
 
     setIsLoading(true);
     try {
@@ -127,7 +134,9 @@ export default function NutritionManager({ product, onUpdate }: NutritionManager
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900">Nutrition Management</h3>
+        <h3 className="text-lg font-semibold text-gray-900">
+          Nutrition Management
+        </h3>
         {!showAddForm && (
           <button
             onClick={() => {
@@ -148,11 +157,17 @@ export default function NutritionManager({ product, onUpdate }: NutritionManager
       </div>
 
       {showAddForm && (
-        <form onSubmit={handleSubmit} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-gray-50 p-4 rounded-lg border border-gray-200"
+        >
           <div className="space-y-4 mb-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label htmlFor="serving_size_description" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="serving_size_description"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Serving Size Description
                 </label>
                 <input
@@ -167,7 +182,10 @@ export default function NutritionManager({ product, onUpdate }: NutritionManager
               </div>
 
               <div>
-                <label htmlFor="serving_size" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="serving_size"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Serving Size (g)
                 </label>
                 <input
@@ -185,7 +203,10 @@ export default function NutritionManager({ product, onUpdate }: NutritionManager
             </div>
 
             <div>
-              <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="amount"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Amount (JSON)
               </label>
               <textarea
@@ -198,11 +219,16 @@ export default function NutritionManager({ product, onUpdate }: NutritionManager
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent font-mono text-sm"
                 placeholder='{"calories": 100, "protein": 25, "carbs": 5}'
               />
-              <p className="mt-1 text-xs text-gray-500">Enter nutrition amounts as JSON object</p>
+              <p className="mt-1 text-xs text-gray-500">
+                Enter nutrition amounts as JSON object
+              </p>
             </div>
 
             <div>
-              <label htmlFor="ingredients" className="block text-sm font-medium text-gray-700 mb-1">
+              <label
+                htmlFor="ingredients"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
                 Ingredients
               </label>
               <textarea
@@ -238,7 +264,9 @@ export default function NutritionManager({ product, onUpdate }: NutritionManager
 
       <div className="space-y-2">
         {nutritionItems.length === 0 ? (
-          <p className="text-gray-500 text-center py-8">No nutrition data found</p>
+          <p className="text-gray-500 text-center py-8">
+            No nutrition data found
+          </p>
         ) : (
           nutritionItems.map((nutrition, index) => (
             <div
@@ -249,8 +277,13 @@ export default function NutritionManager({ product, onUpdate }: NutritionManager
                 <div className="flex-1">
                   <div className="grid grid-cols-2 gap-4 mb-2">
                     <div>
-                      <span className="text-xs text-gray-500">Serving Size</span>
-                      <p className="font-medium">{nutrition.serving_size_description} ({nutrition.serving_size}g)</p>
+                      <span className="text-xs text-gray-500">
+                        Serving Size
+                      </span>
+                      <p className="font-medium">
+                        {nutrition.serving_size_description} (
+                        {nutrition.serving_size}g)
+                      </p>
                     </div>
                     <div>
                       <span className="text-xs text-gray-500">Amount</span>
@@ -268,12 +301,14 @@ export default function NutritionManager({ product, onUpdate }: NutritionManager
                 </div>
                 <div className="flex space-x-2 ml-4">
                   <button
-                    onClick={() => handleEdit(nutrition as ProductNutrition & { id: string })}
+                    onClick={() =>
+                      handleEdit(nutrition as ProductNutrition & { id: string })
+                    }
                     className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
                   >
                     Edit
                   </button>
-                  {"id" in nutrition && nutrition.id && (
+                  {"id" in nutrition && typeof nutrition.id === "string" && (
                     <button
                       onClick={() => handleDelete(nutrition.id as string)}
                       className="px-3 py-1 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
@@ -290,4 +325,3 @@ export default function NutritionManager({ product, onUpdate }: NutritionManager
     </div>
   );
 }
-

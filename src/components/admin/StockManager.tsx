@@ -270,18 +270,14 @@ export default function StockManager({ product, onUpdate }: StockManagerProps) {
                 >
                   Edit
                 </button>
-                {(() => {
-                  const itemWithId = item as ProductStock & { id?: string };
-                  if (!itemWithId.id) return null;
-                  return (
-                    <button
-                      onClick={() => handleDelete(itemWithId.id!)}
-                      className="px-3 py-1 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
-                    >
-                      Delete
-                    </button>
-                  );
-                })()}
+                {"id" in item && typeof item.id === "string" && (
+                  <button
+                    onClick={() => handleDelete(item.id as string)}
+                    className="px-3 py-1 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                  >
+                    Delete
+                  </button>
+                )}
               </div>
             </div>
           ))
