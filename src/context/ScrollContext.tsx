@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   useContext,
@@ -6,45 +6,48 @@ import {
   useState,
   createContext,
   ReactNode,
-} from "react"
-import { ReactLenis, useLenis } from "lenis/react"
+} from "react";
+import { ReactLenis, useLenis } from "lenis/react";
 
 interface ScrollContextType {
-  allowScroll: boolean
-  setAllowScroll: (allow: boolean) => void
+  allowScroll: boolean;
+  setAllowScroll: (allow: boolean) => void;
 }
 
-const ScrollContext = createContext<ScrollContextType | undefined>(undefined)
+const ScrollContext = createContext<ScrollContextType | undefined>(undefined);
 
 interface ScrollProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export const ScrollProvider = ({ children }: ScrollProviderProps) => {
-  const [allowScroll, setAllowScroll] = useState(true)
-  const lenis = useLenis(() => {})
+  const [allowScroll, setAllowScroll] = useState(true);
+  const lenis = useLenis(() => {});
 
   useEffect(() => {
     if (lenis) {
       if (allowScroll) {
-        lenis.start()
+        lenis.start();
       } else {
-        lenis.stop()
+        lenis.stop();
       }
     }
-  }, [allowScroll, lenis])
+  }, [allowScroll, lenis]);
 
   return (
     <ScrollContext.Provider value={{ allowScroll, setAllowScroll }}>
       <ReactLenis root>{children}</ReactLenis>
     </ScrollContext.Provider>
-  )
-}
+  );
+};
 
 export const useScrollContext = () => {
-  const context = useContext(ScrollContext)
+  const context = useContext(ScrollContext);
   if (context === undefined) {
-    throw new Error("useScrollContext must be used within a ScrollProvider")
+    return {
+      allowScroll: true,
+      setAllowScroll: () => {},
+    };
   }
-  return context
-}
+  return context;
+};
