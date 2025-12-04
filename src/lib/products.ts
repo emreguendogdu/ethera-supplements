@@ -3,15 +3,20 @@ import { supabase } from "./supabase";
 import { Product } from "../types/product";
 
 export const getAllProducts = cache(async (): Promise<Product[]> => {
-  const { data: products, error } = await supabase.from("products").select(`
+  const { data: products, error } = await supabase
+    .from("products")
+    .select(
+      `
       *,
       product_flavors (*),
       product_stock (*),
       product_reviews (*),
       product_benefits (*),
       product_nutrition (*),
-      product_media (*)
-    `);
+      product_media (*) 
+    `
+    )
+    .order("id", { ascending: false });
 
   if (error) {
     return [];
