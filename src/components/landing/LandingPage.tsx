@@ -30,6 +30,7 @@ export default function LandingPage({
   const assetIds = useMemo(() => {
     return [
       ASSET_IDS.bodybuilder,
+      ASSET_IDS.menuStatue,
       ...initialProducts.map((product) => product.slug),
     ] as AssetId[];
   }, [initialProducts]);

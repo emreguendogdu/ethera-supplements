@@ -1,5 +1,5 @@
-import { create } from "zustand"
-import { AssetId, LoadingState } from "../types/store"
+import { create } from "zustand";
+import { AssetId, LoadingState } from "../types/store";
 
 /**
  * Define unique IDs for each of your 3D assets.
@@ -7,7 +7,8 @@ import { AssetId, LoadingState } from "../types/store"
  */
 export const ASSET_IDS = {
   bodybuilder: "bodybuilder",
-} as const
+  menuStatue: "menuStatue",
+} as const;
 
 /**
  * Create the Zustand store for managing global loading state.
@@ -26,15 +27,15 @@ export const useLoadingStore = create<LoadingState>((set) => ({
      */
     initializeAssets: (assetIds) => {
       const initialAssetsLoaded = assetIds.reduce((acc, id) => {
-        acc[id] = false // Mark each asset as not loaded initially
-        return acc
-      }, {} as Record<AssetId, boolean>)
+        acc[id] = false; // Mark each asset as not loaded initially
+        return acc;
+      }, {} as Record<AssetId, boolean>);
 
       set({
         assetsLoaded: initialAssetsLoaded,
         totalAssets: assetIds.length,
         allAssetsLoaded: false, // Reset allAssetsLoaded status
-      })
+      });
     },
 
     /**
@@ -44,21 +45,21 @@ export const useLoadingStore = create<LoadingState>((set) => ({
     setAssetLoaded: (assetId) => {
       set((state) => {
         // Create a new object for assetsLoaded to ensure reactivity
-        const newAssetsLoaded = { ...state.assetsLoaded, [assetId]: true }
+        const newAssetsLoaded = { ...state.assetsLoaded, [assetId]: true };
 
         // Count how many assets are currently loaded
         const loadedCount =
-          Object.values(newAssetsLoaded).filter(Boolean).length
+          Object.values(newAssetsLoaded).filter(Boolean).length;
 
         // Determine if all assets are loaded
         const allLoaded =
-          loadedCount === state.totalAssets && state.totalAssets > 0
+          loadedCount === state.totalAssets && state.totalAssets > 0;
 
         return {
           assetsLoaded: newAssetsLoaded,
           allAssetsLoaded: allLoaded,
-        }
-      })
+        };
+      });
     },
   },
-}))
+}));

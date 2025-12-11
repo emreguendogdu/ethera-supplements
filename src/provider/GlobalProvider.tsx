@@ -1,9 +1,9 @@
-import { CartProvider } from "@/context/CartContext"
+import { CartProvider } from "@/context/CartContext";
 
 interface GlobalProviderProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export default function GlobalProvider({ children }: GlobalProviderProps) {
-  return <CartProvider>{children}</CartProvider>
+  return <CartProvider>{children}</CartProvider>;
 }
