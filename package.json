@@ -13,6 +13,7 @@
     "@react-three/drei": "^10.0.7",
     "@react-three/fiber": "9.1.2",
     "@supabase/supabase-js": "^2.86.0",
+    "clsx": "^2.1.1",
     "lenis": "^1.3.15",
     "lil-gui": "^0.21.0",
     "maath": "^0.10.8",
@@ -22,6 +23,7 @@
     "react-dom": "^19.2.1",
     "react-intersection-observer": "^10.0.0",
     "sonner": "^2.0.7",
+    "tailwind-merge": "^3.4.0",
     "three": "^0.176.0",
     "zustand": "^5.0.9"
   },
