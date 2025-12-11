@@ -126,22 +126,17 @@ export default function NutritionManager({
 
   return (
     <div className="space-y-6">
-      <div>
-        <h3 className="text-lg font-semibold text-gray-900">
-          Nutrition Management
-        </h3>
+      <div className="flex items-center gap-2 mb-6">
+        <h3 className="text-xl  text-white">Nutrition Management</h3>
       </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="bg-gray-50 p-4 rounded-lg border border-gray-200"
-      >
-        <div className="space-y-4 mb-4">
-          <div className="grid grid-cols-2 gap-4">
+      <form onSubmit={handleSubmit} className="glass-panel p-8 rounded-xl">
+        <div className="space-y-6 mb-6">
+          <div className="grid grid-cols-2 gap-6">
             <div>
               <label
                 htmlFor="serving_description"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
               >
                 Serving Description
               </label>
@@ -152,7 +147,7 @@ export default function NutritionManager({
                 value={formData.serving_description}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none"
                 placeholder="30g (1 scoop)"
                 disabled={isReadOnly}
               />
@@ -161,7 +156,7 @@ export default function NutritionManager({
             <div>
               <label
                 htmlFor="serving_size"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
               >
                 Serving Size (g)
               </label>
@@ -174,7 +169,7 @@ export default function NutritionManager({
                 required
                 min="0"
                 step="0.1"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none"
                 placeholder="30"
                 disabled={isReadOnly}
               />
@@ -184,7 +179,7 @@ export default function NutritionManager({
           <div>
             <label
               htmlFor="amount"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
             >
               Amount (JSON)
             </label>
@@ -195,20 +190,19 @@ export default function NutritionManager({
               onChange={handleChange}
               required
               rows={6}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent font-mono text-sm"
+              className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none font-mono text-sm leading-relaxed text-white/80"
               placeholder='{"calories": 100, "protein": 25, "carbs": 5}'
               disabled={isReadOnly}
             />
-            <p className="mt-1 text-xs text-gray-500">
-              Enter nutrition amounts as JSON object (keys can be unquoted,
-              e.g., calories: 120 or "calories": 120)
+            <p className="mt-2 text-[10px] text-neutral-500 uppercase tracking-wide">
+              Format: JSON object (e.g., "calories": 120)
             </p>
           </div>
 
           <div>
             <label
               htmlFor="ingredients"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
             >
               Ingredients
             </label>
@@ -217,27 +211,27 @@ export default function NutritionManager({
               name="ingredients"
               value={formData.ingredients}
               onChange={handleChange}
-              placeholder="Ultra-filtered Whey Protein Isolate (milk), Natural and Artificial Flavors, Sunflower Lecithin, Stevia Leaf Extract, Salt."
+              placeholder="Ultra-filtered Whey Protein Isolate (milk)..."
               required
               rows={4}
               disabled={isReadOnly}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+              className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none resize-none leading-relaxed"
             />
           </div>
         </div>
 
-        <div className="flex justify-end">
+        <div className="flex justify-end pt-2">
           {!isReadOnly && (
             <button
               type="submit"
               disabled={isLoading}
-              className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-8 py-3 bg-obsidian-lighter text-black font-semibold uppercase tracking-wider text-xs rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all disabled:opacity-50"
             >
               {isLoading
                 ? "Saving..."
                 : nutrition && (nutrition as any).id
-                ? "Update"
-                : "Save"}
+                ? "Update Nutrition"
+                : "Save Nutrition"}
             </button>
           )}
         </div>

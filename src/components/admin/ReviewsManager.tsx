@@ -139,10 +139,8 @@ export default function ReviewsManager({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900">
-          Reviews Management
-        </h3>
+      <div className="flex items-center justify-between gap-4">
+        <h3 className="text-xl  text-white">Reviews Management</h3>
         {!showAddForm && !isReadOnly && (
           <button
             onClick={() => {
@@ -156,7 +154,7 @@ export default function ReviewsManager({
                 date: new Date().toISOString().split("T")[0],
               });
             }}
-            className="px-4 py-2 bg-black text-white text-sm rounded-md hover:bg-gray-800 transition-colors"
+            className="px-4 py-2 bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-full text-xs uppercase tracking-wider transition-colors"
           >
             Add Review
           </button>
@@ -166,14 +164,14 @@ export default function ReviewsManager({
       {showAddForm && (
         <form
           onSubmit={handleSubmit}
-          className="bg-gray-50 p-4 rounded-lg border border-gray-200"
+          className="glass-panel p-6 rounded-xl animate-in fade-in slide-in-from-top-4 duration-300"
         >
-          <div className="space-y-4 mb-4">
-            <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-6 mb-6">
+            <div className="grid grid-cols-2 gap-6">
               <div>
                 <label
                   htmlFor="author"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
                 >
                   Author
                 </label>
@@ -184,7 +182,7 @@ export default function ReviewsManager({
                   value={formData.author}
                   onChange={handleChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                  className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none"
                   placeholder="Emre G."
                 />
               </div>
@@ -192,7 +190,7 @@ export default function ReviewsManager({
               <div>
                 <label
                   htmlFor="rating"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
                 >
                   Rating
                 </label>
@@ -202,10 +200,14 @@ export default function ReviewsManager({
                   value={formData.rating}
                   onChange={handleChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                  className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none appearance-none bg-black/30"
                 >
                   {[1, 2, 3, 4, 5].map((r) => (
-                    <option key={r} value={r}>
+                    <option
+                      key={r}
+                      value={r}
+                      className="bg-neutral-900 text-white"
+                    >
                       {r} Star{r !== 1 ? "s" : ""}
                     </option>
                   ))}
@@ -216,7 +218,7 @@ export default function ReviewsManager({
             <div>
               <label
                 htmlFor="title"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
               >
                 Title
               </label>
@@ -227,7 +229,7 @@ export default function ReviewsManager({
                 value={formData.title}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none"
                 placeholder="My go-to protein powder!"
               />
             </div>
@@ -235,7 +237,7 @@ export default function ReviewsManager({
             <div>
               <label
                 htmlFor="comment"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
               >
                 Comment
               </label>
@@ -246,15 +248,15 @@ export default function ReviewsManager({
                 onChange={handleChange}
                 required
                 rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
-                placeholder="I've been using this protein powder for a few months now and I've noticed a significant improvement in my muscle growth and recovery. I highly recommend it to anyone looking for a high-quality protein powder."
+                className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none resize-none"
+                placeholder="I've been using this protein powder for a few months now..."
               />
             </div>
 
             <div>
               <label
                 htmlFor="date"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
               >
                 Date
               </label>
@@ -265,74 +267,105 @@ export default function ReviewsManager({
                 value={formData.date}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none scheme-dark"
               />
             </div>
           </div>
 
-          <div className="flex justify-end space-x-2">
+          <div className="flex justify-end space-x-3">
             <button
               type="button"
               onClick={handleCancel}
-              className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+              className="px-6 py-2 border border-white/10 text-white/60 hover:text-white hover:bg-white/5 rounded-lg text-xs uppercase tracking-wider transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isLoading}
-              className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-6 py-2 bg-obsidian-lighter text-black font-semibold uppercase tracking-wider text-xs rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all disabled:opacity-50"
             >
-              {isLoading ? "Saving..." : editingId === "new" ? "Add" : "Update"}
+              {isLoading
+                ? "Saving..."
+                : editingId === "new"
+                ? "Add Review"
+                : "Update Review"}
             </button>
           </div>
         </form>
       )}
 
-      <div className="space-y-2">
+      <div className="space-y-3">
         {reviews.length === 0 ? (
-          <p className="text-gray-500 text-center py-8">No reviews found</p>
+          <p className="text-white/30 text-center py-8 text-sm uppercase tracking-widest ">
+            No reviews found
+          </p>
         ) : (
           reviews.map((review, index) => (
             <div
               key={index}
-              className="p-4 bg-gray-50 rounded-lg border border-gray-200"
+              className="p-6 glass-panel rounded-xl group hover:border-obsidian-lighter/30 transition-colors"
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <span className="font-medium text-gray-900">
+                  <div className="flex items-center space-x-3 mb-2">
+                    <span className="font-medium text-white text-sm tracking-wide">
                       {review.author}
                     </span>
-                    <span className="text-gray-500">•</span>
-                    <span className="text-sm text-gray-500">{review.date}</span>
-                    <span className="text-gray-500">•</span>
-                    <span className="text-yellow-500">
+                    <span className="text-white/20 text-xs">•</span>
+                    <span className="text-xs text-white/50">{review.date}</span>
+                    <span className="text-white/20 text-xs">•</span>
+                    <span className="text-yellow-500 tracking-widest text-xs">
                       {"★".repeat(review.rating)}
                     </span>
                   </div>
-                  <h4 className="font-semibold text-gray-900 mb-1">
-                    {review.title}
-                  </h4>
-                  <p className="text-gray-700">{review.comment}</p>
+                  <h4 className=" text-white text-lg mb-2">{review.title}</h4>
+                  <p className="text-white/60 text-sm  leading-relaxed">
+                    {review.comment}
+                  </p>
                 </div>
-                <div className="flex space-x-2 ml-4">
+                <div className="flex space-x-2 ml-4 opacity-50 group-hover:opacity-100 transition-opacity">
                   {!isReadOnly && (
                     <>
                       <button
                         onClick={() =>
                           handleEdit(review as ProductReview & { id: string })
                         }
-                        className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                        className="p-2 hover:bg-white/10 rounded-md transition-colors text-white/70"
+                        title="Edit"
                       >
-                        Edit
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                        </svg>
                       </button>
                       {"id" in review && typeof review.id === "string" && (
                         <button
                           onClick={() => handleDelete(review.id as string)}
-                          className="px-3 py-1 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                          className="p-2 hover:bg-red-500/20 text-red-400 rounded-md transition-colors"
+                          title="Delete"
                         >
-                          Delete
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                          </svg>
                         </button>
                       )}
                     </>

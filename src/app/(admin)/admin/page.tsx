@@ -6,6 +6,7 @@ import { getAllProducts } from "@/lib/products";
 import { supabase } from "@/lib/supabase";
 import { User } from "@supabase/supabase-js";
 import { toast } from "sonner";
+import { motion, AnimatePresence } from "motion/react";
 import ProductEditor from "@/components/admin/ProductEditor";
 import StockManager from "@/components/admin/StockManager";
 import FlavorManager from "@/components/admin/FlavorManager";
@@ -13,6 +14,7 @@ import ReviewsManager from "@/components/admin/ReviewsManager";
 import BenefitsManager from "@/components/admin/BenefitsManager";
 import NutritionManager from "@/components/admin/NutritionManager";
 import LoginForm from "@/components/admin/LoginForm";
+import "@/app/index.css";
 
 export default function AdminPage() {
   const [user, setUser] = useState<User | null>(null);
@@ -108,8 +110,8 @@ export default function AdminPage() {
 
   if (isCheckingAuth) {
     return (
-      <div className="min-h-svh flex items-center justify-center bg-gray-50">
-        <div className="text-gray-500">Loading...</div>
+      <div className="min-h-svh flex items-center justify-center bg-obsidian">
+        <div className="text-white/50 animate-pulse">Loading System...</div>
       </div>
     );
   }
@@ -121,46 +123,60 @@ export default function AdminPage() {
   return (
     <section
       id="admin-panel"
-      className="relative min-h-svh bg-gray-50 z-999 text-black"
+      className="relative min-h-svh bg-obsidian z-999 text-white font-(family-name:--font-inter)  selection:bg-obsidian-lighter selection:text-black"
     >
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <motion.header
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="glass-panel sticky top-0 z-10 border-b-0 mb-8"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Ethera Admin</h1>
+            <div className="flex items-center gap-4">
+              <h1 className="text-2xl  tracking-wider uppercase">Ethera </h1>
+              <div className="h-4 w-px bg-white/20"></div>
+              <span className="text-xs text-white/50 tracking-[0.2em] uppercase">
+                Control Panel v2.0
+              </span>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               {!user && (
-                <span className="hidden sm:inline-block px-3 py-1 bg-yellow-50 text-yellow-700 text-xs rounded-full font-medium border border-yellow-200">
+                <span className="hidden sm:inline-block px-3 py-1 bg-obsidian-lighter/10 text-obsidian-lighter text-xs rounded-full border border-obsidian-lighter/20 backdrop-blur-sm">
                   Read Only Mode
                 </span>
               )}
               <button
                 onClick={user ? handleSignOut : () => setIsLoginOpen(true)}
-                className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors text-sm"
+                className="px-6 py-2 border border-obsidian-lighter/30 rounded-full hover:bg-obsidian-lighter/10 hover:border-obsidian-lighter transition-all text-xs uppercase tracking-widest text-obsidian-lighter"
               >
                 {user ? "Sign Out" : "Sign In"}
               </button>
             </div>
           </div>
         </div>
-      </header>
+      </motion.header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 pb-20">
         <main className="flex-1">
           {selectedProduct ? (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between gap-4 pb-4 border-b border-gray-200">
-                <div className="flex items-center gap-2 overflow-x-auto">
+            <div className="space-y-8">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="flex items-center justify-between gap-4 pb-4 border-b border-white/5"
+              >
+                <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2">
                   {!isGridMode &&
                     products.map((product) => (
                       <button
                         key={product.id}
                         onClick={() => handleProductSelect(product)}
-                        className={`px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors ${
+                        className={`px-6 py-2 rounded-full text-xs uppercase tracking-wider transition-all duration-300 backdrop-blur-sm border ${
                           selectedProduct.id === product.id
-                            ? "bg-black text-white"
-                            : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50"
+                            ? "bg-obsidian-lighter/10 border-obsidian-lighter text-obsidian-lighter neon-border-cyan"
+                            : "bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20"
                         }`}
                       >
                         {product.name}
@@ -169,7 +185,7 @@ export default function AdminPage() {
                 </div>
                 <button
                   onClick={() => setIsGridMode(!isGridMode)}
-                  className="hidden md:flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap transition-colors bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 shrink-0"
+                  className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-colors bg-white/5 border border-white/10 text-white/70 hover:bg-white/10 shrink-0 uppercase tracking-wide"
                 >
                   {isGridMode ? (
                     <>
@@ -186,7 +202,7 @@ export default function AdminPage() {
                           strokeWidth="1.5"
                         />
                       </svg>
-                      Single View
+                      Focus View
                     </>
                   ) : (
                     <>
@@ -234,24 +250,31 @@ export default function AdminPage() {
                     </>
                   )}
                 </button>
-              </div>
+              </motion.div>
 
               {isGridMode ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {products.map((product) => (
-                    <div
+                  {products.map((product, index) => (
+                    <motion.div
                       key={product.id}
-                      className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 h-fit"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="glass-panel rounded-2xl p-8 h-fit relative overflow-hidden group"
                     >
-                      <div className="flex items-center justify-between mb-6">
+                      <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <div className="w-20 h-20 rounded-full bg-obsidian-lighter blur-2xl"></div>
+                      </div>
+                      <div className="flex items-center justify-between mb-8 relative z-10">
                         <div>
-                          <h2 className="text-xl font-bold text-gray-900">
-                            {product.name}{" "}
+                          <h2 className="text-2xl  text-white tracking-wide">
+                            {product.name}
                           </h2>
+                          <div className="h-1 w-10 bg-obsidian-lighter mt-2 rounded-full neon-border-cyan"></div>
                         </div>
                       </div>
 
-                      <div className="space-y-8 divide-y divide-gray-200">
+                      <div className="space-y-8 divide-y divide-white/5 relative z-10">
                         <div className="pt-8 first:pt-0">
                           <ProductEditor
                             product={product}
@@ -259,6 +282,7 @@ export default function AdminPage() {
                             isReadOnly={!user}
                           />
                         </div>
+                        {/* Other managers can be collapsed or simplified in grid view if needed, but keeping as is for now */}
                         <div className="pt-8">
                           <StockManager
                             product={product}
@@ -295,56 +319,67 @@ export default function AdminPage() {
                           />
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               ) : (
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                  <div className="flex items-center justify-between mb-6">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4 }}
+                  className="glass-panel rounded-2xl p-8 md:p-12 relative overflow-hidden"
+                >
+                  <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-b from-neon-purple/10 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+
+                  <div className="flex items-center justify-between mb-12 relative z-10">
                     <div>
-                      <h2 className="text-xl font-bold text-gray-900">
-                        {selectedProduct.name}{" "}
+                      <h2 className="text-4xl  text-white tracking-tight">
+                        {selectedProduct.name}
                       </h2>
+                      <div className="flex items-center gap-2 mt-4 text-white/40 text-sm">
+                        <span className="w-2 h-2 rounded-full bg-obsidian-lighter animate-pulse"></span>
+                        Active Configuration
+                      </div>
                     </div>
                   </div>
 
-                  <div className="space-y-8 divide-y divide-gray-200">
-                    <div className="pt-8 first:pt-0">
+                  <div className="space-y-12 divide-y divide-white/5 relative z-10">
+                    <div className="pt-12 first:pt-0">
                       <ProductEditor
                         product={selectedProduct}
                         onUpdate={handleProductUpdate}
                         isReadOnly={!user}
                       />
                     </div>
-                    <div className="pt-8">
+                    <div className="pt-12">
                       <StockManager
                         product={selectedProduct}
                         onUpdate={loadProducts}
                         isReadOnly={!user}
                       />
                     </div>
-                    <div className="pt-8">
+                    <div className="pt-12">
                       <FlavorManager
                         product={selectedProduct}
                         onUpdate={loadProducts}
                         isReadOnly={!user}
                       />
                     </div>
-                    <div className="pt-8">
+                    <div className="pt-12">
                       <ReviewsManager
                         product={selectedProduct}
                         onUpdate={loadProducts}
                         isReadOnly={!user}
                       />
                     </div>
-                    <div className="pt-8">
+                    <div className="pt-12">
                       <BenefitsManager
                         product={selectedProduct}
                         onUpdate={loadProducts}
                         isReadOnly={!user}
                       />
                     </div>
-                    <div className="pt-8">
+                    <div className="pt-12">
                       <NutritionManager
                         product={selectedProduct}
                         onUpdate={loadProducts}
@@ -352,12 +387,14 @@ export default function AdminPage() {
                       />
                     </div>
                   </div>
-                </div>
+                </motion.div>
               )}
             </div>
           ) : (
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
-              <p className="text-gray-500 text-lg">Loading products...</p>
+            <div className="glass-panel rounded-2xl p-12 text-center text-white/50">
+              <p className="text-lg  tracking-widest uppercase">
+                Loading products...
+              </p>
             </div>
           )}
         </main>

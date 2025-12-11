@@ -5,6 +5,15 @@
   --bg-custom-gray: var(--color-custom-gray);
   --font-main: var(--font-inter);
 
+  /* Admin Theme */
+  --color-obsidian: #050505;
+  --color-obsidian-light: #0a0a0a;
+  --color-obsidian-lighter: #101010;
+  --color-neon-cyan: #00f0ff;
+  --color-neon-yellow: #ffff00;
+  --color-neon-purple: #b026ff;
+  --color-neon-green: #0aff00;
+
   --spacing-section: 128px;
   --spacing-section-m: 64px 16px;
   --spacing-sectionX: 128px;
@@ -79,6 +88,22 @@
 
   .border-custom-gray {
     border-color: var(--color-custom-gray);
+  }
+
+  .glass-panel {
+    @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-xl;
+  }
+
+  .glass-input {
+    @apply backdrop-blur-sm bg-black/30 border border-white/10 text-white placeholder:text-neutral-500 focus:border-neon-cyan focus:ring-1 focus:ring-neon-cyan transition-all duration-300;
+  }
+
+  .neon-text-cyan {
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+  }
+
+  .neon-border-cyan {
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
   }
 }
 

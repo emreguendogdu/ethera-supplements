@@ -40,18 +40,27 @@ export default function LoginForm({ onCancel }: LoginFormProps) {
   };
 
   return (
-    <div className="min-h-svh flex items-center justify-center bg-gray-50 text-black">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Admin Login</h1>
-          <p className="text-sm text-gray-600">
-            Sign in to access the admin panel
+    <div className="min-h-svh flex items-center justify-center bg-obsidian text-white">
+      <div className="max-w-md w-full glass-panel rounded-2xl p-12 relative overflow-hidden">
+        <div className="absolute top-0 right-0 p-4 opacity-20 pointer-events-none">
+          <div className="w-40 h-40 rounded-full bg-neon-purple blur-3xl translate-x-10 -translate-y-10"></div>
+        </div>
+
+        <div className="mb-12 relative z-10">
+          <h1 className="text-3xl  text-white mb-3 tracking-wide">
+            Access{" "}
+            <span className="text-obsidian-lighter neon-text-cyan font-normal">
+              Control
+            </span>
+          </h1>
+          <p className="text-xs text-white/50 uppercase tracking-widest">
+            Identity Verification Required
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">
+            <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg text-xs tracking-wide">
               {error}
             </div>
           )}
@@ -59,7 +68,7 @@ export default function LoginForm({ onCancel }: LoginFormProps) {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
             >
               Email
             </label>
@@ -71,14 +80,15 @@ export default function LoginForm({ onCancel }: LoginFormProps) {
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+              className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none"
+              placeholder="admin@ethera.com"
             />
           </div>
 
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-2"
+              className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
             >
               Password
             </label>
@@ -90,25 +100,26 @@ export default function LoginForm({ onCancel }: LoginFormProps) {
               onChange={(e) => setPassword(e.target.value)}
               required
               autoComplete="current-password"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+              className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none"
+              placeholder="••••••••"
             />
           </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="w-full px-4 py-3 bg-obsidian-lighter text-black font-semibold rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all disabled:opacity-50 disabled:shadow-none uppercase tracking-wider text-xs"
           >
-            {isLoading ? "Signing in..." : "Sign In"}
+            {isLoading ? "Authenticating..." : "Initialize Session"}
           </button>
 
           {onCancel && (
             <button
               type="button"
               onClick={onCancel}
-              className="w-full mt-2 px-4 py-2 text-gray-500 hover:text-gray-900 transition-colors text-sm"
+              className="w-full mt-2 px-4 py-2 text-white/40 hover:text-white transition-colors text-xs uppercase tracking-wider"
             >
-              Back to Demo Mode
+              Return to Preview
             </button>
           )}
         </form>

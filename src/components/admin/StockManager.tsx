@@ -114,10 +114,8 @@ export default function StockManager({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900">
-          Stock Management
-        </h3>
+      <div className="flex items-center justify-between gap-4">
+        <h3 className="text-xl  text-white">Stock Management</h3>
         {!showAddForm && !isReadOnly && (
           <button
             onClick={() => {
@@ -125,7 +123,7 @@ export default function StockManager({
               setEditingId("new");
               setFormData({ size: 0, price: 0, sale_price: 0, stock: 0 });
             }}
-            className="px-4 py-2 bg-black text-white text-sm rounded-md hover:bg-gray-800 transition-colors"
+            className="px-4 py-2 bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-full text-xs uppercase tracking-wider transition-colors"
           >
             Add Stock Item
           </button>
@@ -135,13 +133,13 @@ export default function StockManager({
       {showAddForm && (
         <form
           onSubmit={handleSubmit}
-          className="bg-gray-50 p-4 rounded-lg border border-gray-200"
+          className="glass-panel p-6 rounded-xl animate-in fade-in slide-in-from-top-4 duration-300"
         >
-          <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-2 gap-6 mb-6">
             <div>
               <label
                 htmlFor="size"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
               >
                 Size (g)
               </label>
@@ -154,14 +152,14 @@ export default function StockManager({
                 required
                 min="0"
                 step="1"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none"
               />
             </div>
 
             <div>
               <label
                 htmlFor="stock"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
               >
                 Stock Quantity
               </label>
@@ -174,14 +172,14 @@ export default function StockManager({
                 required
                 min="0"
                 step="1"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none"
               />
             </div>
 
             <div>
               <label
                 htmlFor="price"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
               >
                 Price ($)
               </label>
@@ -194,14 +192,14 @@ export default function StockManager({
                 required
                 min="0"
                 step="0.01"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none"
               />
             </div>
 
             <div>
               <label
                 htmlFor="sale_price"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
               >
                 Sale Price ($)
               </label>
@@ -214,80 +212,123 @@ export default function StockManager({
                 required
                 min="0"
                 step="0.01"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent"
+                className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none"
               />
             </div>
           </div>
 
-          <div className="flex justify-end space-x-2">
+          <div className="flex justify-end space-x-3">
             <button
               type="button"
               onClick={handleCancel}
-              className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+              className="px-6 py-2 border border-white/10 text-white/60 hover:text-white hover:bg-white/5 rounded-lg text-xs uppercase tracking-wider transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isLoading}
-              className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-6 py-2 bg-obsidian-lighter text-black font-semibold uppercase tracking-wider text-xs rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all disabled:opacity-50"
             >
-              {isLoading ? "Saving..." : editingId === "new" ? "Add" : "Update"}
+              {isLoading
+                ? "Saving..."
+                : editingId === "new"
+                ? "Add Item"
+                : "Update Item"}
             </button>
           </div>
         </form>
       )}
 
-      <div className="space-y-2">
+      <div className="space-y-3">
         {stockItems.length === 0 ? (
-          <p className="text-gray-500 text-center py-8">No stock items found</p>
+          <p className="text-white/30 text-center py-8 text-sm uppercase tracking-widest ">
+            No stock items configured
+          </p>
         ) : (
           stockItems.map((item, index) => (
             <div
               key={index}
-              className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200"
+              className="flex items-center justify-between p-4 glass-panel rounded-xl group hover:border-obsidian-lighter/30 transition-colors"
             >
-              <div className="flex-1 grid grid-cols-4 gap-4">
+              <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
-                  <span className="text-xs text-gray-500">Size</span>
-                  <p className="font-medium">{item.size}g</p>
+                  <span className="text-[10px] text-white/30 uppercase tracking-wider block mb-1">
+                    Size
+                  </span>
+                  <p className="text-sm  text-white">{item.size}g</p>
                 </div>
                 <div>
-                  <span className="text-xs text-gray-500">Price</span>
-                  <p className="font-medium">${item.price.toFixed(2)}</p>
+                  <span className="text-[10px] text-white/30 uppercase tracking-wider block mb-1">
+                    Price
+                  </span>
+                  <p className="text-sm  text-white">
+                    ${item.price.toFixed(2)}
+                  </p>
                 </div>
                 <div>
-                  <span className="text-xs text-gray-500">Sale Price</span>
-                  <p className="font-medium">${item.sale_price.toFixed(2)}</p>
+                  <span className="text-[10px] text-white/30 uppercase tracking-wider block mb-1">
+                    Sale Price
+                  </span>
+                  <p className="text-sm  text-obsidian-lighter">
+                    ${item.sale_price.toFixed(2)}
+                  </p>
                 </div>
                 <div>
-                  <span className="text-xs text-gray-500">Stock</span>
+                  <span className="text-[10px] text-white/30 uppercase tracking-wider block mb-1">
+                    Stock
+                  </span>
                   <p
-                    className={`font-medium ${
-                      item.stock === 0 ? "text-red-600" : ""
+                    className={`text-sm  ${
+                      item.stock === 0 ? "text-red-500" : "text-white"
                     }`}
                   >
-                    {item.stock}
+                    {item.stock} units
                   </p>
                 </div>
               </div>
-              <div className="flex space-x-2 ml-4">
+              <div className="flex space-x-2 ml-4 opacity-50 group-hover:opacity-100 transition-opacity">
                 {!isReadOnly && (
                   <>
                     <button
                       onClick={() =>
                         handleEdit(item as ProductStock & { id: string })
                       }
-                      className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                      className="p-2 hover:bg-white/10 rounded-md transition-colors text-white/70"
+                      title="Edit"
                     >
-                      Edit
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                      </svg>
                     </button>
                     {"id" in item && typeof item.id === "string" && (
                       <button
                         onClick={() => handleDelete(item.id as string)}
-                        className="px-3 py-1 text-sm bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+                        className="p-2 hover:bg-red-500/20 text-red-400 rounded-md transition-colors"
+                        title="Delete"
                       >
-                        Delete
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <polyline points="3 6 5 6 21 6"></polyline>
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
                       </button>
                     )}
                   </>

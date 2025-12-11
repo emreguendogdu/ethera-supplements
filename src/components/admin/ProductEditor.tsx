@@ -96,102 +96,111 @@ export default function ProductEditor({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div>
-        <label
-          htmlFor="name"
-          className="block text-sm font-medium text-gray-700 mb-2"
-        >
-          Product Name
-        </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder:opacity-50"
-          placeholder="Whey Isolate"
-          disabled={isReadOnly}
-        />
+    <div className="space-y-6">
+      <div className="flex items-center gap-2 mb-6">
+        <h3 className="text-xl  text-white">General Information</h3>
+        <div className="h-[1px] flex-1 bg-white/10"></div>
       </div>
 
-      <div>
-        <label
-          htmlFor="slug"
-          className="block text-sm font-medium text-gray-700 mb-2"
-        >
-          Slug
-        </label>
-        <input
-          type="text"
-          id="slug"
-          name="slug"
-          value={formData.slug}
-          onChange={handleChange}
-          required
-          pattern="[a-z0-9-]+"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder:opacity-50"
-          placeholder="whey-isolate"
-          disabled={isReadOnly}
-        />
-        <p className="mt-1 text-xs text-gray-500">
-          Lowercase letters, numbers, and hyphens only. (e.g: whey-isolate)
-        </p>
-      </div>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label
+              htmlFor="name"
+              className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+            >
+              Product Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none"
+              placeholder="Whey Isolate"
+              disabled={isReadOnly}
+            />
+          </div>
 
-      <div>
-        <label
-          htmlFor="description"
-          className="block text-sm font-medium text-gray-700 mb-2"
-        >
-          Short Description
-        </label>
-        <textarea
-          id="description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          required
-          rows={6}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder:opacity-50"
-          placeholder="Peak purity for maximum growth."
-          disabled={isReadOnly}
-        />
-      </div>
+          <div>
+            <label
+              htmlFor="slug"
+              className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+            >
+              Slug
+            </label>
+            <input
+              type="text"
+              id="slug"
+              name="slug"
+              value={formData.slug}
+              onChange={handleChange}
+              required
+              pattern="[a-z0-9-]+"
+              className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none"
+              placeholder="whey-isolate"
+              disabled={isReadOnly}
+            />
+            <p className="mt-2 text-[10px] text-neutral-500 uppercase tracking-wide">
+              Lowercase letters, numbers, and hyphens only.
+            </p>
+          </div>
+        </div>
 
-      <div>
-        <label
-          htmlFor="how_to_use"
-          className="block text-sm font-medium text-gray-700 mb-2"
-        >
-          How to Use
-        </label>
-        <textarea
-          id="how_to_use"
-          name="how_to_use"
-          value={formData.how_to_use}
-          onChange={handleChange}
-          required
-          rows={4}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent placeholder:opacity-50"
-          placeholder="Mix 1 scoop (30g) with 250ml of cold water or milk. Consume 1-2 servings daily. Ideally taken immediately post-workout to kickstart recovery, or between meals to hit protein targets."
-          disabled={isReadOnly}
-        />
-      </div>
-
-      <div className="flex justify-end">
-        {!isReadOnly && (
-          <button
-            type="submit"
-            disabled={isSaving || !hasChanges}
-            className="px-6 py-2 bg-black text-white rounded-md hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        <div>
+          <label
+            htmlFor="description"
+            className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
           >
-            {isSaving ? "Saving..." : "Save Changes"}
-          </button>
-        )}
-      </div>
-    </form>
+            Short Description
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            required
+            rows={4}
+            className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none resize-none"
+            placeholder="Peak purity for maximum growth."
+            disabled={isReadOnly}
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="how_to_use"
+            className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+          >
+            How to Use
+          </label>
+          <textarea
+            id="how_to_use"
+            name="how_to_use"
+            value={formData.how_to_use}
+            onChange={handleChange}
+            required
+            rows={3}
+            className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none resize-none"
+            placeholder="Mix 1 scoop..."
+            disabled={isReadOnly}
+          />
+        </div>
+
+        <div className="flex justify-end pt-4">
+          {!isReadOnly && (
+            <button
+              type="submit"
+              disabled={isSaving || !hasChanges}
+              className="px-8 py-3 bg-obsidian-lighter text-black font-semibold uppercase tracking-wider text-xs rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
+            >
+              {isSaving ? "Saving..." : "Save Changes"}
+            </button>
+          )}
+        </div>
+      </form>
+    </div>
   );
 }

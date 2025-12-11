@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import Menu from "../menu/Menu";
+import { Product } from "@/types/product";
 
-export default function MenuButton() {
+interface MenuButtonProps {
+  products: Product[];
+}
+
+export default function MenuButton({ products }: MenuButtonProps) {
   const [visible, setVisible] = useState(false);
   return (
     <>
-      <Menu visible={visible} setVisible={setVisible} />
+      <Menu products={products} visible={visible} setVisible={setVisible} />
       <button
         className="uppercase tracking-widest cursor-pointer"
         onClick={() => setVisible(true)}

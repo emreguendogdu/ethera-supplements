@@ -45,7 +45,7 @@ export default function Header({ products }: HeaderProps) {
             </p>
             <CartIcon className="group-hover:fill-neutral-200 transition-all" />
           </button>
-          <MenuButton />
+          <MenuButton products={products} />
         </div>
       </header>
     </>

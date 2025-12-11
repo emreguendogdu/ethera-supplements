@@ -10,7 +10,7 @@ export default function Logo({ className }: LogoProps) {
     <Link
       href="/"
       className={cn(
-        "subheading text-center uppercase hover:text-neutral-200 text-neutral-500 transition-all tracking-[0.2em]",
+        "subheading text-center uppercase hover:text-neutral-200 text-neutral-500 transition-all tracking-[0.2em] select-none",
         className
       )}
     >
