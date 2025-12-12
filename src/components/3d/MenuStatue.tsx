@@ -10,7 +10,7 @@ import { useLoadingStore } from "@/stores/loadingStore";
 import { useGLTF } from "@react-three/drei";
 import { BufferGeometry, Mesh, MeshStandardMaterial, Scene } from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -28,8 +28,8 @@ interface MenuStatueProps extends React.ComponentPropsWithoutRef<"group"> {
 }
 
 export default function MenuStatue({
-  metalness = 0.55,
-  roughness = 0.75,
+  metalness = 0.0,
+  roughness = 0.35,
   ...props
 }: MenuStatueProps) {
   const { nodes, materials, scene } = useGLTF(
@@ -40,6 +40,25 @@ export default function MenuStatue({
 
   const hasReportedLoadRef = useRef(false);
 
+  // Clone the original material to preserve normal maps for detail, but remove color textures
+  const material = useMemo(() => {
+    if (!materials.Stone_wall) return null;
+    const clonedMaterial = materials.Stone_wall.clone();
+    // Remove color-affecting textures to eliminate yellowish/greenish tint
+    clonedMaterial.map = null; // Remove diffuse/color map
+    clonedMaterial.aoMap = null; // Remove ambient occlusion map that might tint
+    clonedMaterial.emissiveMap = null; // Remove emissive map
+    // Keep normal map for surface detail (eyes, etc.)
+    // Keep roughnessMap and metalnessMap if they exist for realistic shading
+    // Modify to realistic statue appearance
+    clonedMaterial.color.set("#f0ede5"); // Warm off-white marble color
+    clonedMaterial.metalness = metalness;
+    clonedMaterial.roughness = roughness;
+    clonedMaterial.envMapIntensity = 0.5; // Subtle environment reflections
+    clonedMaterial.needsUpdate = true;
+    return clonedMaterial;
+  }, [materials]);
+
   useEffect(() => {
     if (scene && !hasReportedLoadRef.current) {
       setAssetLoaded("menuStatue");
@@ -48,12 +67,16 @@ export default function MenuStatue({
   }, [scene, setAssetLoaded]);
 
   useEffect(() => {
-    if (materials.Stone_wall) {
-      materials.Stone_wall.metalness = metalness;
-      materials.Stone_wall.roughness = roughness;
-      materials.Stone_wall.needsUpdate = true;
+    if (material) {
+      material.metalness = metalness;
+      material.roughness = roughness;
+      material.needsUpdate = true;
     }
-  }, [materials, metalness, roughness]);
+  }, [material, metalness, roughness]);
+
+  if (!material) {
+    return <group {...props} dispose={null} />;
+  }
 
   return (
     <group {...props} dispose={null}>
@@ -61,7 +84,7 @@ export default function MenuStatue({
         castShadow
         receiveShadow
         geometry={nodes.Object_5.geometry as BufferGeometry}
-        material={materials.Stone_wall}
+        material={material}
         position={[0, 2.457, -2]}
       />
     </group>

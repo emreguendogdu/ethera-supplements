@@ -19,31 +19,31 @@ const config = {
   baseRotationX: 0,
   baseRotationY: 0.5,
   baseRotationZ: 0,
-  ambientIntensity: 0.2,
-  keyIntensity: 0.5,
+  ambientIntensity: 0.05,
+  keyIntensity: 0.1,
   keyPosX: 5,
   keyPosY: 5,
   keyPosZ: 5,
-  fillIntensity: 1.5,
+  fillIntensity: 0.3,
   fillPosX: -5,
   fillPosY: 2.5,
   fillPosZ: -2.5,
-  rimIntensity: 2.5,
+  rimIntensity: 0.5,
   rimPosX: -7.5,
   rimPosY: 5,
   rimPosZ: -10,
-  topIntensity: 0.5,
+  topIntensity: 0.15,
   topPosX: 0,
   topPosY: 15,
   topPosZ: 0,
   cursorLightEnabled: true,
-  cursorLightIntensity: 2.5,
+  cursorLightIntensity: 4,
   cursorLightColor: 0xffffff,
-  cursorLightDistance: 4,
+  cursorLightDistance: 3,
   cursorLightDecay: 2,
   cursorLightPosZ: 0.5,
   cursorLightSmoothness: 0.1, // Adjusted for R3F frame delta
-  cursorLightScale: 5, // Adjusted for scene scale
+  cursorLightScale: 1, // Adjusted for scene scale
   parallaxSensitivityX: 0.25,
   parallaxSensitivityY: 0.05,
 };
@@ -53,7 +53,7 @@ interface EnvironmentProps {
   isInView: boolean;
 }
 
-function Environment({ isMobile, isInView }: EnvironmentProps) {
+function Environment({ isMobile }: EnvironmentProps) {
   const { pointer } = useThree();
   const groupRef = useRef<THREE.Group>(null);
   const cursorLightRef = useRef<THREE.PointLight>(null);
@@ -151,7 +151,7 @@ function Environment({ isMobile, isInView }: EnvironmentProps) {
         ref={groupRef}
         position={[
           camPosX,
-          isMobile ? config.baseCamPosY + 0.5 : config.baseCamPosY,
+          isMobile ? config.baseCamPosY + 1.5 : config.baseCamPosY,
           config.baseCamPosZ,
         ]}
       >
@@ -159,7 +159,7 @@ function Environment({ isMobile, isInView }: EnvironmentProps) {
           <MenuStatue
             metalness={config.metalness}
             roughness={config.roughness}
-            scale={isMobile ? 0.8 : 1}
+            scale={isMobile ? 0.6 : 1}
           />
         </Suspense>
       </group>

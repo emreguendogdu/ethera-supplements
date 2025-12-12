@@ -71,14 +71,14 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
       </div>
 
       {/* Main */}
-      <div className="w-full flex items-center justify-end flex-1 h-full">
+      <div className="w-full flex items-end sm:items-center justify-end flex-1 h-full py-8">
         {/* 3D */}
         {renderCanvas && <MenuCanvas inView={visible} />}
         {/* Menu */}
-        <ul className="relative w-fit z-1000 select-none">
+        <ul className="relative w-fit z-1000 select-none flex flex-col justify-end sm:justify-start">
           <Link
             href="/"
-            className="h1 text-neutral-500 hover:text-neutral-200 transition-all uppercase select-none"
+            className="h1 text-white text-right sm:text-left sm:text-neutral-500 hover:text-neutral-200 transition-all uppercase select-none"
             onClick={handleCloseMenu}
           >
             <li className="whitespace-nowrap">Home</li>
@@ -88,7 +88,7 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
             <Link
               key={`hp__${i}`}
               href={`/products/${product.slug}`}
-              className="h1 text-neutral-500 hover:text-neutral-200 transition-all uppercase select-none"
+              className="h1 text-white text-right sm:text-left sm:text-neutral-500 hover:text-neutral-200 transition-all uppercase select-none"
               onClick={handleCloseMenu}
             >
               <li className="whitespace-nowrap">{product.name}</li>
@@ -97,7 +97,7 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
 
           <Link
             href="/admin"
-            className="h1 text-neutral-500 hover:text-neutral-200 transition-all uppercase select-none whitespace-nowrap"
+            className="h1 text-white text-right sm:text-left sm:text-neutral-500 hover:text-neutral-200 transition-all uppercase select-none whitespace-nowrap"
             onClick={handleCloseMenu}
           >
             Admin
@@ -109,8 +109,12 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
         <Link href="https://emregnd.com" target="_blank">
           <p className="text-neutral-500 uppercase tracking-widest">emregnd</p>
         </Link>
-        <p className="text-neutral-500">
-          &copy; 2025 Ethera. All rights reserved.
+        <p className="text-neutral-500 text-right">
+          &copy; 2025 - Ethera.{" "}
+          <span className="inline sm:hidden">
+            <br />
+          </span>
+          All rights reserved.
         </p>
       </div>
     </div>
