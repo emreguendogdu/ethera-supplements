@@ -27,6 +27,11 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
     }
   }, [visible]);
 
+  const handleCloseMenu = () => {
+    setVisible(false);
+    setRenderCanvas(false);
+  };
+
   return (
     <div
       className={`fixed h-svh inset-0 z-999 bg-black w-full flex flex-col justify-between px-sectionX-m md:px-sectionX py-4 transition-opacity duration-500 ${
@@ -40,7 +45,7 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
         <Logo className="text-neutral-500" />
         <button
           className="uppercase tracking-widest cursor-pointer text-neutral-500 select-none"
-          onClick={() => setVisible(false)}
+          onClick={handleCloseMenu}
         >
           Close
         </button>
@@ -55,6 +60,7 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
           <Link
             href="/"
             className="h1 text-neutral-500 hover:text-neutral-200 transition-all uppercase select-none"
+            onClick={handleCloseMenu}
           >
             <li className="whitespace-nowrap">Home</li>
           </Link>
@@ -64,15 +70,26 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
               key={`hp__${i}`}
               href={`/products/${product.slug}`}
               className="h1 text-neutral-500 hover:text-neutral-200 transition-all uppercase select-none"
+              onClick={handleCloseMenu}
             >
               <li className="whitespace-nowrap">{product.name}</li>
             </Link>
           ))}
+
+          <Link
+            href="/admin"
+            className="h1 text-neutral-500 hover:text-neutral-200 transition-all uppercase select-none whitespace-nowrap"
+            onClick={handleCloseMenu}
+          >
+            Admin
+          </Link>
         </ul>
       </div>
       {/* Footer */}
       <div className="relative flex justify-between items-center z-1000">
-        <p className="text-neutral-500 uppercase tracking-widest">Emregnd</p>
+        <Link href="https://emregnd.com" target="_blank">
+          <p className="text-neutral-500 uppercase tracking-widest">emregnd</p>
+        </Link>
         <p className="text-neutral-500">
           &copy; 2025 Ethera. All rights reserved.
         </p>

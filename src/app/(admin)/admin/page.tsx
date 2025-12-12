@@ -14,6 +14,7 @@ import ViewToggle from "@/components/admin/ViewToggle";
 import AdminGrid from "@/components/admin/AdminGrid";
 import AdminFocusView from "@/components/admin/AdminFocusView";
 import "@/app/index.css";
+import useDeviceSize from "@/hooks/useDeviceSize";
 
 export default function AdminPage() {
   const [user, setUser] = useState<User | null>(null);
@@ -23,7 +24,7 @@ export default function AdminPage() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isGridMode, setIsGridMode] = useState(false);
-
+  const { isMobile } = useDeviceSize();
   useEffect(() => {
     checkAuth();
     supabase.auth.onAuthStateChange((_event, session) => {
@@ -107,6 +108,14 @@ export default function AdminPage() {
     }
   };
 
+  useEffect(() => {
+    if (!isMobile) {
+      setIsGridMode(true);
+    } else {
+      setIsGridMode(false);
+    }
+  }, [isMobile]);
+
   if (isCheckingAuth) {
     return (
       <div className="min-h-svh flex items-center justify-center bg-obsidian">
@@ -130,10 +139,10 @@ export default function AdminPage() {
         onSignIn={() => setIsLoginOpen(true)}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 pb-20">
+      <div className="*max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 pb-20">
         <main className="flex-1">
           {selectedProduct ? (
-            <div className="space-y-8">
+            <div className="space-y-2 sm:space-y-8">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

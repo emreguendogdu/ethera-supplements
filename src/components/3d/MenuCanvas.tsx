@@ -13,7 +13,6 @@ const config = {
   canvasBg: "#000000",
   metalness: 0.55,
   roughness: 0.75,
-  baseZoom: 1,
   baseCamPosX: -1,
   baseCamPosY: -4,
   baseCamPosZ: 1,
@@ -55,7 +54,7 @@ interface EnvironmentProps {
 }
 
 function Environment({ isMobile, isInView }: EnvironmentProps) {
-  const { pointer, viewport } = useThree();
+  const { pointer } = useThree();
   const groupRef = useRef<THREE.Group>(null);
   const cursorLightRef = useRef<THREE.PointLight>(null);
 
@@ -65,7 +64,7 @@ function Environment({ isMobile, isInView }: EnvironmentProps) {
   const cursorLightCurrentX = useRef(0);
   const cursorLightCurrentY = useRef(0);
 
-  useFrame((state, delta) => {
+  useFrame(() => {
     // Parallax
     const targetRotationY = pointer.x * config.parallaxSensitivityX;
     const targetRotationX = -pointer.y * config.parallaxSensitivityY;

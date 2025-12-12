@@ -70,3 +70,4 @@ export default function ViewToggle({ isGridMode, onToggle }: ViewToggleProps) {
     </button>
   );
 }
+

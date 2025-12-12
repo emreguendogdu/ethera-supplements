@@ -270,7 +270,7 @@ export default function StockManager({
                   <span className="text-[10px] text-white/30 uppercase tracking-wider block mb-1">
                     Sale Price
                   </span>
-                  <p className="text-sm  text-obsidian-lighter">
+                  <p className="text-sm  text-white-50">
                     ${item.sale_price.toFixed(2)}
                   </p>
                 </div>
