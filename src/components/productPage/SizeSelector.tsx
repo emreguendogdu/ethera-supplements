@@ -32,7 +32,7 @@ export const SizeSelector = ({
           />
           <label
             htmlFor={String(stock.size)}
-            className="inline-flex px-2 py-2 w-fit cursor-pointer hover:text-neutral-300 border border-separate border-neutral-800 peer-checked:text-white text-neutral-400 hover:bg-neutral-900"
+            className="inline-flex px-2 py-2 w-fit cursor-pointer hover:text-neutral-300 border border-separate border-neutral-800 peer-checked:text-white text-neutral-500 hover:bg-neutral-900"
           >
             <p className="w-full uppercase font-bold">{stock.size}g</p>
           </label>

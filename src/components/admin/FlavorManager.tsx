@@ -135,7 +135,7 @@ export default function FlavorManager({
             <div>
               <label
                 htmlFor="name"
-                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+                className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
               >
                 Flavor Name
               </label>
@@ -154,7 +154,7 @@ export default function FlavorManager({
             <div>
               <label
                 htmlFor="color"
-                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+                className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
               >
                 Color
               </label>

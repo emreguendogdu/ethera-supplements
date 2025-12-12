@@ -161,7 +161,7 @@
   }
 
   .subheading {
-    @apply uppercase font-medium text-neutral-400 tracking-wide text-sm;
+    @apply uppercase font-medium text-neutral-500 tracking-wide;
   }
 
   .select {

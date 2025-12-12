@@ -20,7 +20,7 @@ export const DiscountInput = ({
   return (
     <div className="relative flex-1 h-full flex items-end justify-start">
       <motion.button
-        className="absolute text-neutral-400 cursor-pointer"
+        className="absolute text-neutral-500 cursor-pointer"
         animate={{
           opacity: isVisible ? 0 : 1,
           display: isVisible ? "none" : "block",

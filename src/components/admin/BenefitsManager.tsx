@@ -133,7 +133,7 @@ export default function BenefitsManager({
             <div>
               <label
                 htmlFor="benefit"
-                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+                className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
               >
                 Benefit
               </label>

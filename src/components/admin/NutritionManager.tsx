@@ -136,7 +136,7 @@ export default function NutritionManager({
             <div>
               <label
                 htmlFor="serving_description"
-                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+                className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
               >
                 Serving Description
               </label>
@@ -156,7 +156,7 @@ export default function NutritionManager({
             <div>
               <label
                 htmlFor="serving_size"
-                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+                className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
               >
                 Serving Size (g)
               </label>
@@ -179,7 +179,7 @@ export default function NutritionManager({
           <div>
             <label
               htmlFor="amount"
-              className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+              className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
             >
               Amount (JSON)
             </label>
@@ -202,7 +202,7 @@ export default function NutritionManager({
           <div>
             <label
               htmlFor="ingredients"
-              className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+              className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
             >
               Ingredients
             </label>

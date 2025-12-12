@@ -139,7 +139,7 @@ export default function StockManager({
             <div>
               <label
                 htmlFor="size"
-                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+                className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
               >
                 Size (g)
               </label>
@@ -159,7 +159,7 @@ export default function StockManager({
             <div>
               <label
                 htmlFor="stock"
-                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+                className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
               >
                 Stock Quantity
               </label>
@@ -179,7 +179,7 @@ export default function StockManager({
             <div>
               <label
                 htmlFor="price"
-                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+                className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
               >
                 Price ($)
               </label>
@@ -199,7 +199,7 @@ export default function StockManager({
             <div>
               <label
                 htmlFor="sale_price"
-                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+                className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
               >
                 Sale Price ($)
               </label>

@@ -171,7 +171,7 @@ export default function ReviewsManager({
               <div>
                 <label
                   htmlFor="author"
-                  className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+                  className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
                 >
                   Author
                 </label>
@@ -190,7 +190,7 @@ export default function ReviewsManager({
               <div>
                 <label
                   htmlFor="rating"
-                  className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+                  className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
                 >
                   Rating
                 </label>
@@ -218,7 +218,7 @@ export default function ReviewsManager({
             <div>
               <label
                 htmlFor="title"
-                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+                className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
               >
                 Title
               </label>
@@ -237,7 +237,7 @@ export default function ReviewsManager({
             <div>
               <label
                 htmlFor="comment"
-                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+                className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
               >
                 Comment
               </label>
@@ -256,7 +256,7 @@ export default function ReviewsManager({
             <div>
               <label
                 htmlFor="date"
-                className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+                className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
               >
                 Date
               </label>

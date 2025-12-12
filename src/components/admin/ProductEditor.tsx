@@ -107,7 +107,7 @@ export default function ProductEditor({
           <div>
             <label
               htmlFor="name"
-              className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+              className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
             >
               Product Name
             </label>
@@ -127,7 +127,7 @@ export default function ProductEditor({
           <div>
             <label
               htmlFor="slug"
-              className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+              className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
             >
               Slug
             </label>
@@ -152,7 +152,7 @@ export default function ProductEditor({
         <div>
           <label
             htmlFor="description"
-            className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+            className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
           >
             Short Description
           </label>
@@ -172,7 +172,7 @@ export default function ProductEditor({
         <div>
           <label
             htmlFor="how_to_use"
-            className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+            className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
           >
             How to Use
           </label>

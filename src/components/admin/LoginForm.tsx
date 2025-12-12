@@ -68,7 +68,7 @@ export default function LoginForm({ onCancel }: LoginFormProps) {
           <div>
             <label
               htmlFor="email"
-              className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+              className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
             >
               Email
             </label>
@@ -88,7 +88,7 @@ export default function LoginForm({ onCancel }: LoginFormProps) {
           <div>
             <label
               htmlFor="password"
-              className="block text-xs font-medium text-neutral-400 uppercase tracking-wider mb-2"
+              className="block text-xs font-medium text-neutral-500 uppercase tracking-wider mb-2"
             >
               Password
             </label>

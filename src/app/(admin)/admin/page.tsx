@@ -13,7 +13,7 @@ import ProductSelector from "@/components/admin/ProductSelector";
 import ViewToggle from "@/components/admin/ViewToggle";
 import AdminGrid from "@/components/admin/AdminGrid";
 import AdminFocusView from "@/components/admin/AdminFocusView";
-import "@/app/index.css";
+import "@/app/globals.css";
 import useDeviceSize from "@/hooks/useDeviceSize";
 
 export default function AdminPage() {

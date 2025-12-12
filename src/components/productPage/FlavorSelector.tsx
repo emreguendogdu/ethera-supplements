@@ -30,7 +30,7 @@ export const FlavorSelector = ({
           />
           <label
             htmlFor={flavor.name}
-            className="inline-flex items-center gap-2 justify-between pr-2 w-fit rounded-lg cursor-pointer hover:text-[var(--color)] peer-checked:text-[var(--color)] text-neutral-400 hover:bg-neutral-900"
+            className="inline-flex items-center gap-2 justify-between pr-2 w-fit rounded-lg cursor-pointer hover:text-[var(--color)] peer-checked:text-[var(--color)] text-neutral-500 hover:bg-neutral-900"
             style={{ "--color": flavor.color } as React.CSSProperties}
           >
             <div
