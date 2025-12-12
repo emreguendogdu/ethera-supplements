@@ -14,7 +14,7 @@ export default function Logo({ className }: LogoProps) {
         className
       )}
     >
-      Ethera<sup>®</sup>
+      Ethera
     </Link>
   );
 }

@@ -12,7 +12,7 @@ export default function MenuButton({ products }: MenuButtonProps) {
     <>
       <Menu products={products} visible={visible} setVisible={setVisible} />
       <button
-        className="uppercase tracking-widest cursor-pointer"
+        className="uppercase tracking-widest cursor-pointer focus:outline-none"
         onClick={() => setVisible(true)}
       >
         Menu

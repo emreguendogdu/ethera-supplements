@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useCartContext } from "@/context/CartContext";
 import { CartContextType } from "@/types/cart";
 import { AnimatePresence, motion } from "motion/react";
@@ -51,11 +51,26 @@ export default function Cart() {
     setShowCheckout(false);
   };
 
-  const handleCloseCart = () => {
+  const handleCloseCart = useCallback(() => {
     setDisplayCart(false);
-  };
+  }, [setDisplayCart]);
 
   const cartItemsCount = cart?.cartItems?.length || 0;
+
+  // Add Esc key to close the cart
+  useEffect(() => {
+    if (!displayCart) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" || e.key === "Esc") {
+        handleCloseCart();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [displayCart, handleCloseCart]);
 
   return (
     <AnimatePresence>

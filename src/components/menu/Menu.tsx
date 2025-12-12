@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Logo from "../ui/Logo";
 import Link from "next/link";
 import { Product } from "@/types/product";
 import MenuCanvas from "@/components/3d/MenuCanvas";
+import { useScrollContext } from "@/context/ScrollContext";
 
 interface MenuProps {
   products: Product[];
@@ -15,22 +16,40 @@ interface MenuProps {
 // TODO: Remove the prop drilling here.
 export default function Menu({ products, visible, setVisible }: MenuProps) {
   const [renderCanvas, setRenderCanvas] = useState(visible);
+  const { setAllowScroll } = useScrollContext();
 
   useEffect(() => {
     if (visible) {
+      setAllowScroll(false);
       setRenderCanvas(true);
     } else {
       const timer = setTimeout(() => {
         setRenderCanvas(false);
+        setAllowScroll(true);
       }, 500);
       return () => clearTimeout(timer);
     }
-  }, [visible]);
+  }, [visible, setAllowScroll]);
 
-  const handleCloseMenu = () => {
+  const handleCloseMenu = useCallback(() => {
     setVisible(false);
     setRenderCanvas(false);
-  };
+    setAllowScroll(true);
+  }, [setVisible, setAllowScroll]);
+
+  useEffect(() => {
+    if (!visible) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" || e.key === "Esc") {
+        handleCloseMenu();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [visible, handleCloseMenu]);
 
   return (
     <div
