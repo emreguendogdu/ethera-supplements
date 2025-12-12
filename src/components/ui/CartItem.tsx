@@ -22,7 +22,7 @@ export const CartItem = ({ cartItem, onQuantityChange }: CartItemProps) => {
 
   return (
     <motion.li
-      className="flex justify-between border-b-[0.5px] border-b-neutral-700 py-4 relative"
+      className="flex justify-between gap-8 border-b-[0.5px] border-b-neutral-700 py-4 relative"
       exit={{
         opacity: 0,
         scale: 0,
@@ -30,8 +30,8 @@ export const CartItem = ({ cartItem, onQuantityChange }: CartItemProps) => {
       }}
       role="listitem"
     >
-      <div className="flex gap-4">
-        <figure className="relative flex justify-center items-center h-[100px] min-w-[100px]">
+      <div className="flex flex-col sm:flex-row gap-4">
+        <figure className="relative flex sm:justify-center sm:items-center h-[100px] min-w-[100px]">
           <Image
             src={`/images/${cartItem.slug}-tub.webp`}
             alt={`${cartItem.name} product image`}
@@ -40,7 +40,7 @@ export const CartItem = ({ cartItem, onQuantityChange }: CartItemProps) => {
           />
         </figure>
         <div className="flex flex-col justify-between">
-          <h3 className="text-white">{cartItem.name}</h3>
+          <h3 className="text-white uppercase">{cartItem.name}</h3>
           <dl className="[&>dd]:text-neutral-300">
             {cartItem.slug !== "bundle" && (
               <>
@@ -91,7 +91,7 @@ export const CartItem = ({ cartItem, onQuantityChange }: CartItemProps) => {
               {isRemoveAction ? "×" : "−"}
             </button>
             <span
-              className="select-none px-8 text-base"
+              className="select-none px-4 sm:px-8 text-base"
               aria-label={`Current quantity: ${cartItem.quantity}`}
               role="status"
             >
@@ -111,10 +111,3 @@ export const CartItem = ({ cartItem, onQuantityChange }: CartItemProps) => {
     </motion.li>
   );
 };
-
-
-
-
-
-
-

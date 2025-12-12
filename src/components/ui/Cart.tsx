@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { easeIn, easeOut } from "motion";
 import Checkout from "./Checkout";
 import { useCartPrices } from "@/hooks/useCartPrices";
-import { useCartScroll } from "@/hooks/useCartScroll";
+import { useScrollContext } from "@/context/ScrollContext";
 import { useDiscountInput } from "@/hooks/useDiscountInput";
 import { useCartQuantity } from "@/hooks/useCartQuantity";
 import { CartOverlay } from "./CartOverlay";
@@ -26,8 +26,6 @@ export default function Cart() {
   const { cart, displayCart, setDisplayCart } =
     useCartContext() as CartContextType;
   const [showCheckout, setShowCheckout] = useState(false);
-
-  useCartScroll(displayCart);
 
   const { salePrice, totalDiscount } = useCartPrices({
     cartItems: cart?.cartItems,

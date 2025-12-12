@@ -1,9 +1,14 @@
 import { CartProvider } from "@/context/CartContext";
+import { ScrollProvider } from "@/context/ScrollContext";
 
 interface GlobalProviderProps {
   children: React.ReactNode;
 }
 
 export default function GlobalProvider({ children }: GlobalProviderProps) {
-  return <CartProvider>{children}</CartProvider>;
+  return (
+    <ScrollProvider>
+      <CartProvider>{children}</CartProvider>
+    </ScrollProvider>
+  );
 }

@@ -61,9 +61,9 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
     >
       {/* Header */}
       <div className="relative flex justify-between items-center z-1000">
-        <Logo className="text-neutral-500" />
+        <Logo className="text-white sm:text-neutral-500" />
         <button
-          className="uppercase tracking-widest cursor-pointer text-neutral-500 select-none"
+          className="uppercase tracking-widest cursor-pointer text-white sm:text-neutral-500 select-none"
           onClick={handleCloseMenu}
         >
           Close
@@ -107,9 +107,11 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
       {/* Footer */}
       <div className="relative flex justify-between items-center z-1000">
         <Link href="https://emregnd.com" target="_blank">
-          <p className="text-neutral-500 uppercase tracking-widest">emregnd</p>
+          <p className="text-white sm:text-neutral-500 uppercase tracking-widest">
+            emregnd
+          </p>
         </Link>
-        <p className="text-neutral-500 text-right">
+        <p className="text-white sm:text-neutral-500 text-right">
           &copy; 2025 - Ethera.{" "}
           <span className="inline sm:hidden">
             <br />

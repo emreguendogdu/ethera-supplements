@@ -140,7 +140,11 @@ function Environment({ isMobile }: EnvironmentProps) {
         <pointLight
           ref={cursorLightRef}
           color={config.cursorLightColor}
-          intensity={config.cursorLightIntensity}
+          intensity={
+            isMobile
+              ? config.cursorLightIntensity / 8
+              : config.cursorLightIntensity
+          }
           distance={config.cursorLightDistance}
           decay={config.cursorLightDecay}
           position={[0, 0, config.cursorLightPosZ]}
