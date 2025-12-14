@@ -12,6 +12,7 @@ import { GlobalPreloader, PRELOAD_FADE_OUT_DURATION_MS } from "../ui/Preloader";
 import { motion } from "motion/react";
 import { DiscountCode } from "@/lib/discount";
 import { Product } from "@/types/product";
+import NewPreloader from "../ui/NewPreloader";
 
 interface LandingPageProps {
   initialProducts: Product[];
@@ -52,6 +53,7 @@ export default function LandingPage({
 
   return (
     <>
+      <NewPreloader />
       <GlobalPreloader />
       <motion.main
         style={{

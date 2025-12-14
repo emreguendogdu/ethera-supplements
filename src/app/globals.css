@@ -2,7 +2,8 @@
 
 :root {
   --color-background: #0b0c0d;
-  --color-foreground: #fff;
+  --color-foreground: #ffffff;
+  --color-accent: #a9a9a9;
 
   --color-obsidian: #050505;
   --color-obsidian-light: #0a0a0a;
@@ -15,7 +16,10 @@
 
 @theme {
   --font-main: var(--font-inter);
+  --font-display: var(--font-display);
   --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --color-accent: var(--color-accent);
 
   /* Admin Theme */
   --color-obsidian: var(--color-obsidian);
@@ -226,5 +230,39 @@ html {
 
   .custom-border {
     @apply rounded-xl border border-neutral-800 px-4 py-1 w-fit;
+  }
+
+  .block-line-wrapper {
+    position: relative;
+    width: max-content;
+    display: block;
+  }
+
+  .block-line {
+    position: relative;
+    display: block;
+  }
+
+  .block-revealer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 101%;
+    height: 101%;
+    pointer-events: none;
+    will-change: transform;
+    z-index: 1;
+  }
+
+  /* For end */
+  .block-hider {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 101%;
+    height: 101%;
+    pointer-events: none;
+    will-change: transform;
+    z-index: 2;
   }
 }
