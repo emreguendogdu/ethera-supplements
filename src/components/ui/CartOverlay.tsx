@@ -14,7 +14,7 @@ export const CartOverlay = ({ onClose }: CartOverlayProps) => {
   return (
     <div
       id="overlay"
-      className="hidden md:block fixed w-full h-full bg-black opacity-75 z-40"
+      className="hidden md:block fixed w-full h-full bg-background opacity-75 z-40"
       onClick={onClose}
       aria-label="Close cart overlay"
       role="button"
@@ -23,11 +23,3 @@ export const CartOverlay = ({ onClose }: CartOverlayProps) => {
     />
   );
 };
-
-
-
-
-
-
-
-

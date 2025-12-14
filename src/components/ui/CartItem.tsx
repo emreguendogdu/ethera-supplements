@@ -40,7 +40,7 @@ export const CartItem = ({ cartItem, onQuantityChange }: CartItemProps) => {
           />
         </figure>
         <div className="flex flex-col justify-between">
-          <h3 className="text-white uppercase">{cartItem.name}</h3>
+          <h3 className="text-foreground uppercase">{cartItem.name}</h3>
           <dl className="[&>dd]:text-neutral-300">
             {cartItem.slug !== "bundle" && (
               <>

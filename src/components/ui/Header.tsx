@@ -20,7 +20,7 @@ export default function Header({ products }: HeaderProps) {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 flex items-center justify-between py-4 bg-black text-neutral-500 z-50 px-sectionX-m md:px-sectionX">
+      <header className="fixed top-0 left-0 right-0 flex items-center justify-between py-4 bg-background text-neutral-500 z-50 px-sectionX-m md:px-sectionX">
         <Logo />
         <div className="flex items-center gap-8">
           {/* Cart Button */}

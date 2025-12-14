@@ -7,7 +7,7 @@ export default function ViewToggle({ isGridMode, onToggle }: ViewToggleProps) {
   return (
     <button
       onClick={onToggle}
-      className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-colors bg-white/5 border border-white/10 text-white/70 hover:bg-white/10 shrink-0 uppercase tracking-wide"
+      className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium whitespace-nowrap transition-colors bg-foreground/5 border border-foreground/10 text-foreground/70 hover:bg-foreground/10 shrink-0 uppercase tracking-wide"
     >
       {isGridMode ? (
         <>
@@ -70,5 +70,3 @@ export default function ViewToggle({ isGridMode, onToggle }: ViewToggleProps) {
     </button>
   );
 }
-
-

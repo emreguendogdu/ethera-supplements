@@ -21,7 +21,7 @@ export const DiscountCodeDisplay = ({
       </p>
       <button
         onClick={onCopy}
-        className="ml-1 bg-radial from-white via-white to-gray-400 text-black px-3 py-1 rounded-lg uppercase font-bold inline-block cursor-pointer"
+        className="ml-1 bg-radial from-white via-white to-gray-400 text-background px-3 py-1 rounded-lg uppercase font-bold inline-block cursor-pointer"
         aria-label={
           isCopied
             ? "Discount code copied"
@@ -36,11 +36,3 @@ export const DiscountCodeDisplay = ({
     </div>
   );
 };
-
-
-
-
-
-
-
-

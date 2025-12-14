@@ -1,5 +1,5 @@
-import Image from "next/image"
-import { Fragment } from "react"
+import Image from "next/image";
+import { Fragment } from "react";
 
 const qualities = [
   {
@@ -11,13 +11,13 @@ const qualities = [
   {
     text: "Built for the few who train in silence and rise in the dark. Our formulas support high-performance output without the crash—no hype, just results.",
   },
-]
+];
 
 export default function Info() {
   return (
     <section
       id="info"
-      className="flex flex-col items-center justify-center bg-black text-white p-section-m md:p-section w-full relative"
+      className="flex flex-col items-center justify-center bg-background text-foreground p-section-m md:p-section w-full relative"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 w-full max-w-6xl mb-12">
         <div className="relative h-[300px] w-full md:h-auto">
@@ -68,5 +68,5 @@ export default function Info() {
         </div>
       </div>
     </section>
-  )
+  );
 }

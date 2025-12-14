@@ -140,7 +140,7 @@ export default function ReviewsManager({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4">
-        <h3 className="text-xl  text-white">Reviews Management</h3>
+        <h3 className="text-xl  text-foreground">Reviews Management</h3>
         {!showAddForm && !isReadOnly && (
           <button
             onClick={() => {
@@ -154,7 +154,7 @@ export default function ReviewsManager({
                 date: new Date().toISOString().split("T")[0],
               });
             }}
-            className="px-4 py-2 bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-full text-xs uppercase tracking-wider transition-colors"
+            className="px-4 py-2 bg-foreground/5 border border-foreground/10 text-foreground/80 hover:bg-foreground/10 hover:text-foreground rounded-full text-xs uppercase tracking-wider transition-colors"
           >
             Add Review
           </button>
@@ -200,13 +200,13 @@ export default function ReviewsManager({
                   value={formData.rating}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none appearance-none bg-black/30"
+                  className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none appearance-none bg-background/30"
                 >
                   {[1, 2, 3, 4, 5].map((r) => (
                     <option
                       key={r}
                       value={r}
-                      className="bg-neutral-900 text-white"
+                      className="bg-neutral-900 text-foreground"
                     >
                       {r} Star{r !== 1 ? "s" : ""}
                     </option>
@@ -276,14 +276,14 @@ export default function ReviewsManager({
             <button
               type="button"
               onClick={handleCancel}
-              className="px-6 py-2 border border-white/10 text-white/60 hover:text-white hover:bg-white/5 rounded-lg text-xs uppercase tracking-wider transition-colors"
+              className="px-6 py-2 border border-foreground/10 text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-lg text-xs uppercase tracking-wider transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isLoading}
-              className="px-6 py-2 bg-obsidian-lighter text-black font-semibold uppercase tracking-wider text-xs rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all disabled:opacity-50"
+              className="px-6 py-2 bg-obsidian-lighter text-background font-semibold uppercase tracking-wider text-xs rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all disabled:opacity-50"
             >
               {isLoading
                 ? "Saving..."
@@ -297,7 +297,7 @@ export default function ReviewsManager({
 
       <div className="space-y-3">
         {reviews.length === 0 ? (
-          <p className="text-white/30 text-center py-8 text-sm uppercase tracking-widest ">
+          <p className="text-foreground/30 text-center py-8 text-sm uppercase tracking-widest ">
             No reviews found
           </p>
         ) : (
@@ -309,18 +309,22 @@ export default function ReviewsManager({
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center space-x-3 mb-2">
-                    <span className="font-medium text-white text-sm tracking-wide">
+                    <span className="font-medium text-foreground text-sm tracking-wide">
                       {review.author}
                     </span>
-                    <span className="text-white/20 text-xs">•</span>
-                    <span className="text-xs text-white/50">{review.date}</span>
-                    <span className="text-white/20 text-xs">•</span>
+                    <span className="text-foreground/20 text-xs">•</span>
+                    <span className="text-xs text-foreground/50">
+                      {review.date}
+                    </span>
+                    <span className="text-foreground/20 text-xs">•</span>
                     <span className="text-yellow-500 tracking-widest text-xs">
                       {"★".repeat(review.rating)}
                     </span>
                   </div>
-                  <h4 className=" text-white text-lg mb-2">{review.title}</h4>
-                  <p className="text-white/60 text-sm  leading-relaxed">
+                  <h4 className=" text-foreground text-lg mb-2">
+                    {review.title}
+                  </h4>
+                  <p className="text-foreground/60 text-sm  leading-relaxed">
                     {review.comment}
                   </p>
                 </div>
@@ -331,7 +335,7 @@ export default function ReviewsManager({
                         onClick={() =>
                           handleEdit(review as ProductReview & { id: string })
                         }
-                        className="p-2 hover:bg-white/10 rounded-md transition-colors text-white/70"
+                        className="p-2 hover:bg-foreground/10 rounded-md transition-colors text-foreground/70"
                         title="Edit"
                       >
                         <svg

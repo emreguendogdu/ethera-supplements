@@ -98,8 +98,8 @@ export default function ProductEditor({
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-2 mb-6">
-        <h3 className="text-xl  text-white">General Information</h3>
-        <div className="h-[1px] flex-1 bg-white/10"></div>
+        <h3 className="text-xl  text-foreground">General Information</h3>
+        <div className="h-[1px] flex-1 bg-foreground/10"></div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -194,7 +194,7 @@ export default function ProductEditor({
             <button
               type="submit"
               disabled={isSaving || !hasChanges}
-              className="px-8 py-3 bg-obsidian-lighter text-black font-semibold uppercase tracking-wider text-xs rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
+              className="px-8 py-3 bg-obsidian-lighter text-background font-semibold uppercase tracking-wider text-xs rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
             >
               {isSaving ? "Saving..." : "Save Changes"}
             </button>

@@ -35,7 +35,9 @@ export default function AdminProductCard({
       </div>
       <div className="flex items-center justify-between mb-8 relative z-10">
         <div>
-          <h2 className="text-2xl text-white tracking-wide">{product.name}</h2>
+          <h2 className="text-2xl text-foreground tracking-wide">
+            {product.name}
+          </h2>
           <div className="h-1 w-10 bg-obsidian-lighter mt-2 rounded-full neon-border-cyan"></div>
         </div>
       </div>
@@ -87,5 +89,3 @@ export default function AdminProductCard({
     </motion.div>
   );
 }
-
-

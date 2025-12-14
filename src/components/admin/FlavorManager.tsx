@@ -111,7 +111,7 @@ export default function FlavorManager({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4">
-        <h3 className="text-xl  text-white">Flavor Management</h3>
+        <h3 className="text-xl  text-foreground">Flavor Management</h3>
         {!showAddForm && !isReadOnly && (
           <button
             onClick={() => {
@@ -119,7 +119,7 @@ export default function FlavorManager({
               setEditingId("new");
               setFormData({ name: "", color: "#000000" });
             }}
-            className="px-4 py-2 bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-full text-xs uppercase tracking-wider transition-colors"
+            className="px-4 py-2 bg-foreground/5 border border-foreground/10 text-foreground/80 hover:bg-foreground/10 hover:text-foreground rounded-full text-xs uppercase tracking-wider transition-colors"
           >
             Add Flavor
           </button>
@@ -168,7 +168,7 @@ export default function FlavorManager({
                     onChange={handleChange}
                     className="h-12 w-12 border-none p-0 rounded-lg overflow-hidden cursor-pointer bg-transparent"
                   />
-                  <div className="absolute inset-0 border border-white/20 rounded-lg pointer-events-none"></div>
+                  <div className="absolute inset-0 border border-foreground/20 rounded-lg pointer-events-none"></div>
                 </div>
                 <input
                   type="text"
@@ -185,14 +185,14 @@ export default function FlavorManager({
             <button
               type="button"
               onClick={handleCancel}
-              className="px-6 py-2 border border-white/10 text-white/60 hover:text-white hover:bg-white/5 rounded-lg text-xs uppercase tracking-wider transition-colors"
+              className="px-6 py-2 border border-foreground/10 text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-lg text-xs uppercase tracking-wider transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isLoading}
-              className="px-6 py-2 bg-obsidian-lighter text-black font-semibold uppercase tracking-wider text-xs rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all disabled:opacity-50"
+              className="px-6 py-2 bg-obsidian-lighter text-background font-semibold uppercase tracking-wider text-xs rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all disabled:opacity-50"
             >
               {isLoading
                 ? "Saving..."
@@ -206,7 +206,7 @@ export default function FlavorManager({
 
       <div className="space-y-3">
         {flavors.length === 0 ? (
-          <p className="text-white/30 text-center py-8 text-sm uppercase tracking-widest ">
+          <p className="text-foreground/30 text-center py-8 text-sm uppercase tracking-widest ">
             No flavors configured
           </p>
         ) : (
@@ -217,14 +217,14 @@ export default function FlavorManager({
             >
               <div className="flex items-center space-x-6">
                 <div
-                  className="w-12 h-12 rounded-lg border border-white/10 shadow-lg"
+                  className="w-12 h-12 rounded-lg border border-foreground/10 shadow-lg"
                   style={{ backgroundColor: flavor.color }}
                 />
                 <div>
-                  <p className=" text-white text-lg tracking-wide">
+                  <p className=" text-foreground text-lg tracking-wide">
                     {flavor.name}
                   </p>
-                  <p className="text-xs text-white/40 uppercase tracking-wider">
+                  <p className="text-xs text-foreground/40 uppercase tracking-wider">
                     {flavor.color}
                   </p>
                 </div>
@@ -236,7 +236,7 @@ export default function FlavorManager({
                       onClick={() =>
                         handleEdit(flavor as ProductFlavor & { id: string })
                       }
-                      className="p-2 hover:bg-white/10 rounded-md transition-colors text-white/70"
+                      className="p-2 hover:bg-foreground/10 rounded-md transition-colors text-foreground/70"
                       title="Edit"
                     >
                       <svg

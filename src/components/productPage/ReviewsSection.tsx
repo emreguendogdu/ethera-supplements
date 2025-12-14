@@ -47,7 +47,7 @@ export const ReviewsSection = ({
               <motion.p
                 key={`rwsb_${index}`}
                 whileHover={{ scale: 1.25 }}
-                className="select-none cursor-pointer first-of-type:text-white text-neutral-500"
+                className="select-none cursor-pointer first-of-type:text-foreground text-neutral-500"
               >
                 {index + 1}
               </motion.p>
@@ -58,11 +58,3 @@ export const ReviewsSection = ({
     </section>
   );
 };
-
-
-
-
-
-
-
-

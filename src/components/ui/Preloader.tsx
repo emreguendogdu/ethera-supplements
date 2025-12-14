@@ -44,7 +44,7 @@ export function GlobalPreloader() {
 
   return (
     <motion.div
-      className="fixed inset-0 w-full h-full bg-black text-neutral-100 flex items-end z-[9999] opacity-100 transition-opacity duration-700 ease-in-out"
+      className="fixed inset-0 w-full h-full bg-background text-neutral-100 flex items-end z-[9999] opacity-100 transition-opacity duration-700 ease-in-out"
       role="status"
       aria-live="polite"
       initial={{ opacity: 1 }}
@@ -59,7 +59,7 @@ export function GlobalPreloader() {
         <p className="subheading">Loading assets...</p>
         <div className="w-full h-2 bg-neutral-900 rounded-full mx-auto overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)]">
           <motion.div
-            className="h-full bg-white rounded-full"
+            className="h-full bg-foreground rounded-full"
             style={{ willChange: "width" }}
             initial={{ width: 0 }}
             animate={{ width: `${progressPercentage}%` }}

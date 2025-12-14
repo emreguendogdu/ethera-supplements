@@ -119,7 +119,9 @@ export default function AdminPage() {
   if (isCheckingAuth) {
     return (
       <div className="min-h-svh flex items-center justify-center bg-obsidian">
-        <div className="text-white/50 animate-pulse">Loading System...</div>
+        <div className="text-foreground/50 animate-pulse">
+          Loading System...
+        </div>
       </div>
     );
   }
@@ -131,7 +133,7 @@ export default function AdminPage() {
   return (
     <section
       id="admin-panel"
-      className="relative min-h-svh bg-obsidian z-999 text-white font-(family-name:--font-inter) selection:bg-obsidian-lighter selection:text-black"
+      className="relative min-h-svh bg-obsidian z-999 text-foreground font-(family-name:--font-inter) selection:bg-obsidian-lighter selection:text-background"
     >
       <AdminHeader
         user={user}
@@ -147,7 +149,7 @@ export default function AdminPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="flex items-center justify-between gap-4 pb-4 border-b border-white/5"
+                className="flex items-center justify-between gap-4 pb-4 border-b border-foreground/5"
               >
                 <ProductSelector
                   products={products}
@@ -178,7 +180,7 @@ export default function AdminPage() {
               )}
             </div>
           ) : (
-            <div className="glass-panel rounded-2xl p-12 text-center text-white/50">
+            <div className="glass-panel rounded-2xl p-12 text-center text-foreground/50">
               <p className="text-lg tracking-widest uppercase">
                 Loading products...
               </p>

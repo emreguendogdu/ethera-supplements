@@ -169,7 +169,7 @@ export default function ProductIntro({ slug, glbUrl }: ProductIntroProps) {
         >
           <motion.div
             id="preloader-canvas-container"
-            className="fixed w-full h-full z-99 bg-black"
+            className="fixed w-full h-full z-99 bg-background"
           >
             <Canvas camera={{ fov: 50 }}>
               {(!isLoaded || isAnimationFinished.current) && <DisableRender />}

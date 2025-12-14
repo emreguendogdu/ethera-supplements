@@ -32,8 +32,10 @@ export default function AdminFocusView({
 
       <div className="flex items-center justify-between mb-12 relative z-10">
         <div>
-          <h2 className="text-4xl text-white tracking-tight">{product.name}</h2>
-          <div className="flex items-center gap-2 mt-4 text-white/40 text-sm">
+          <h2 className="text-4xl text-foreground tracking-tight">
+            {product.name}
+          </h2>
+          <div className="flex items-center gap-2 mt-4 text-foreground/40 text-sm">
             <span className="w-2 h-2 rounded-full bg-obsidian-lighter animate-pulse"></span>
             Active Configuration
           </div>
@@ -87,5 +89,3 @@ export default function AdminFocusView({
     </motion.div>
   );
 }
-
-

@@ -53,7 +53,7 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
 
   return (
     <div
-      className={`fixed h-svh inset-0 z-999 bg-black w-full flex flex-col justify-between px-sectionX-m md:px-sectionX py-4 transition-opacity duration-500 ${
+      className={`fixed h-svh inset-0 z-999 bg-background w-full flex flex-col justify-between px-sectionX-m md:px-sectionX py-4 transition-opacity duration-500 ${
         visible
           ? "opacity-100 pointer-events-auto"
           : "opacity-0 pointer-events-none"
@@ -61,9 +61,9 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
     >
       {/* Header */}
       <div className="relative flex justify-between items-center z-1000">
-        <Logo className="text-white sm:text-neutral-500" />
+        <Logo className="text-foreground sm:text-neutral-500" />
         <button
-          className="uppercase tracking-widest cursor-pointer text-white sm:text-neutral-500 select-none"
+          className="uppercase tracking-widest cursor-pointer text-foreground sm:text-neutral-500 select-none"
           onClick={handleCloseMenu}
         >
           Close
@@ -78,7 +78,7 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
         <ul className="relative w-fit z-1000 select-none flex flex-col justify-end sm:justify-start">
           <Link
             href="/"
-            className="h1 text-white text-right sm:text-left sm:text-neutral-500 hover:text-neutral-200 transition-all uppercase select-none"
+            className="h1 text-foreground text-right sm:text-left sm:text-neutral-500 hover:text-neutral-200 transition-all uppercase select-none"
             onClick={handleCloseMenu}
           >
             <li className="whitespace-nowrap">Home</li>
@@ -88,7 +88,7 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
             <Link
               key={`hp__${i}`}
               href={`/products/${product.slug}`}
-              className="h1 text-white text-right sm:text-left sm:text-neutral-500 hover:text-neutral-200 transition-all uppercase select-none"
+              className="h1 text-foreground text-right sm:text-left sm:text-neutral-500 hover:text-neutral-200 transition-all uppercase select-none"
               onClick={handleCloseMenu}
             >
               <li className="whitespace-nowrap">{product.name}</li>
@@ -97,7 +97,7 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
 
           <Link
             href="/admin"
-            className="h1 text-white text-right sm:text-left sm:text-neutral-500 hover:text-neutral-200 transition-all uppercase select-none whitespace-nowrap"
+            className="h1 text-foreground text-right sm:text-left sm:text-neutral-500 hover:text-neutral-200 transition-all uppercase select-none whitespace-nowrap"
             onClick={handleCloseMenu}
           >
             Admin
@@ -107,11 +107,11 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
       {/* Footer */}
       <div className="relative flex justify-between items-center z-1000">
         <Link href="https://emregnd.com" target="_blank">
-          <p className="text-white sm:text-neutral-500 uppercase tracking-widest">
+          <p className="text-foreground sm:text-neutral-500 uppercase tracking-widest">
             emregnd
           </p>
         </Link>
-        <p className="text-white sm:text-neutral-500 text-right">
+        <p className="text-foreground sm:text-neutral-500 text-right">
           &copy; 2025 - Ethera.{" "}
           <span className="inline sm:hidden">
             <br />

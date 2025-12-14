@@ -11,7 +11,7 @@ interface ReviewItemProps {
 export const ReviewItem = ({ review }: ReviewItemProps) => {
   return (
     <motion.li
-      className="px-8 py-4 pb-6 border border-custom-gray rounded-lg flex flex-col gap-2 relative"
+      className="px-8 py-4 pb-6 border border-obsidian rounded-lg flex flex-col gap-2 relative"
       initial={{ background: "transparent" }}
     >
       <div className="flex justify-between">
@@ -26,11 +26,3 @@ export const ReviewItem = ({ review }: ReviewItemProps) => {
     </motion.li>
   );
 };
-
-
-
-
-
-
-
-

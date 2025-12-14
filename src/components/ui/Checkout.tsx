@@ -1,22 +1,22 @@
-"use client"
+"use client";
 
-import { motion } from "motion/react"
-import { easeOut } from "motion"
-import Image from "next/image"
-import Link from "next/link"
-import Button from "./Button"
+import { motion } from "motion/react";
+import { easeOut } from "motion";
+import Image from "next/image";
+import Link from "next/link";
+import Button from "./Button";
 
 interface CheckoutProps {
-  showCheckout: boolean
-  onClose: () => void
+  showCheckout: boolean;
+  onClose: () => void;
 }
 
 export default function Checkout({ showCheckout, onClose }: CheckoutProps) {
-  if (!showCheckout) return null
+  if (!showCheckout) return null;
 
   return (
     <motion.section
-      className="absolute inset-0 h-full w-full flex flex-col gap-8 justify-between bg-black z-70  px-8 md:px-16 py-8"
+      className="absolute inset-0 h-full w-full flex flex-col gap-8 justify-between bg-background z-70  px-8 md:px-16 py-8"
       initial={{ opacity: 0, y: 50 }}
       animate={{
         opacity: 1,
@@ -33,7 +33,7 @@ export default function Checkout({ showCheckout, onClose }: CheckoutProps) {
         <button
           type="button"
           onClick={onClose}
-          className="text-2xl h2 h-fit text-white hover:text-neutral-300 transition-colors"
+          className="text-2xl h2 h-fit text-foreground hover:text-neutral-300 transition-colors"
           aria-label="Close checkout and return to cart"
         >
           ×
@@ -111,5 +111,5 @@ export default function Checkout({ showCheckout, onClose }: CheckoutProps) {
         />
       </motion.figure>
     </motion.section>
-  )
+  );
 }

@@ -40,20 +40,20 @@ export default function LoginForm({ onCancel }: LoginFormProps) {
   };
 
   return (
-    <div className="min-h-svh flex items-center justify-center bg-obsidian text-white">
+    <div className="min-h-svh flex items-center justify-center bg-obsidian text-foreground">
       <div className="max-w-md w-full glass-panel rounded-2xl p-12 relative overflow-hidden">
         <div className="absolute top-0 right-0 p-4 opacity-20 pointer-events-none">
           <div className="w-40 h-40 rounded-full bg-neon-purple blur-3xl translate-x-10 -translate-y-10"></div>
         </div>
 
         <div className="mb-12 relative z-10">
-          <h1 className="text-3xl  text-white mb-3 tracking-wide">
+          <h1 className="text-3xl  text-foreground mb-3 tracking-wide">
             Access{" "}
             <span className="text-obsidian-lighter neon-text-cyan font-normal">
               Control
             </span>
           </h1>
-          <p className="text-xs text-white/50 uppercase tracking-widest">
+          <p className="text-xs text-foreground/50 uppercase tracking-widest">
             Identity Verification Required
           </p>
         </div>
@@ -108,7 +108,7 @@ export default function LoginForm({ onCancel }: LoginFormProps) {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full px-4 py-3 bg-obsidian-lighter text-black font-semibold rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all disabled:opacity-50 disabled:shadow-none uppercase tracking-wider text-xs"
+            className="w-full px-4 py-3 bg-obsidian-lighter text-background font-semibold rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all disabled:opacity-50 disabled:shadow-none uppercase tracking-wider text-xs"
           >
             {isLoading ? "Authenticating..." : "Initialize Session"}
           </button>
@@ -117,7 +117,7 @@ export default function LoginForm({ onCancel }: LoginFormProps) {
             <button
               type="button"
               onClick={onCancel}
-              className="w-full mt-2 px-4 py-2 text-white/40 hover:text-white transition-colors text-xs uppercase tracking-wider"
+              className="w-full mt-2 px-4 py-2 text-foreground/40 hover:text-foreground transition-colors text-xs uppercase tracking-wider"
             >
               Return to Preview
             </button>

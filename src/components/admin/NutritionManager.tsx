@@ -127,7 +127,7 @@ export default function NutritionManager({
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-2 mb-6">
-        <h3 className="text-xl  text-white">Nutrition Management</h3>
+        <h3 className="text-xl  text-foreground">Nutrition Management</h3>
       </div>
 
       <form onSubmit={handleSubmit} className="glass-panel p-8 rounded-xl">
@@ -190,7 +190,7 @@ export default function NutritionManager({
               onChange={handleChange}
               required
               rows={6}
-              className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none font-mono text-sm leading-relaxed text-white/80"
+              className="w-full px-4 py-3 rounded-lg glass-input focus:outline-none font-mono text-sm leading-relaxed text-foreground/80"
               placeholder='{"calories": 100, "protein": 25, "carbs": 5}'
               disabled={isReadOnly}
             />
@@ -225,7 +225,7 @@ export default function NutritionManager({
             <button
               type="submit"
               disabled={isLoading}
-              className="px-8 py-3 bg-obsidian-lighter text-black font-semibold uppercase tracking-wider text-xs rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all disabled:opacity-50"
+              className="px-8 py-3 bg-obsidian-lighter text-background font-semibold uppercase tracking-wider text-xs rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all disabled:opacity-50"
             >
               {isLoading
                 ? "Saving..."

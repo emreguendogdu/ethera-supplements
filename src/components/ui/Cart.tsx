@@ -84,7 +84,7 @@ export default function Cart() {
       >
         <CartOverlay onClose={handleCloseCart} />
         <motion.section
-          className="fixed right-0 w-screen sm:w-[45vw] h-full max-h-screen z-60 bg-black px-8 md:px-16 py-8 flex flex-col items-center justify-between gap-8 md:gap-16 border-l border-l-neutral-950 backdro-blur-2xl"
+          className="fixed right-0 w-screen sm:w-[45vw] h-full max-h-screen z-60 bg-background px-8 md:px-16 py-8 flex flex-col items-center justify-between gap-8 md:gap-16 border-l border-l-neutral-950 backdro-blur-2xl"
           initial="hidden"
           variants={cartVariants}
           animate={displayCart ? "visible" : "hidden"}

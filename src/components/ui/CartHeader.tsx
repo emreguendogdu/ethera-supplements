@@ -8,7 +8,7 @@ export const CartHeader = ({ onClose }: CartHeaderProps) => {
   return (
     <header className="w-full flex justify-between md:justify-center items-center px-8">
       <div aria-hidden="true" />
-      <h2 id="cart-title" className="text-white select-none">
+      <h2 id="cart-title" className="text-foreground select-none">
         Shopping Cart
       </h2>
       <button
@@ -22,11 +22,3 @@ export const CartHeader = ({ onClose }: CartHeaderProps) => {
     </header>
   );
 };
-
-
-
-
-
-
-
-

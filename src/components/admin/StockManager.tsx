@@ -115,7 +115,7 @@ export default function StockManager({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between gap-4">
-        <h3 className="text-xl  text-white">Stock Management</h3>
+        <h3 className="text-xl  text-foreground">Stock Management</h3>
         {!showAddForm && !isReadOnly && (
           <button
             onClick={() => {
@@ -123,7 +123,7 @@ export default function StockManager({
               setEditingId("new");
               setFormData({ size: 0, price: 0, sale_price: 0, stock: 0 });
             }}
-            className="px-4 py-2 bg-white/5 border border-white/10 text-white/80 hover:bg-white/10 hover:text-white rounded-full text-xs uppercase tracking-wider transition-colors"
+            className="px-4 py-2 bg-foreground/5 border border-foreground/10 text-foreground/80 hover:bg-foreground/10 hover:text-foreground rounded-full text-xs uppercase tracking-wider transition-colors"
           >
             Add Stock Item
           </button>
@@ -221,14 +221,14 @@ export default function StockManager({
             <button
               type="button"
               onClick={handleCancel}
-              className="px-6 py-2 border border-white/10 text-white/60 hover:text-white hover:bg-white/5 rounded-lg text-xs uppercase tracking-wider transition-colors"
+              className="px-6 py-2 border border-foreground/10 text-foreground/60 hover:text-foreground hover:bg-foreground/5 rounded-lg text-xs uppercase tracking-wider transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isLoading}
-              className="px-6 py-2 bg-obsidian-lighter text-black font-semibold uppercase tracking-wider text-xs rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all disabled:opacity-50"
+              className="px-6 py-2 bg-obsidian-lighter text-background font-semibold uppercase tracking-wider text-xs rounded-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all disabled:opacity-50"
             >
               {isLoading
                 ? "Saving..."
@@ -242,7 +242,7 @@ export default function StockManager({
 
       <div className="space-y-3">
         {stockItems.length === 0 ? (
-          <p className="text-white/30 text-center py-8 text-sm uppercase tracking-widest ">
+          <p className="text-foreground/30 text-center py-8 text-sm uppercase tracking-widest ">
             No stock items configured
           </p>
         ) : (
@@ -253,34 +253,34 @@ export default function StockManager({
             >
               <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
-                  <span className="text-[10px] text-white/30 uppercase tracking-wider block mb-1">
+                  <span className="text-[10px] text-foreground/30 uppercase tracking-wider block mb-1">
                     Size
                   </span>
-                  <p className="text-sm  text-white">{item.size}g</p>
+                  <p className="text-sm  text-foreground">{item.size}g</p>
                 </div>
                 <div>
-                  <span className="text-[10px] text-white/30 uppercase tracking-wider block mb-1">
+                  <span className="text-[10px] text-foreground/30 uppercase tracking-wider block mb-1">
                     Price
                   </span>
-                  <p className="text-sm  text-white">
+                  <p className="text-sm  text-foreground">
                     ${item.price.toFixed(2)}
                   </p>
                 </div>
                 <div>
-                  <span className="text-[10px] text-white/30 uppercase tracking-wider block mb-1">
+                  <span className="text-[10px] text-foreground/30 uppercase tracking-wider block mb-1">
                     Sale Price
                   </span>
-                  <p className="text-sm  text-white-50">
+                  <p className="text-sm  text-foreground-50">
                     ${item.sale_price.toFixed(2)}
                   </p>
                 </div>
                 <div>
-                  <span className="text-[10px] text-white/30 uppercase tracking-wider block mb-1">
+                  <span className="text-[10px] text-foreground/30 uppercase tracking-wider block mb-1">
                     Stock
                   </span>
                   <p
                     className={`text-sm  ${
-                      item.stock === 0 ? "text-red-500" : "text-white"
+                      item.stock === 0 ? "text-red-500" : "text-foreground"
                     }`}
                   >
                     {item.stock} units
@@ -294,7 +294,7 @@ export default function StockManager({
                       onClick={() =>
                         handleEdit(item as ProductStock & { id: string })
                       }
-                      className="p-2 hover:bg-white/10 rounded-md transition-colors text-white/70"
+                      className="p-2 hover:bg-foreground/10 rounded-md transition-colors text-foreground/70"
                       title="Edit"
                     >
                       <svg

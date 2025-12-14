@@ -17,7 +17,7 @@ export default function Footer({ products }: FooterProps) {
   return (
     <footer className="relative flex flex-col gap-8 md:gap-16 p-section-m md:p-section">
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black opacity-50 md:opacity-75 -z-10" />
+      <div className="absolute inset-0 bg-background opacity-50 md:opacity-75 -z-10" />
       <div className="flex flex-wrap justify-center md:flex-nowrap gap-8 md:gap-0 md:justify-between">
         <div className="md:w-1/3">
           <p className="text-neutral-200">
