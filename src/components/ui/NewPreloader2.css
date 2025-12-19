@@ -1,0 +1,119 @@
+/* Preloader Styles */
+.preloader,
+/* .split-overlay, */
+.tags-overlay {
+  position: fixed;
+  width: 100vw;
+  height: 100svh;
+}
+
+/* .preloader,
+.split-overlay {
+  background-color: var(--color-background);
+  color: #fff;
+} */
+
+.preloader,
+.tags-overlay {
+  z-index: 52;
+}
+
+/* .split-overlay {
+  z-index: 1;
+} */
+
+.intro-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+}
+
+.intro-title > span {
+  text-transform: uppercase;
+  font-size: 6rem;
+  font-weight: 600;
+  line-height: 1;
+  display: inline-block;
+}
+
+.intro-title .word {
+  display: inline-block;
+  position: relative;
+  margin-right: 0.5em;
+}
+
+.intro-title .word:last-child {
+  margin-right: 0;
+}
+
+.tag {
+  position: absolute;
+  width: max-content;
+  opacity: 0.5;
+  overflow: hidden;
+}
+
+.tag p {
+  text-transform: uppercase;
+}
+
+.tag-1 {
+  top: 15%;
+  left: 15%;
+}
+
+.tag-2 {
+  bottom: 15%;
+  right: 15%;
+}
+
+.intro-title .char {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  margin-top: 0.75rem;
+}
+
+.intro-title .char span,
+.tag .word {
+  position: relative;
+  display: inline-block;
+  transform: translateY(-100%);
+  will-change: transform;
+}
+
+.intro-title .first-char {
+  transform-origin: top left;
+}
+
+.block {
+  position: fixed;
+  width: 100vw;
+  height: 50svh;
+  background-color: var(--color-preloader);
+  z-index: 51;
+  will-change: transform;
+}
+
+.block-1 {
+  top: 0;
+  left: 0;
+}
+
+.block-2 {
+  bottom: 0;
+  left: 0;
+}
+
+@media (max-width: 1000px) {
+  .intro-title > span {
+    font-size: 2.5rem;
+  }
+
+  .intro-title .char {
+    margin-top: 0.5rem;
+  }
+}

@@ -4,6 +4,7 @@
   --color-background: #0b0c0d;
   --color-foreground: #ffffff;
   --color-accent: #a9a9a9;
+  --color-preloader: #1b1e20;
 
   --color-obsidian: #050505;
   --color-obsidian-light: #0a0a0a;
@@ -20,7 +21,7 @@
   --color-background: var(--color-background);
   --color-foreground: var(--color-foreground);
   --color-accent: var(--color-accent);
-
+  --color-preloader: var(--color-preloader);
   /* Admin Theme */
   --color-obsidian: var(--color-obsidian);
   --color-obsidian-light: var(--color-obsidian-light);
@@ -30,12 +31,12 @@
   --color-neon-purple: var(--color-neon-purple);
   --color-neon-green: var(--color-neon-green);
 
-  --spacing-section: 128px;
-  --spacing-section-m: 64px 16px;
-  --spacing-sectionX: 128px;
-  --spacing-sectionX-m: 16px;
-  --spacing-sectionY: 128px;
-  --spacing-sectionY-m: 64px;
+  --spacing-section: 120px 20px;
+  --spacing-section-m: 64px 20px;
+  --spacing-sectionX: 40px;
+  --spacing-sectionX-m: 20px;
+  --spacing-sectionY: 120px;
+  --spacing-sectionY-m: 80px;
 }
 
 :root {
@@ -45,6 +46,8 @@
 
 body {
   margin: 0;
+
+  font-size: clamp(12px, 1vw, 16px);
 }
 
 html {
@@ -69,10 +72,12 @@ html {
 }
 
 @utility h0-styles {
-  font-size: clamp(4rem, 8vw, 16rem);
-  font-weight: 700;
+  /* font-size: clamp(4rem, 8vw+1rem, 14.1875rem); */
+  font-size: clamp(64px, calc(64px + 192 * ((100vw - 360px) / 1240)), 384px);
+  text-transform: uppercase;
   line-height: 1;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.05em;
+  font-family: var(--font-display);
 }
 
 @utility h1-styles {
@@ -84,6 +89,13 @@ html {
 
 @utility h2-styles {
   font-size: clamp(1.25rem, 3vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.025em;
+}
+
+@utility h3-styles {
+  font-size: clamp(1rem, 2vw, 2rem);
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.025em;
@@ -204,6 +216,11 @@ html {
     @apply h2-styles;
   }
 
+  h3,
+  .h3 {
+    @apply h3-styles;
+  }
+
   h0,
   .h0 {
     @apply h0-styles;
@@ -230,39 +247,5 @@ html {
 
   .custom-border {
     @apply rounded-xl border border-neutral-800 px-4 py-1 w-fit;
-  }
-
-  .block-line-wrapper {
-    position: relative;
-    width: max-content;
-    display: block;
-  }
-
-  .block-line {
-    position: relative;
-    display: block;
-  }
-
-  .block-revealer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 101%;
-    height: 101%;
-    pointer-events: none;
-    will-change: transform;
-    z-index: 1;
-  }
-
-  /* For end */
-  .block-hider {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 101%;
-    height: 101%;
-    pointer-events: none;
-    will-change: transform;
-    z-index: 2;
   }
 }

@@ -12,7 +12,8 @@ import { GlobalPreloader, PRELOAD_FADE_OUT_DURATION_MS } from "../ui/Preloader";
 import { motion } from "motion/react";
 import { DiscountCode } from "@/lib/discount";
 import { Product } from "@/types/product";
-import NewPreloader from "../ui/NewPreloader";
+import NewPreloader2 from "../ui/NewPreloader2";
+import NewHero from "./NewHero";
 
 interface LandingPageProps {
   initialProducts: Product[];
@@ -53,7 +54,7 @@ export default function LandingPage({
 
   return (
     <>
-      <NewPreloader />
+      <NewPreloader2 />
       <GlobalPreloader />
       <motion.main
         style={{
@@ -62,6 +63,7 @@ export default function LandingPage({
           transition: "opacity 0.5s ease-in-out", // Optional fade-in for content
         }}
       >
+        <NewHero />
         <Hero discountCode={discountCode} />
         <ProductsSection products={initialProducts} />
         <BuyBundle products={initialProducts} />
