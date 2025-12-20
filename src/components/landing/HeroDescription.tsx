@@ -15,9 +15,10 @@ export const HeroDescription = ({ discountCode }: HeroDescriptionProps) => {
   const { scrollToProducts } = useScrollToSection();
 
   return (
-    <div className="col-start-5 col-end-7 row-start-5 row-span-4 flex flex-col gap-4">
+    <div className="col-start-5 col-end-7 sm:col-end-8 2xl:col-end-7 row-start-5 row-span-4 flex flex-col gap-4">
       <p>
-        Ethera is a <strong>supplement</strong> brand that aims minimalistic
+        Ethera is a <strong>supplement</strong> brand that aims minimalistic{" "}
+        <br className="hidden sm:block" />
         purity with the best products available.
       </p>
       {discountCode && (
@@ -33,6 +34,3 @@ export const HeroDescription = ({ discountCode }: HeroDescriptionProps) => {
     </div>
   );
 };
-
-
-
