@@ -6,6 +6,7 @@ import { AssetId, LoadingState } from "../types/store";
  * This helps in tracking them individually.
  */
 export const ASSET_IDS = {
+  bodybuilder: "bodybuilder",
   menuStatue: "menuStatue",
 } as const;
 

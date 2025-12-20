@@ -12,6 +12,7 @@ import { DiscountCode } from "@/lib/discount";
 import { Product } from "@/types/product";
 import Preloader from "../ui/Preloader";
 import NewHero from "./NewHero";
+import Hero from "./Hero";
 
 interface LandingPageProps {
   initialProducts: Product[];
@@ -58,8 +59,8 @@ export default function LandingPage({
           transition: "opacity 0.5s ease-in-out", // Optional fade-in for content
         }}
       >
-        <NewHero />
-        {/* <Hero discountCode={discountCode} /> */}
+        {/* <NewHero /> */}
+        <Hero discountCode={discountCode} />
         <ProductsSection products={initialProducts} />
         <BuyBundle products={initialProducts} />
         <Info />
