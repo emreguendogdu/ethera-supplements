@@ -75,7 +75,10 @@ export const FlipTextOnHover = ({
         initial="initial"
         whileHover="hovered"
         onClick={onClick}
-        className={cn("relative overflow-hidden leading-loose", className)}
+        className={cn(
+          "relative overflow-hidden leading-loose cursor-pointer focus:outline-none subheading text-current border border-current/50 px-5 rounded-full uppercase",
+          className
+        )}
       >
         {content}
       </motion.button>
@@ -87,7 +90,10 @@ export const FlipTextOnHover = ({
       initial="initial"
       whileHover="hovered"
       href={href}
-      className={cn("relative overflow-hidden leading-loose", className)}
+      className={cn(
+        "relative overflow-hidden leading-loose cursor-pointer focus:outline-none subheading text-current border border-current/50 px-5 rounded-full uppercase",
+        className
+      )}
     >
       {content}
     </motion.a>

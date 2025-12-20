@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import Logo from "../ui/Logo";
 import Link from "next/link";
 import { Product } from "@/types/product";
@@ -15,16 +15,13 @@ interface MenuProps {
 
 // TODO: Remove the prop drilling here.
 export default function Menu({ products, visible, setVisible }: MenuProps) {
-  const [renderCanvas, setRenderCanvas] = useState(visible);
   const { setAllowScroll } = useScrollContext();
 
   useEffect(() => {
     if (visible) {
       setAllowScroll(false);
-      setRenderCanvas(true);
     } else {
       const timer = setTimeout(() => {
-        setRenderCanvas(false);
         setAllowScroll(true);
       }, 500);
       return () => clearTimeout(timer);
@@ -33,7 +30,6 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
 
   const handleCloseMenu = useCallback(() => {
     setVisible(false);
-    setRenderCanvas(false);
     setAllowScroll(true);
   }, [setVisible, setAllowScroll]);
 
@@ -73,7 +69,7 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
       {/* Main */}
       <div className="w-full flex items-end sm:items-center justify-end flex-1 h-full py-8">
         {/* 3D */}
-        {renderCanvas && <MenuCanvas inView={visible} />}
+        <MenuCanvas inView={visible} wrapperClassName="z-998" />
         {/* Menu */}
         <ul className="relative w-fit z-1000 select-none flex flex-col justify-end sm:justify-start">
           <Link

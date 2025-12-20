@@ -24,33 +24,30 @@ export default function Header({ products }: HeaderProps) {
 
   return (
     <>
-      <header className="z-50 backdrop-blur-xs fixed top-0 left-0 right-0 flex items-center justify-between py-5 text-white/70 px-sectionX-m md:px-sectionX h-[72px]">
-        {/* <Logo /> */}
+      <header className="z-50 backdrop-blur-lg sm:backdrop-blur-xs fixed top-0 left-0 right-0 flex flex-col gap-5 items-center justify-between py-5 text-white/70 px-sectionX-m md:px-sectionX h-[104px] sm:h-[72px]">
+        <div className="w-full flex items-center justify-between gap-5 h-full">
+          <div className="relative h-full w-auto aspect-square">
+            <Image
+              src={brandmark}
+              alt="Ethera Brandmark"
+              className="w-full h-full max-w-[32px] max-h-[32px] sm:max-h-[64px] sm:max-w-[64px] object-cover"
+            />
+          </div>
 
-        <div className="relative h-full w-auto aspect-square">
-          <Image
-            src={brandmark}
-            alt="Ethera Brandmark"
-            className="w-full h-full object-cover"
-          />
+          <div className="flex items-center gap-5">
+            <FlipTextOnHover
+              text={`Cart (${cart?.cartItems?.length || 0})`}
+              onClick={() => setDisplayCart(true)}
+            />
+
+            <FlipTextOnHover text="Menu" onClick={() => setIsMenuOpen(true)} />
+          </div>
         </div>
 
-        <p className="absolute left-1/2 top-1/2 -translate-1/2">
-          FREE SHIPPING ON WARRIOR BUNDLES — LIMITED TIME ONLY.
+        <p className="static sm:absolute sm:left-1/2 sm:top-1/2 sm:-translate-1/2 uppercase">
+          Use discount code <span className="font-bold">Ethera</span> for 20%
+          off!
         </p>
-        <div className="flex items-center gap-8">
-          <FlipTextOnHover
-            text={`CART (${cart?.cartItems?.length || 0})`}
-            onClick={() => setIsMenuOpen(true)}
-            className="flex gap-2 items-center group cursor-pointer focus:outline-none subheading text-current group-hover:opacity-50 transition-all border border-current px-5 rounded-full"
-          />
-
-          <FlipTextOnHover
-            text="Menu"
-            onClick={() => setIsMenuOpen(true)}
-            className="uppercase border border-current px-5 rounded-full focus:outline-none cursor-pointer"
-          />
-        </div>
       </header>
 
       <Menu

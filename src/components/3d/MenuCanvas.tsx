@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useRef } from "react";
+import { Suspense, useRef, useState, useEffect } from "react";
 import { Loader, PerspectiveCamera } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import MenuStatue from "@/components/3d/MenuStatue";
@@ -13,9 +13,9 @@ const config = {
   canvasBg: "#000000",
   metalness: 0.55,
   roughness: 0.75,
-  baseCamPosX: -1,
+  baseCamPosX: -1.5,
   baseCamPosY: -4,
-  baseCamPosZ: 1,
+  baseCamPosZ: 0.75,
   baseRotationX: 0,
   baseRotationY: 0.5,
   baseRotationZ: 0,
@@ -51,10 +51,13 @@ const config = {
 interface EnvironmentProps {
   isMobile: boolean;
   isInView: boolean;
+  pointer?: { x: number; y: number };
 }
 
-function Environment({ isMobile }: EnvironmentProps) {
-  const { pointer } = useThree();
+function Environment({ isMobile, pointer: externalPointer }: EnvironmentProps) {
+  const { pointer: threePointer } = useThree();
+  // Use external pointer if provided, otherwise fall back to Three.js pointer
+  const pointer = externalPointer ?? threePointer;
   const groupRef = useRef<THREE.Group>(null);
   const cursorLightRef = useRef<THREE.PointLight>(null);
 
@@ -173,18 +176,41 @@ function Environment({ isMobile }: EnvironmentProps) {
 
 interface MenuCanvasProps {
   inView: boolean;
+  wrapperClassName?: string;
+  pointer?: { x: number; y: number };
 }
 
-export default function MenuCanvas({ inView }: MenuCanvasProps) {
+export default function MenuCanvas({
+  inView,
+  wrapperClassName,
+  pointer,
+}: MenuCanvasProps) {
   const { isMobile } = useDeviceSize();
+  const [shouldRender, setShouldRender] = useState(inView);
+
+  useEffect(() => {
+    if (inView) {
+      setShouldRender(true);
+    } else {
+      const timer = setTimeout(() => {
+        setShouldRender(false);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
+  }, [inView]);
+
+  if (!shouldRender) {
+    return null;
+  }
 
   return (
     <div
       className={cn(
-        "absolute inset-0 w-full h-full z-998",
+        "absolute inset-0 w-full h-full z-0 pointer-events-none select-none",
         inView
           ? "opacity-100"
-          : "opacity-0 select-none pointer-events-none -z-10"
+          : "opacity-0 select-none pointer-events-none -z-10",
+        wrapperClassName
       )}
     >
       <Canvas
@@ -198,7 +224,7 @@ export default function MenuCanvas({ inView }: MenuCanvasProps) {
         dpr={[1, 2]} // Min 1, Max 2 like snippet
       >
         {!inView && <DisableRender />}
-        <Environment isInView={inView} isMobile={isMobile} />
+        <Environment isInView={inView} isMobile={isMobile} pointer={pointer} />
       </Canvas>
       <Loader />
     </div>

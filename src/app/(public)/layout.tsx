@@ -2,6 +2,7 @@ import { getAllProducts } from "@/lib/products";
 import Header from "@/components/ui/Header";
 import Footer from "@/components/ui/Footer";
 import localFont from "next/font/local";
+import { cn } from "@/utils/cn";
 
 const panchang = localFont({
   src: [
@@ -27,11 +28,11 @@ export default async function PublicLayout({
   const products = await getAllProducts();
 
   return (
-    <div className={panchang.variable}>
+    <main className={cn(panchang.variable, "relative w-full h-full")}>
       <Header products={products} />
       {children}
       <Footer products={products} />
-    </div>
+    </main>
   );
 }
 

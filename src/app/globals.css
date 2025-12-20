@@ -72,19 +72,23 @@ html {
 }
 
 @utility h0-styles {
-  /* font-size: clamp(4rem, 8vw+1rem, 14.1875rem); */
-  font-size: clamp(64px, calc(64px + 192 * ((100vw - 360px) / 1240)), 384px);
+  /* font-size: clamp(4em, calc(4em + 192 * ((100vw - 22.5em) / 1240)), 24em); */
+  font-size: clamp(4rem, 16vw, 24rem);
   text-transform: uppercase;
   line-height: 1;
   letter-spacing: -0.05em;
   font-family: var(--font-display);
+
+  @media (max-width: 768px) {
+    font-size: clamp(4rem, 9vw + 1rem, 24rem);
+  }
 }
 
 @utility h1-styles {
   font-size: clamp(2rem, 5vw, 5rem);
   font-weight: 700;
-  line-height: 1;
   letter-spacing: -0.025em;
+  line-height: 1.1;
 }
 
 @utility h2-styles {

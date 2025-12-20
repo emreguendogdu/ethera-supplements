@@ -4,15 +4,13 @@ import { ASSET_IDS } from "@/stores/loadingStore";
 import { AssetId } from "@/types/store";
 import { useEffect, useState, useMemo } from "react";
 import { useLoadingStore } from "@/stores/loadingStore";
-import Hero from "./Hero";
 import ProductsSection from "./ProductsSection";
 import BuyBundle from "../ui/BuyBundle";
 import Info from "./Info";
-import { GlobalPreloader, PRELOAD_FADE_OUT_DURATION_MS } from "../ui/Preloader";
 import { motion } from "motion/react";
 import { DiscountCode } from "@/lib/discount";
 import { Product } from "@/types/product";
-import NewPreloader2 from "../ui/NewPreloader2";
+import Preloader from "../ui/Preloader";
 import NewHero from "./NewHero";
 
 interface LandingPageProps {
@@ -31,8 +29,7 @@ export default function LandingPage({
 
   const assetIds = useMemo(() => {
     return [
-      ASSET_IDS.bodybuilder,
-      ASSET_IDS.menuStatue,
+      ...Object.values(ASSET_IDS),
       ...initialProducts.map((product) => product.slug),
     ] as AssetId[];
   }, [initialProducts]);
@@ -43,19 +40,17 @@ export default function LandingPage({
 
   useEffect(() => {
     if (allAssetsLoaded) {
-      // Optional: Add a small delay before showing content for a smoother transition
-      // if your preloader has a fade-out animation.
+      // Add a small delay before showing content for a smoother transition
       const timer = setTimeout(() => {
         setShowContent(true);
-      }, PRELOAD_FADE_OUT_DURATION_MS - 200); // Match this delay to your preloader's fade-out duration
+      }, 500); // Delay to allow preloader animation to complete
       return () => clearTimeout(timer);
     }
   }, [allAssetsLoaded]);
 
   return (
     <>
-      <NewPreloader2 />
-      <GlobalPreloader />
+      <Preloader />
       <motion.main
         style={{
           visibility: showContent ? "visible" : "hidden",
@@ -64,7 +59,7 @@ export default function LandingPage({
         }}
       >
         <NewHero />
-        <Hero discountCode={discountCode} />
+        {/* <Hero discountCode={discountCode} /> */}
         <ProductsSection products={initialProducts} />
         <BuyBundle products={initialProducts} />
         <Info />
