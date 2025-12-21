@@ -11,7 +11,6 @@ import { motion } from "motion/react";
 import { DiscountCode } from "@/lib/discount";
 import { Product } from "@/types/product";
 import Preloader from "../ui/Preloader";
-import NewHero from "./NewHero";
 import Hero from "./Hero";
 
 interface LandingPageProps {
@@ -51,16 +50,16 @@ export default function LandingPage({
 
   return (
     <>
-      <Preloader />
+      {process.env.NODE_ENV !== "developmentx" && <Preloader />}
       <motion.main
-        style={{
+      /* style={{
           visibility: showContent ? "visible" : "hidden",
           opacity: showContent ? 1 : 0,
           transition: "opacity 0.5s ease-in-out", // Optional fade-in for content
-        }}
+        }} */
       >
-        {/* <NewHero /> */}
-        <Hero discountCode={discountCode} />
+        <Hero />
+        {/* <Hero discountCode={discountCode} /> */}
         <ProductsSection products={initialProducts} />
         <BuyBundle products={initialProducts} />
         <Info />

@@ -6,8 +6,7 @@ import { AssetId, LoadingState } from "../types/store";
  * This helps in tracking them individually.
  */
 export const ASSET_IDS = {
-  bodybuilder: "bodybuilder",
-  menuStatue: "menuStatue",
+  statue: "statue",
 } as const;
 
 /**
@@ -18,6 +17,7 @@ export const useLoadingStore = create<LoadingState>((set) => ({
   assetsLoaded: {} as Record<AssetId, boolean>, // Will be populated by initializeAssets
   totalAssets: 0,
   allAssetsLoaded: false,
+  preloaderAnimationComplete: false,
 
   // Actions to modify the state
   actions: {
@@ -35,6 +35,7 @@ export const useLoadingStore = create<LoadingState>((set) => ({
         assetsLoaded: initialAssetsLoaded,
         totalAssets: assetIds.length,
         allAssetsLoaded: false, // Reset allAssetsLoaded status
+        preloaderAnimationComplete: false, // Reset preloader animation status
       });
     },
 
@@ -60,6 +61,13 @@ export const useLoadingStore = create<LoadingState>((set) => ({
           allAssetsLoaded: allLoaded,
         };
       });
+    },
+
+    /**
+     * Marks the preloader animation as complete.
+     */
+    setPreloaderAnimationComplete: () => {
+      set({ preloaderAnimationComplete: true });
     },
   },
 }));

@@ -75,7 +75,7 @@ html {
   /* font-size: clamp(4em, calc(4em + 192 * ((100vw - 22.5em) / 1240)), 24em); */
   font-size: clamp(4rem, 16vw, 24rem);
   text-transform: uppercase;
-  line-height: 1;
+  line-height: 0.8;
   letter-spacing: -0.05em;
   font-family: var(--font-display);
 
@@ -92,10 +92,10 @@ html {
 }
 
 @utility h2-styles {
-  font-size: clamp(1.25rem, 3vw, 2.5rem);
+  font-size: clamp(1.25rem, 3vw + 1rem, 6rem);
   font-weight: 700;
   line-height: 1;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.05em;
 }
 
 @utility h3-styles {

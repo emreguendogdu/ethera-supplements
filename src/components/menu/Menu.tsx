@@ -4,7 +4,7 @@ import { useEffect, useCallback } from "react";
 import Logo from "../ui/Logo";
 import Link from "next/link";
 import { Product } from "@/types/product";
-import MenuCanvas from "@/components/3d/MenuCanvas";
+import HeroCanvas from "@/components/3d/HeroCanvas";
 import { useScrollContext } from "@/context/ScrollContext";
 
 interface MenuProps {
@@ -69,7 +69,7 @@ export default function Menu({ products, visible, setVisible }: MenuProps) {
       {/* Main */}
       <div className="w-full flex items-end sm:items-center justify-end flex-1 h-full py-8">
         {/* 3D */}
-        <MenuCanvas inView={visible} wrapperClassName="z-998" />
+        <HeroCanvas inView={visible} wrapperClassName="z-998" />
         {/* Menu */}
         <ul className="relative w-fit z-1000 select-none flex flex-col justify-end sm:justify-start">
           <Link

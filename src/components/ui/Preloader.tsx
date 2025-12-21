@@ -173,14 +173,19 @@ export default function Preloader() {
           duration: 1,
         },
         "<0.25"
-      ).to(
-        ".block-2",
-        {
-          y: "100%",
-          duration: 1,
-        },
-        "<" // Start at the same time as block-1
-      );
+      )
+        .to(
+          ".block-2",
+          {
+            y: "100%",
+            duration: 1,
+          },
+          "<" // Start at the same time as block-1
+        )
+        .call(() => {
+          // Signal that preloader animation is complete
+          useLoadingStore.getState().actions.setPreloaderAnimationComplete();
+        });
 
       // Hide elements
       tl.set(

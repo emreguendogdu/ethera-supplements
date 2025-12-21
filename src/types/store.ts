@@ -6,15 +6,10 @@ export interface LoadingState {
   assetsLoaded: Record<AssetId, boolean>; // Tracks loaded status for each asset
   totalAssets: number; // Total number of assets to load
   allAssetsLoaded: boolean; // True if all assets are loaded
+  preloaderAnimationComplete: boolean; // True when preloader animation has finished
   actions: {
     initializeAssets: (assetIds: AssetId[]) => void; // Action to set up the store with assets
     setAssetLoaded: (assetId: AssetId) => void; // Action to mark an asset as loaded
+    setPreloaderAnimationComplete: () => void; // Action to mark preloader animation as complete
   };
 }
-
-
-
-
-
-
-

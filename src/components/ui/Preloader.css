@@ -67,8 +67,6 @@
   display: inline-block;
   overflow: hidden;
   margin-top: 0.75rem;
-  left: 0;
-  will-change: transform, left;
 }
 
 .intro-title .char span,
@@ -95,13 +93,11 @@
 .block-1 {
   top: 0;
   left: 0;
-  transform: translateY(0);
 }
 
 .block-2 {
   bottom: 0;
   left: 0;
-  transform: translateY(0);
 }
 
 @media (max-width: 768px) {

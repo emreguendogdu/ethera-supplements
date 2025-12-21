@@ -22,18 +22,18 @@ type GLTFResult = GLTF & {
   scene: Scene;
 };
 
-interface MenuStatueProps extends React.ComponentPropsWithoutRef<"group"> {
+interface StatueProps extends React.ComponentPropsWithoutRef<"group"> {
   metalness?: number;
   roughness?: number;
 }
 
-export default function MenuStatue({
+export default function Statue({
   metalness = 0.0,
   roughness = 0.35,
   ...props
-}: MenuStatueProps) {
+}: StatueProps) {
   const { nodes, materials, scene } = useGLTF(
-    "/3d/menu-statue.glb"
+    "/3d/statue.glb"
   ) as unknown as GLTFResult;
 
   const { setAssetLoaded } = useLoadingStore((state) => state.actions);
@@ -61,7 +61,7 @@ export default function MenuStatue({
 
   useEffect(() => {
     if (scene && !hasReportedLoadRef.current) {
-      setAssetLoaded("menuStatue");
+      setAssetLoaded("statue");
       hasReportedLoadRef.current = true;
     }
   }, [scene, setAssetLoaded]);
@@ -85,23 +85,23 @@ export default function MenuStatue({
         receiveShadow
         geometry={nodes.Object_5.geometry as BufferGeometry}
         material={material}
-        position={[0, 2.457, -2]}
+        position={[0, 2.457, -3]}
       />
     </group>
   );
 }
 
-export function MenuStatueLoader() {
-  const { scene } = useGLTF("/3d/menu-statue.glb");
+export function StatueLoader() {
+  const { scene } = useGLTF("/3d/statue.glb");
   const { setAssetLoaded } = useLoadingStore((state) => state.actions);
 
   useEffect(() => {
     if (scene) {
-      setAssetLoaded("menuStatue");
+      setAssetLoaded("statue");
     }
   }, [scene, setAssetLoaded]);
 
   return null;
 }
 
-useGLTF.preload("/3d/menu-statue.glb");
+useGLTF.preload("/3d/statue.glb");
