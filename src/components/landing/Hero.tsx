@@ -41,22 +41,36 @@ export default function Hero() {
 
       // Set initial opacity to 0
       gsap.set(cardRef.current, { opacity: 0 });
+      gsap.set("#header-content", { opacity: 0, yPercent: "-100%" });
+
+      const tl = gsap.timeline({
+        defaults: { ease: "power2.out", duration: 1 },
+      });
 
       // Animate opacity from 0 to 1
-      gsap.to(cardRef.current, {
+      tl.to(cardRef.current, {
         opacity: 1,
         duration: 1,
         delay: 0.8,
         ease: "power2.out",
-      });
+      }).to(
+        "#header-content",
+        {
+          opacity: 1,
+          yPercent: 0,
+          duration: 1,
+          ease: "power2.out",
+        },
+        "<+0.2"
+      );
     },
-    { scope: cardRef, dependencies: [preloaderAnimationComplete] }
+    { dependencies: [preloaderAnimationComplete] }
   );
 
   return (
     <motion.section
       id="hero"
-      className="relative w-full"
+      className="hero relative w-full"
       ref={setRefs}
       aria-label="Hero section"
     >

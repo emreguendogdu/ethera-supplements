@@ -4,13 +4,18 @@ import { Suspense, useRef, useState, useEffect } from "react";
 import { Loader, PerspectiveCamera } from "@react-three/drei";
 import { Canvas, useThree } from "@react-three/fiber";
 import Statue from "@/components/3d/Statue";
-import { HeroProducts } from "@/components/3d/HeroProducts";
+import { HeroProducts, HeroProductsRef } from "@/components/3d/HeroProducts";
 import { HeroLighting } from "@/components/3d/HeroLighting";
 import { useParallax } from "@/hooks/useParallax";
 import useDeviceSize from "@/hooks/useDeviceSize";
 import DisableRender from "../DisableRender";
 import * as THREE from "three";
 import { cn } from "@/utils/cn";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const config = {
   canvasBg: "#000000",
@@ -31,9 +36,16 @@ interface EnvironmentProps {
   isMobile: boolean;
   isInView: boolean;
   pointer?: { x: number; y: number };
+  statueRef: React.RefObject<THREE.Group | null>;
+  heroProductsRef: React.RefObject<HeroProductsRef | null>;
 }
 
-function Environment({ isMobile, pointer: externalPointer }: EnvironmentProps) {
+function Environment({
+  isMobile,
+  pointer: externalPointer,
+  statueRef,
+  heroProductsRef,
+}: EnvironmentProps) {
   const { pointer: threePointer, camera } = useThree();
   const pointer = externalPointer ?? threePointer;
   const groupRef = useRef<THREE.Group>(null);
@@ -79,11 +91,12 @@ function Environment({ isMobile, pointer: externalPointer }: EnvironmentProps) {
       >
         <Suspense fallback={null}>
           <Statue
+            ref={statueRef}
             metalness={config.metalness}
             roughness={config.roughness}
             scale={isMobile ? 0.6 : 1}
           />
-          <HeroProducts />
+          <HeroProducts ref={heroProductsRef} />
         </Suspense>
       </group>
     </>
@@ -103,6 +116,42 @@ export default function HeroCanvas({
 }: HeroCanvasProps) {
   const { isMobile } = useDeviceSize();
   const [shouldRender, setShouldRender] = useState(inView);
+  const [refsReady, setRefsReady] = useState(false);
+  const statueRef = useRef<THREE.Group>(null);
+  const heroProductsRef = useRef<HeroProductsRef>(null);
+
+  // Check if refs are ready
+  useEffect(() => {
+    const checkRefs = () => {
+      if (
+        statueRef.current &&
+        heroProductsRef.current?.productsGroupRef.current
+      ) {
+        setRefsReady(true);
+        return true;
+      }
+      return false;
+    };
+
+    if (checkRefs()) return;
+
+    // Try checking with delays
+    const timeout1 = setTimeout(() => {
+      if (checkRefs()) return;
+    }, 100);
+    const timeout2 = setTimeout(() => {
+      if (checkRefs()) return;
+    }, 500);
+    const timeout3 = setTimeout(() => {
+      checkRefs();
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeout1);
+      clearTimeout(timeout2);
+      clearTimeout(timeout3);
+    };
+  }, [shouldRender]);
 
   useEffect(() => {
     if (inView) {
@@ -114,6 +163,76 @@ export default function HeroCanvas({
       return () => clearTimeout(timer);
     }
   }, [inView]);
+
+  // Scroll animation timeline
+  useGSAP(
+    () => {
+      if (
+        !inView ||
+        !refsReady ||
+        !statueRef.current ||
+        !heroProductsRef.current?.productsGroupRef.current
+      ) {
+        return;
+      }
+
+      const scrollTl = gsap.timeline({
+        defaults: {
+          duration: 2,
+        },
+        scrollTrigger: {
+          trigger: ".hero",
+          start: "top top",
+          end: "75% bottom",
+          markers: true,
+          scrub: 1.5,
+        },
+      });
+
+      // Add animations for Statue
+      scrollTl
+        .to(
+          statueRef.current.position,
+          {
+            y: "-=0.25",
+            ease: "none",
+          },
+          0
+        )
+        .to(
+          statueRef.current.rotation,
+          {
+            y: "+=0.3",
+            ease: "none",
+          },
+          0
+        );
+
+      // Add animations for HeroProducts
+      scrollTl.to(
+        heroProductsRef.current.productsGroupRef.current.position,
+        {
+          y: "-=0.25",
+          x: "+=4.5",
+          ease: "none",
+        },
+        0
+      );
+      /*  .to(
+          heroProductsRef.current.productsGroupRef.current.rotation,
+          {
+            z: "-=0.2",
+            ease: "none",
+          },
+          0
+        ); */
+
+      return () => {
+        scrollTl.kill();
+      };
+    },
+    { dependencies: [inView, refsReady] }
+  );
 
   if (!shouldRender) {
     return null;
@@ -140,7 +259,13 @@ export default function HeroCanvas({
         dpr={[1, 2]} // Min 1, Max 2 like snippet
       >
         {!inView && <DisableRender />}
-        <Environment isInView={inView} isMobile={isMobile} pointer={pointer} />
+        <Environment
+          isInView={inView}
+          isMobile={isMobile}
+          pointer={pointer}
+          statueRef={statueRef}
+          heroProductsRef={heroProductsRef}
+        />
       </Canvas>
       <Loader />
     </div>

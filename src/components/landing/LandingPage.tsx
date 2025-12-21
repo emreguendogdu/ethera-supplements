@@ -50,7 +50,7 @@ export default function LandingPage({
 
   return (
     <>
-      {process.env.NODE_ENV !== "developmentx" && <Preloader />}
+      {process.env.NODE_ENV !== "test" && <Preloader />}
       <motion.main
       /* style={{
           visibility: showContent ? "visible" : "hidden",

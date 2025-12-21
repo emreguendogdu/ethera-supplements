@@ -64,8 +64,10 @@ export const FlipTextOnHover = ({
 
   const content = (
     <>
-      <div>{renderSplitText(text, 0, "-100%")}</div>
-      <div className="absolute inset-0">{renderSplitText(text, "100%", 0)}</div>
+      <div className="text-center">{renderSplitText(text, 0, "-100%")}</div>
+      <div className="absolute inset-0 flex items-center justify-center">
+        {renderSplitText(text, "100%", 0)}
+      </div>
     </>
   );
 
@@ -76,7 +78,7 @@ export const FlipTextOnHover = ({
         whileHover="hovered"
         onClick={onClick}
         className={cn(
-          "relative overflow-hidden leading-loose cursor-pointer focus:outline-none subheading text-current border border-current/50 px-5 rounded-full uppercase",
+          "relative overflow-hidden leading-loose cursor-pointer focus:outline-none subheading text-current border border-current/50 px-5 rounded-full uppercase text-center hover:border-white hover:text-white transition-all duration-500",
           className
         )}
       >
@@ -91,7 +93,7 @@ export const FlipTextOnHover = ({
       whileHover="hovered"
       href={href}
       className={cn(
-        "relative overflow-hidden leading-loose cursor-pointer focus:outline-none subheading text-current border border-current/50 px-5 rounded-full uppercase",
+        "relative overflow-hidden leading-loose cursor-pointer focus:outline-none subheading text-current border border-current/50 px-5 rounded-full uppercase hover:border-white hover:text-white transition-all duration-500",
         className
       )}
     >

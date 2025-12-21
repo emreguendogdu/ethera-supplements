@@ -8,9 +8,9 @@ Title: Giant Scifi Statue
 
 import { useLoadingStore } from "@/stores/loadingStore";
 import { useGLTF } from "@react-three/drei";
-import { BufferGeometry, Mesh, MeshStandardMaterial, Scene } from "three";
+import { BufferGeometry, Mesh, MeshStandardMaterial, Scene, Group } from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, forwardRef } from "react";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -27,11 +27,14 @@ interface StatueProps extends React.ComponentPropsWithoutRef<"group"> {
   roughness?: number;
 }
 
-export default function Statue({
-  metalness = 0.0,
-  roughness = 0.35,
-  ...props
-}: StatueProps) {
+const Statue = forwardRef<Group, StatueProps>(function Statue(
+  {
+    metalness = 0.0,
+    roughness = 0.35,
+    ...props
+  },
+  ref
+) {
   const { nodes, materials, scene } = useGLTF(
     "/3d/statue.glb"
   ) as unknown as GLTFResult;
@@ -79,7 +82,7 @@ export default function Statue({
   }
 
   return (
-    <group {...props} dispose={null}>
+    <group ref={ref} {...props} dispose={null}>
       <mesh
         castShadow
         receiveShadow
@@ -89,7 +92,9 @@ export default function Statue({
       />
     </group>
   );
-}
+});
+
+export default Statue;
 
 export function StatueLoader() {
   const { scene } = useGLTF("/3d/statue.glb");
