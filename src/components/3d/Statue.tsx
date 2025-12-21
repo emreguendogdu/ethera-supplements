@@ -8,7 +8,13 @@ Title: Giant Scifi Statue
 
 import { useLoadingStore } from "@/stores/loadingStore";
 import { useGLTF } from "@react-three/drei";
-import { BufferGeometry, Mesh, MeshStandardMaterial, Scene, Group } from "three";
+import {
+  BufferGeometry,
+  Mesh,
+  MeshStandardMaterial,
+  Scene,
+  Group,
+} from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 import React, { useEffect, useMemo, useRef, forwardRef } from "react";
 
@@ -28,11 +34,7 @@ interface StatueProps extends React.ComponentPropsWithoutRef<"group"> {
 }
 
 const Statue = forwardRef<Group, StatueProps>(function Statue(
-  {
-    metalness = 0.0,
-    roughness = 0.35,
-    ...props
-  },
+  { metalness = 0.0, roughness = 0.35, ...props },
   ref
 ) {
   const { nodes, materials, scene } = useGLTF(

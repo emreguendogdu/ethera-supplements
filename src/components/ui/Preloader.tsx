@@ -5,7 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import { SplitText } from "gsap/SplitText";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useLayoutEffect, useState, useRef } from "react";
 import { useLoadingStore } from "@/stores/loadingStore";
 import { useScrollContext } from "@/context/ScrollContext";
 import "./Preloader.css";
@@ -15,17 +15,54 @@ gsap.registerPlugin(SplitText, CustomEase);
 
 CustomEase.create("hop", ".8, 0, .3, 1");
 
+// Check if preloader should be skipped (for development)
+const shouldSkipPreloader = () => {
+  if (typeof window === "undefined") return false;
+  try {
+    // Check environment variable (must be set at build time for client components)
+    if (process.env.NEXT_PUBLIC_SKIP_PRELOADER === "true") return true;
+    // Check localStorage (useful for toggling during development)
+    const skipFlag = localStorage.getItem("skipPreloader");
+    if (skipFlag === "true") return true;
+  } catch (e) {
+    // localStorage might not be available in some contexts
+    console.warn("Could not check skipPreloader flag:", e);
+  }
+  return false;
+};
+
 export default function Preloader() {
+  // Call all hooks first (React rules)
+  const { setAllowScroll } = useScrollContext();
+  const { setPreloaderAnimationComplete, setAllAssetsLoaded } = useLoadingStore(
+    (state) => state.actions
+  );
   const { isMobile } = useDeviceSize();
   const [splitTextReady, setSplitTextReady] = useState(false);
   const allAssetsLoaded = useLoadingStore((state) => state.allAssetsLoaded);
-  const { setAllowScroll } = useScrollContext();
+  // Always start as false to match server render (prevents hydration mismatch)
   const [isHidden, setIsHidden] = useState(false);
+  const [shouldSkip, setShouldSkip] = useState(false);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const timelineCreatedRef = useRef(false);
 
+  // Check skip condition after mount (prevents hydration mismatch)
+  // Use useLayoutEffect to run synchronously before paint
+  useLayoutEffect(() => {
+    const skip = shouldSkipPreloader();
+    setShouldSkip(skip);
+
+    if (skip) {
+      // Immediately set all required states so animations can run
+      setPreloaderAnimationComplete();
+      setAllAssetsLoaded();
+      setAllowScroll(true);
+      setIsHidden(true);
+    }
+  }, [setPreloaderAnimationComplete, setAllAssetsLoaded, setAllowScroll]);
+
   useEffect(() => {
-    if (typeof document === "undefined") return;
+    if (typeof document === "undefined" || shouldSkip || isHidden) return;
 
     const timer = setTimeout(() => {
       splitTextElements(".preloader .intro-title span", "words, chars", true);
@@ -34,9 +71,11 @@ export default function Preloader() {
     }, 0);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [shouldSkip, isHidden]);
 
   useEffect(() => {
+    if (shouldSkip || isHidden) return;
+
     if (allAssetsLoaded) {
       setAllowScroll(true);
       // Resume timeline if it's paused at waitForAssets
@@ -47,11 +86,17 @@ export default function Preloader() {
       setAllowScroll(false);
       setIsHidden(false);
     }
-  }, [allAssetsLoaded, setAllowScroll]);
+  }, [allAssetsLoaded, setAllowScroll, shouldSkip, isHidden]);
 
   useGSAP(
     () => {
-      if (typeof window === "undefined" || !splitTextReady) return;
+      if (
+        typeof window === "undefined" ||
+        !splitTextReady ||
+        shouldSkip ||
+        isHidden
+      )
+        return;
 
       // Prevent timeline from being recreated
       if (timelineCreatedRef.current) return;
@@ -216,10 +261,11 @@ export default function Preloader() {
       // Store timeline in ref for external control
       timelineRef.current = tl;
     },
-    { dependencies: [isMobile, splitTextReady] }
+    { dependencies: [isMobile, splitTextReady, shouldSkip, isHidden] }
   );
 
-  if (isHidden) {
+  // Return null if skipping or hidden (after all hooks have been called)
+  if (shouldSkip || isHidden) {
     return null;
   }
 

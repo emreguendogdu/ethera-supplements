@@ -46,10 +46,10 @@ export function useHeroCanvasLightAnimation(
     const tl = gsap.timeline();
 
     // Initial state: total dark
-    tl.set(fillLight.current, { intensity: 0 });
-    tl.set(topLight.current, { intensity: 0 });
-    tl.set(rimLight.current, { intensity: 0 });
-    tl.set(keyLight.current, { intensity: 0 });
+    tl.set(fillLight.current, { intensity: 0.05 });
+    tl.set(topLight.current, { intensity: 0.05 });
+    tl.set(rimLight.current, { intensity: 0.05 });
+    tl.set(keyLight.current, { intensity: 0.05 });
     tl.set(cursorLight.current, { intensity: 0 });
 
     // The "Flicker" (fast on/off)

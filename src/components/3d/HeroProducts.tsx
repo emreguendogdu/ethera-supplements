@@ -33,6 +33,7 @@ const PRODUCTS = [
       config.creatine.startRotation.z,
     ] as [number, number, number],
     scale: 0.65,
+    floatIntensity: 0.25,
   },
   {
     slug: "pre-workout",
@@ -48,6 +49,7 @@ const PRODUCTS = [
       config.preWorkout.startRotation.z,
     ] as [number, number, number],
     scale: 0.5,
+    floatIntensity: 0.25,
   },
   {
     slug: "whey-isolate",
@@ -63,11 +65,15 @@ const PRODUCTS = [
       config.wheyIsolate.startRotation.z,
     ] as [number, number, number],
     scale: 0.9,
+    floatIntensity: 1,
   },
 ] as const;
 
 export interface HeroProductsRef {
   productsGroupRef: React.RefObject<THREE.Group | null>;
+  creatineRef: React.RefObject<THREE.Group | null>;
+  preWorkoutRef: React.RefObject<THREE.Group | null>;
+  wheyIsolateRef: React.RefObject<THREE.Group | null>;
 }
 
 export const HeroProducts = forwardRef<HeroProductsRef, {}>(
@@ -80,6 +86,9 @@ export const HeroProducts = forwardRef<HeroProductsRef, {}>(
     // Expose ref to parent component
     useImperativeHandle(ref, () => ({
       productsGroupRef,
+      creatineRef,
+      preWorkoutRef,
+      wheyIsolateRef,
     }));
 
     // Track when all refs are ready
@@ -202,11 +211,11 @@ export const HeroProducts = forwardRef<HeroProductsRef, {}>(
     return (
       <>
         {/* <HeroProductsGUI
-        creatineRef={creatineRef}
-        preWorkoutRef={preWorkoutRef}
-        wheyIsolateRef={wheyIsolateRef}
-        productsGroupRef={productsGroupRef}
-      /> */}
+          creatineRef={creatineRef}
+          preWorkoutRef={preWorkoutRef}
+          wheyIsolateRef={wheyIsolateRef}
+          productsGroupRef={productsGroupRef}
+        /> */}
         <group
           ref={productsGroupRef}
           position={[
@@ -241,7 +250,7 @@ export const HeroProducts = forwardRef<HeroProductsRef, {}>(
                 <Float
                   speed={2}
                   rotationIntensity={0.2}
-                  floatIntensity={1}
+                  floatIntensity={product.floatIntensity}
                   floatingRange={[-0.1, 0.1]}
                 >
                   <Tub slug={product.slug} glbUrl={product.glbUrl} />

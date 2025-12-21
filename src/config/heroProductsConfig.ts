@@ -1,9 +1,11 @@
 import type { HeroProductsConfig } from "@/types/heroProducts";
 
-const finalRotationY = -0.5,
-  finalPosX = 1.5,
+const finalRotationX = -0.15,
+  finalRotationY = -0.5,
+  finalRotationZ = -0.075,
+  finalPosX = 1.25,
   finalPosY = 2.75,
-  finalPosZ = -1.7;
+  finalPosZ = -1.25;
 
 // Group configuration
 const group = {
@@ -46,7 +48,7 @@ const creatine = {
   startPos: {
     x: 0,
     y: 8,
-    z: -1.25,
+    z: -1.6,
   },
   startRotation: {
     x: -0.5,
@@ -59,33 +61,9 @@ const creatine = {
     z: finalPosZ /* 0.6 */,
   },
   finalRotation: {
-    x: 0,
+    x: finalRotationX,
     y: finalRotationY,
-    z: 0,
-  },
-};
-
-// Pre-Workout configuration
-const preWorkout = {
-  startPos: {
-    x: 2.1,
-    y: 5,
-    z: 8,
-  },
-  startRotation: {
-    x: -0.5,
-    y: 0.1,
-    z: 0.35,
-  },
-  finalPos: {
-    x: finalPosX + 2.35,
-    y: finalPosY,
-    z: finalPosZ /* 0.7 */,
-  },
-  finalRotation: {
-    x: 0,
-    y: finalRotationY,
-    z: 0,
+    z: finalRotationZ,
   },
 };
 
@@ -103,13 +81,37 @@ const wheyIsolate = {
   },
   finalPos: {
     x: finalPosX + 1.12,
-    y: finalPosY + 0.25,
+    y: finalPosY,
     z: finalPosZ /* 0.43 */,
   },
   finalRotation: {
-    x: 0,
+    x: finalRotationX,
     y: finalRotationY,
-    z: 0,
+    z: finalRotationZ,
+  },
+};
+
+// Pre-Workout configuration
+const preWorkout = {
+  startPos: {
+    x: 2.1,
+    y: 5,
+    z: 8,
+  },
+  startRotation: {
+    x: -0.5,
+    y: 0.1,
+    z: 0.35,
+  },
+  finalPos: {
+    x: finalPosX + 2.35,
+    y: finalPosY - 0.25,
+    z: finalPosZ /* 0.7 */,
+  },
+  finalRotation: {
+    x: finalRotationX,
+    y: finalRotationY,
+    z: finalRotationZ,
   },
 };
 

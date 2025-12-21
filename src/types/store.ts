@@ -11,5 +11,6 @@ export interface LoadingState {
     initializeAssets: (assetIds: AssetId[]) => void; // Action to set up the store with assets
     setAssetLoaded: (assetId: AssetId) => void; // Action to mark an asset as loaded
     setPreloaderAnimationComplete: () => void; // Action to mark preloader animation as complete
+    setAllAssetsLoaded: () => void; // Action to manually set all assets as loaded (for skipping preloader)
   };
 }

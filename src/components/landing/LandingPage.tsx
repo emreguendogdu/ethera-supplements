@@ -50,7 +50,7 @@ export default function LandingPage({
 
   return (
     <>
-      {process.env.NODE_ENV !== "test" && <Preloader />}
+      <Preloader />
       <motion.main
       /* style={{
           visibility: showContent ? "visible" : "hidden",
@@ -60,7 +60,7 @@ export default function LandingPage({
       >
         <Hero />
         {/* <Hero discountCode={discountCode} /> */}
-        <ProductsSection products={initialProducts} />
+        {/* <ProductsSection products={initialProducts} /> */}
         <BuyBundle products={initialProducts} />
         <Info />
       </motion.main>

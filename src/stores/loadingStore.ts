@@ -26,16 +26,28 @@ export const useLoadingStore = create<LoadingState>((set) => ({
      * @param assetIds - An array of unique asset identifiers.
      */
     initializeAssets: (assetIds) => {
-      const initialAssetsLoaded = assetIds.reduce((acc, id) => {
-        acc[id] = false; // Mark each asset as not loaded initially
-        return acc;
-      }, {} as Record<AssetId, boolean>);
+      set((state) => {
+        const initialAssetsLoaded = assetIds.reduce((acc, id) => {
+          acc[id] = false; // Mark each asset as not loaded initially
+          return acc;
+        }, {} as Record<AssetId, boolean>);
 
-      set({
-        assetsLoaded: initialAssetsLoaded,
-        totalAssets: assetIds.length,
-        allAssetsLoaded: false, // Reset allAssetsLoaded status
-        preloaderAnimationComplete: false, // Reset preloader animation status
+        // If preloader was already completed (e.g., skipped), mark all assets as loaded
+        const shouldMarkAsLoaded = state.preloaderAnimationComplete;
+        const finalAssetsLoaded = shouldMarkAsLoaded
+          ? assetIds.reduce((acc, id) => {
+              acc[id] = true;
+              return acc;
+            }, {} as Record<AssetId, boolean>)
+          : initialAssetsLoaded;
+
+        return {
+          assetsLoaded: finalAssetsLoaded,
+          totalAssets: assetIds.length,
+          allAssetsLoaded: shouldMarkAsLoaded ? true : false,
+          // Don't reset preloaderAnimationComplete if it's already true (e.g., when skipped)
+          preloaderAnimationComplete: state.preloaderAnimationComplete,
+        };
       });
     },
 
@@ -68,6 +80,27 @@ export const useLoadingStore = create<LoadingState>((set) => ({
      */
     setPreloaderAnimationComplete: () => {
       set({ preloaderAnimationComplete: true });
+    },
+
+    /**
+     * Manually sets all assets as loaded (useful for skipping preloader in development).
+     */
+    setAllAssetsLoaded: () => {
+      set((state) => {
+        // Mark all tracked assets as loaded
+        const allAssetsLoaded = Object.keys(state.assetsLoaded).reduce(
+          (acc, id) => {
+            acc[id] = true;
+            return acc;
+          },
+          {} as Record<AssetId, boolean>
+        );
+
+        return {
+          assetsLoaded: allAssetsLoaded,
+          allAssetsLoaded: true,
+        };
+      });
     },
   },
 }));

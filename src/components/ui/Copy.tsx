@@ -58,9 +58,6 @@ export default function Copy({
 
       // Ensure container has overflow hidden to prevent flash
       const containerElement = containerRef.current as HTMLElement;
-      if (containerElement) {
-        containerElement.style.overflow = "hidden";
-      }
 
       elements.forEach((element) => {
         elementRefs.current.push(element);
@@ -89,7 +86,6 @@ export default function Copy({
             htmlElement.style.display = "inline-block";
           }
           htmlElement.style.whiteSpace = "nowrap";
-          htmlElement.style.overflow = "hidden";
           split.chars.forEach((char) => {
             const charElement = char as HTMLElement;
             charElement.style.display = "inline-block";
@@ -180,7 +176,6 @@ export default function Copy({
         ref: containerRef,
         style: {
           ...(childProps.style || {}),
-          overflow: "hidden",
           visibility: shouldAnimate && isPositioned ? "visible" : "hidden",
         },
       });
@@ -193,7 +188,6 @@ export default function Copy({
       data-copy-wrapper="true"
       className={className}
       style={{
-        overflow: "hidden",
         visibility: shouldAnimate && isPositioned ? "visible" : "hidden",
       }}
     >

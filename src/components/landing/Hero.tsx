@@ -75,24 +75,28 @@ export default function Hero() {
       aria-label="Hero section"
     >
       {/* Hero Section */}
-      <div className="w-full h-svh flex flex-col pt-[104px] sm:pt-[72px] px-sectionX-m md:px-sectionX py-5">
+      <div className="w-full min-h-svh flex flex-col pt-[104px] sm:pt-[72px] px-sectionX-m md:px-sectionX py-5 overflow-hidden">
         <HeroCanvas inView={inView} pointer={pointer} />
-        <Copy
-          animateOnScroll={false}
-          delay={0.2}
-          type="chars"
-          stagger={0.025}
-          duration={1.2}
-          shouldAnimate={preloaderAnimationComplete}
-        >
-          <span className="relative h0 -translate-x-[0.06125em] pb-[5svh]">
-            Ethera
-          </span>
-        </Copy>
-        <div className="relative w-full flex-1 flex justify-center sm:justify-end items-end">
+        <div className="overflow-hidden w-[97svw]">
+          <Copy
+            animateOnScroll={false}
+            delay={0.2}
+            type="chars"
+            stagger={0.025}
+            duration={1.2}
+            shouldAnimate={preloaderAnimationComplete}
+          >
+            <span className="relative h0 -translate-x-[0.06125em] pb-[5svh]">
+              Ethera
+            </span>
+          </Copy>
+        </div>
+        {/* Main (Bottom) */}
+        <div className="relative w-full flex-1 flex justify-center sm:justify-end xl:items-end">
+          {/* Card */}
           <div
             ref={cardRef}
-            className="h-fit bg-preloader p-5 sm:p-10 flex flex-col gap-5 sm:gap-10 opacity-0"
+            className="hero-card h-fit bg-preloader p-5 sm:p-6 xl:p-10 flex flex-col gap-5 xl:gap-10 opacity-0"
           >
             <h2 className="h3">
               Elite Supplements. <br />
@@ -123,7 +127,7 @@ export default function Hero() {
                 </p>
               </li>
             </ul>
-            <div className="relative w-full flex items-center justify-between gap-5">
+            <div className="relative w-full flex items-center justify-between gap-5 sm:gap-6">
               <button
                 onClick={scrollToProducts}
                 className="flex px-2.5 py-1.25 gap-2.5 items-center bg-foreground text-background w-fit rounded-full"
@@ -147,26 +151,33 @@ export default function Hero() {
       </div>
 
       {/* Products Section */}
-      <div className="relative z-10 w-full h-svh flex pt-[104px] sm:pt-[72px] px-sectionX-m md:px-sectionX py-5 text-white">
-        {/* Placeholder for empty left part */}
-        <div className="flex-1" aria-hidden />
+      <div
+        className="relative z-10 w-full min-h-[200svh] flex pt-[104px] sm:pt-[72px] px-sectionX-m md:px-sectionX py-5 text-white"
+        id="products"
+      >
+        <div className="flex justify-center w-full sticky top-[104px] sm:top-[20svh] self-start">
+          {/* Placeholder for empty left part */}
+          {/* <div className="flex-1 hidden sm:block" aria-hidden /> */}
 
-        {/* Products Content */}
-        <div>
-          {/* Title */}
-          <div className="flex flex-col gap-2.5">
-            <p className="font-bold leading-none -tracking-[0.02em] uppercase opacity-70">
-              Zero Noise — Only Results.
-            </p>
+          {/* Products Content */}
+          <div>
+            {/* Title */}
+            <div className="flex flex-col gap-2.5">
+              <p className="font-bold leading-none -tracking-[0.02em] uppercase opacity-70 text-center">
+                Zero Noise — Only Results.
+              </p>
 
-            <div className="relative flex flex-col">
-              <div className="flex gap-10">
-                <h2 className="uppercase">[3]</h2>
-                <h2 className="uppercase">Essentials</h2>
-              </div>
+              <div className="relative flex flex-col">
+                <h2 className="flex gap-10 uppercase">
+                  <span>[3]</span>
+                  <span>Essentials</span>
+                </h2>
 
-              <div className="w-full flex justify-end">
-                <h2 className="uppercase">For growth.</h2>
+                <div className="w-full flex justify-end">
+                  <h2 className="uppercase flex gap-5">
+                    <span>For</span> <span>growth.</span>
+                  </h2>
+                </div>
               </div>
             </div>
           </div>

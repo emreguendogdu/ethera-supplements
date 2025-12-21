@@ -23,11 +23,10 @@ export function HeroProductsGUI({
   useEffect(() => {
     const gui = new GUI();
     gui.title("Product Controls");
-    // Position on the right side
     gui.domElement.style.position = "fixed";
     gui.domElement.style.top = "10px";
-    gui.domElement.style.left = "auto";
-    gui.domElement.style.right = "10px";
+    gui.domElement.style.right = "auto";
+    gui.domElement.style.left = "10px";
 
     let productsGroupControlsCreated = false;
 
@@ -64,19 +63,19 @@ export function HeroProductsGUI({
       };
 
       positionFolder
-        .add(positionObj, "x", -5, 5, 0.01)
+        .add(positionObj, "x", -15, 15, 0.01)
         .onChange((value: number) => {
           if (productsGroupRef.current)
             productsGroupRef.current.position.x = value;
         });
       positionFolder
-        .add(positionObj, "y", -5, 5, 0.01)
+        .add(positionObj, "y", -15, 15, 0.01)
         .onChange((value: number) => {
           if (productsGroupRef.current)
             productsGroupRef.current.position.y = value;
         });
       positionFolder
-        .add(positionObj, "z", -5, 5, 0.01)
+        .add(positionObj, "z", -15, 15, 0.01)
         .onChange((value: number) => {
           if (productsGroupRef.current)
             productsGroupRef.current.position.z = value;

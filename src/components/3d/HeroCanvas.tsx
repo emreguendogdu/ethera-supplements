@@ -15,10 +15,12 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+// creatinePos: x: 5, y:2.2, z:-1.5, preWorkoutPos: x:10,y:1.5,z:-1.25, wheyIsolatePos: x:7, y:2.35, z:-1.25. All of them rotation y: -0.75.
+
 gsap.registerPlugin(ScrollTrigger);
 
 const config = {
-  canvasBg: "#000000",
+  canvasBg: "#0b0c0d",
   metalness: 0.55,
   roughness: 0.75,
   baseEnvironmentPosX: -1.4,
@@ -125,7 +127,10 @@ export default function HeroCanvas({
     const checkRefs = () => {
       if (
         statueRef.current &&
-        heroProductsRef.current?.productsGroupRef.current
+        heroProductsRef.current?.productsGroupRef.current &&
+        heroProductsRef.current?.creatineRef.current &&
+        heroProductsRef.current?.preWorkoutRef.current &&
+        heroProductsRef.current?.wheyIsolateRef.current
       ) {
         setRefsReady(true);
         return true;
@@ -171,10 +176,15 @@ export default function HeroCanvas({
         !inView ||
         !refsReady ||
         !statueRef.current ||
-        !heroProductsRef.current?.productsGroupRef.current
+        !heroProductsRef.current?.productsGroupRef.current ||
+        !heroProductsRef.current?.creatineRef.current ||
+        !heroProductsRef.current?.preWorkoutRef.current ||
+        !heroProductsRef.current?.wheyIsolateRef.current
       ) {
         return;
       }
+
+      // Manually add .to animations for each product's rotation.y, no productRefs array
 
       const scrollTl = gsap.timeline({
         defaults: {
@@ -184,7 +194,6 @@ export default function HeroCanvas({
           trigger: ".hero",
           start: "top top",
           end: "75% bottom",
-          markers: true,
           scrub: 1.5,
         },
       });
@@ -195,6 +204,7 @@ export default function HeroCanvas({
           statueRef.current.position,
           {
             y: "-=0.25",
+            x: "+=0.5",
             ease: "none",
           },
           0
@@ -208,24 +218,72 @@ export default function HeroCanvas({
           0
         );
 
-      // Add animations for HeroProducts
-      scrollTl.to(
-        heroProductsRef.current.productsGroupRef.current.position,
-        {
-          y: "-=0.25",
-          x: "+=4.5",
-          ease: "none",
-        },
-        0
-      );
-      /*  .to(
-          heroProductsRef.current.productsGroupRef.current.rotation,
+      // creatinePos: x: 5, y:2.2, z:-1.5, preWorkoutPos: x:10,y:1.5,z:-1.25, wheyIsolatePos: x:7, y:2.35, z:-1.25. All of them rotation y: -0.75.
+      if (
+        heroProductsRef.current.creatineRef.current &&
+        heroProductsRef.current.preWorkoutRef.current &&
+        heroProductsRef.current.wheyIsolateRef.current
+      ) {
+        // Creatine position and rotation
+        scrollTl.to(
+          heroProductsRef.current.creatineRef.current.position,
           {
-            z: "-=0.2",
+            x: 5,
+            y: 2.7, // 2.2 + 0.25
+            z: -1.5,
             ease: "none",
           },
           0
-        ); */
+        );
+        scrollTl.to(
+          heroProductsRef.current.creatineRef.current.rotation,
+          {
+            y: -0.75,
+            ease: "none",
+          },
+          0
+        );
+
+        // Pre-Workout position and rotation
+        scrollTl.to(
+          heroProductsRef.current.preWorkoutRef.current.position,
+          {
+            x: 10,
+            y: 2, // 1.5 + 0.25
+            z: -1.25,
+            ease: "none",
+          },
+          0
+        );
+        scrollTl.to(
+          heroProductsRef.current.preWorkoutRef.current.rotation,
+          {
+            y: -0.75,
+            ease: "none",
+          },
+          0
+        );
+
+        // Whey Isolate position and rotation
+        scrollTl.to(
+          heroProductsRef.current.wheyIsolateRef.current.position,
+          {
+            x: 7,
+            y: 2.85,
+            z: -1.25,
+            ease: "none",
+          },
+          0
+        );
+        scrollTl.to(
+          heroProductsRef.current.wheyIsolateRef.current.rotation,
+          {
+            y: -0.75,
+            ease: "none",
+          },
+          0
+        );
+      }
 
       return () => {
         scrollTl.kill();
