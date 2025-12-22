@@ -87,14 +87,16 @@ export function HeroLighting({ isMobile, pointer }: HeroLightingProps) {
 
   return (
     <>
-      <HeroLightingGUI
-        keyLightRef={keyLightRef}
-        fillLightRef={fillLightRef}
-        rimLightRef={rimLightRef}
-        topLightRef={topLightRef}
-        cursorLightRef={cursorLightRef}
-        config={config}
-      />
+      {process.env.NODE_ENV === "development" && (
+        <HeroLightingGUI
+          keyLightRef={keyLightRef}
+          fillLightRef={fillLightRef}
+          rimLightRef={rimLightRef}
+          topLightRef={topLightRef}
+          cursorLightRef={cursorLightRef}
+          config={config}
+        />
+      )}
       <directionalLight
         position={config.keyPos}
         intensity={config.initialIntensity}
