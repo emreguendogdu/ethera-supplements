@@ -210,7 +210,14 @@ export const HeroProducts = forwardRef<HeroProductsRef, {}>(
 
     return (
       <>
-        {process.env === "development"}
+        {process.env.NODE_ENV === "development" && (
+          <HeroProductsGUI
+            creatineRef={creatineRef}
+            preWorkoutRef={preWorkoutRef}
+            wheyIsolateRef={wheyIsolateRef}
+            productsGroupRef={productsGroupRef}
+          />
+        )}
         <group
           ref={productsGroupRef}
           position={[
