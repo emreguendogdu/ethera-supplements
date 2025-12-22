@@ -19,6 +19,17 @@ export type ProductAnimationConfig = {
     y: number;
     z: number;
   };
+  // Scroll animation target values
+  scrollPos?: {
+    x: number;
+    y: number;
+    z: number;
+  };
+  scrollRotation?: {
+    x?: number;
+    y?: number;
+    z?: number;
+  };
 };
 
 export type GroupAnimationConfig = ProductAnimationConfig & {
@@ -31,4 +42,8 @@ export type HeroProductsConfig = {
   creatine: ProductAnimationConfig;
   preWorkout: ProductAnimationConfig;
   wheyIsolate: ProductAnimationConfig;
+  statue?: {
+    scrollPosOffset: { x: number; y: number };
+    scrollRotationOffset: { y: number };
+  };
 };

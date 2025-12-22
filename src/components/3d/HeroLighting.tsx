@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import * as THREE from "three";
 import { useHeroCanvasLightAnimation } from "@/hooks/useHeroCanvasLightAnimation";
 import { useCursorLight } from "@/hooks/useCursorLight";
+import { HeroLightingGUI } from "./HeroLightingGUI";
 
 interface HeroLightingConfig {
   keyIntensity: number;
@@ -14,6 +15,7 @@ interface HeroLightingConfig {
   rimPos: [number, number, number];
   topIntensity: number;
   topPos: [number, number, number];
+  initialIntensity: number;
   cursorLightEnabled: boolean;
   cursorLightIntensity: number;
   cursorLightColor: number;
@@ -29,17 +31,18 @@ interface HeroLightingProps {
   pointer: { x: number; y: number };
 }
 
-const defaultConfig: HeroLightingConfig = {
-  keyIntensity: 0.5,
-  keyPos: [-5.6, -9.5, 20],
-  fillIntensity: 0.42,
+const config: HeroLightingConfig = {
+  keyIntensity: 0.4,
+  keyPos: [-1, 0.9, 10.4],
+  fillIntensity: 2,
   fillPos: [-5, 2.5, -2.5],
   rimIntensity: 1,
   rimPos: [-20, -20, 11.1],
-  topIntensity: 0.0,
-  topPos: [0, 15, 0],
-  cursorLightEnabled: true,
-  cursorLightIntensity: 3,
+  topIntensity: 0.1,
+  topPos: [20, 15, 0],
+  initialIntensity: 0.15,
+  cursorLightEnabled: false,
+  cursorLightIntensity: 0,
   cursorLightColor: 0xffffff,
   cursorLightDistance: 3,
   cursorLightDecay: 3,
@@ -49,21 +52,11 @@ const defaultConfig: HeroLightingConfig = {
 };
 
 export function HeroLighting({ isMobile, pointer }: HeroLightingProps) {
-  const [config, setConfig] = useState<HeroLightingConfig>(defaultConfig);
   const keyLightRef = useRef<THREE.DirectionalLight>(null);
   const fillLightRef = useRef<THREE.DirectionalLight>(null);
   const rimLightRef = useRef<THREE.DirectionalLight>(null);
   const topLightRef = useRef<THREE.DirectionalLight>(null);
   const cursorLightRef = useRef<THREE.PointLight>(null);
-
-  // Set lights to 0 immediately on mount to prevent flash
-  useEffect(() => {
-    if (keyLightRef.current) keyLightRef.current.intensity = 0;
-    if (fillLightRef.current) fillLightRef.current.intensity = 0;
-    if (rimLightRef.current) rimLightRef.current.intensity = 0;
-    if (topLightRef.current) topLightRef.current.intensity = 0;
-    if (cursorLightRef.current) cursorLightRef.current.intensity = 0;
-  }, []);
 
   useHeroCanvasLightAnimation(
     {
@@ -79,6 +72,7 @@ export function HeroLighting({ isMobile, pointer }: HeroLightingProps) {
       topIntensity: config.topIntensity,
       rimIntensity: config.rimIntensity,
       cursorLightIntensity: config.cursorLightIntensity,
+      initialIntensity: config.initialIntensity,
     }
   );
 
@@ -93,9 +87,17 @@ export function HeroLighting({ isMobile, pointer }: HeroLightingProps) {
 
   return (
     <>
+      <HeroLightingGUI
+        keyLightRef={keyLightRef}
+        fillLightRef={fillLightRef}
+        rimLightRef={rimLightRef}
+        topLightRef={topLightRef}
+        cursorLightRef={cursorLightRef}
+        config={config}
+      />
       <directionalLight
         position={config.keyPos}
-        intensity={0}
+        intensity={config.initialIntensity}
         castShadow
         shadow-mapSize-width={4096}
         shadow-mapSize-height={4096}
@@ -105,24 +107,24 @@ export function HeroLighting({ isMobile, pointer }: HeroLightingProps) {
       />
       <directionalLight
         position={config.fillPos}
-        intensity={0}
+        intensity={config.initialIntensity}
         ref={fillLightRef}
       />
       <directionalLight
         position={config.rimPos}
-        intensity={0}
+        intensity={config.initialIntensity}
         ref={rimLightRef}
       />
       <directionalLight
         position={config.topPos}
-        intensity={0}
+        intensity={config.initialIntensity}
         ref={topLightRef}
       />
       {config.cursorLightEnabled && (
         <pointLight
           ref={cursorLightRef}
           color={config.cursorLightColor}
-          intensity={0}
+          intensity={config.initialIntensity}
           distance={config.cursorLightDistance}
           decay={config.cursorLightDecay}
           position={[0, 0, config.cursorLightPosZ]}

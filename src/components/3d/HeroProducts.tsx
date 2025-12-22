@@ -193,7 +193,7 @@ export const HeroProducts = forwardRef<HeroProductsRef, {}>(
               y: config.creatine.finalPos.y,
               z: config.creatine.finalPos.z,
             },
-            "<+0.25"
+            "<"
           )
           .to(
             creatineRef.current.rotation,

@@ -1,31 +1,25 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Loader } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { HeroProductsRef } from "@/components/3d/HeroProducts";
-import { HeroCanvasEnvironment } from "@/components/3d/HeroCanvasEnvironment";
-import { useHeroCanvasAnimation } from "@/hooks/useHeroCanvasAnimation";
+import { MenuCanvasEnvironment } from "@/components/3d/MenuCanvasEnvironment";
 import useDeviceSize from "@/hooks/useDeviceSize";
 import DisableRender from "../DisableRender";
 import * as THREE from "three";
 import { cn } from "@/utils/cn";
 
-interface HeroCanvasProps {
+interface MenuCanvasProps {
   inView: boolean;
   wrapperClassName?: string;
-  pointer?: { x: number; y: number };
 }
 
-export default function HeroCanvas({
+export default function MenuCanvas({
   inView,
   wrapperClassName,
-  pointer,
-}: HeroCanvasProps) {
+}: MenuCanvasProps) {
   const { isMobile } = useDeviceSize();
   const [shouldRender, setShouldRender] = useState(inView);
-  const statueRef = useRef<THREE.Group>(null);
-  const heroProductsRef = useRef<HeroProductsRef>(null);
 
   // Optimize rendering by unmounting/disabling when out of view
   useEffect(() => {
@@ -38,13 +32,6 @@ export default function HeroCanvas({
       return () => clearTimeout(timer);
     }
   }, [inView]);
-
-  // Handle scroll animations
-  useHeroCanvasAnimation({
-    inView,
-    statueRef,
-    heroProductsRef,
-  });
 
   if (!shouldRender) {
     return null;
@@ -71,12 +58,7 @@ export default function HeroCanvas({
         dpr={[1, 2]}
       >
         {!inView && <DisableRender />}
-        <HeroCanvasEnvironment
-          isMobile={isMobile}
-          pointer={pointer}
-          statueRef={statueRef}
-          heroProductsRef={heroProductsRef}
-        />
+        <MenuCanvasEnvironment isMobile={isMobile} />
       </Canvas>
       <Loader />
     </div>

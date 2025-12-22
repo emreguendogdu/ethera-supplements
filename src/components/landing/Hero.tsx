@@ -2,20 +2,18 @@
 
 import { motion } from "motion/react";
 import { useHeroScrollAnimations } from "@/hooks/useHeroScrollAnimations";
-import { ArrowOutward, Potion, Shield, Star } from "../ui/Icons";
-import { Drop } from "../ui/Icons";
 import HeroCanvas from "@/components/3d/HeroCanvas";
 import { useState, useEffect, useRef } from "react";
-import { useScrollToSection } from "@/hooks/useScrollToSection";
 import Copy from "../ui/Copy";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useLoadingStore } from "@/stores/loadingStore";
+import { HeroCard } from "./HeroCard";
+import { HeroProductTeaser } from "./HeroProductTeaser";
 
 export default function Hero() {
   const { inView, setRefs } = useHeroScrollAnimations();
   const [pointer, setPointer] = useState({ x: 0, y: 0 });
-  const { scrollToProducts } = useScrollToSection();
   const cardRef = useRef<HTMLDivElement>(null);
   const preloaderAnimationComplete = useLoadingStore(
     (state) => state.preloaderAnimationComplete
@@ -24,10 +22,8 @@ export default function Hero() {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       // Normalize to -1 to 1 range (like Three.js pointer) based on viewport
-      // This matches the canvas which is sized to viewport height
       const x = (e.clientX / window.innerWidth) * 2 - 1;
       const y = -((e.clientY / window.innerHeight) * 2 - 1); // Invert Y axis
-
       setPointer({ x, y });
     };
 
@@ -39,7 +35,7 @@ export default function Hero() {
     () => {
       if (!cardRef.current || !preloaderAnimationComplete) return;
 
-      // Set initial opacity to 0
+      // Set initial state
       gsap.set(cardRef.current, { opacity: 0 });
       gsap.set("#header-content", { opacity: 0, yPercent: "-100%" });
 
@@ -47,7 +43,7 @@ export default function Hero() {
         defaults: { ease: "power2.out", duration: 1 },
       });
 
-      // Animate opacity from 0 to 1
+      // Entry animation
       tl.to(cardRef.current, {
         opacity: 1,
         duration: 1,
@@ -74,9 +70,10 @@ export default function Hero() {
       ref={setRefs}
       aria-label="Hero section"
     >
-      {/* Hero Section */}
+      {/* Hero Content */}
       <div className="w-full min-h-svh flex flex-col pt-[104px] sm:pt-[72px] px-sectionX-m md:px-sectionX py-5 overflow-hidden">
         <HeroCanvas inView={inView} pointer={pointer} />
+
         <div className="overflow-hidden w-[97svw]">
           <Copy
             animateOnScroll={false}
@@ -91,98 +88,14 @@ export default function Hero() {
             </span>
           </Copy>
         </div>
-        {/* Main (Bottom) */}
+
+        {/* Card Section */}
         <div className="relative w-full flex-1 flex justify-center sm:justify-end xl:items-end">
-          {/* Card */}
-          <div
-            ref={cardRef}
-            className="hero-card h-fit bg-preloader p-5 sm:p-6 xl:p-10 flex flex-col gap-5 xl:gap-10 opacity-0"
-          >
-            <h2 className="h3">
-              Elite Supplements. <br />
-              Zero Noise.
-            </h2>
-            <p>
-              The standard for the 1% who train in silence. <br /> Precision
-              formulas with zero fillers, zero <br /> dyes, and zero hype. Just
-              results.
-            </p>
-            <ul className="w-full flex justify-between items-center gap-2.5">
-              <li className="flex flex-col items-center justify-center gap-1.25">
-                <Potion className="w-[2em] aspect-square rounded-full" />
-                <p className="text-center">
-                  Clinically <br /> Dosed
-                </p>
-              </li>
-              <li className="flex flex-col items-center justify-center gap-1.25">
-                <Shield className="w-[2em] aspect-square rounded-full" />
-                <p className="text-center">
-                  3-rd Party <br /> Verified
-                </p>
-              </li>
-              <li className="flex flex-col items-center justify-center gap-2.5">
-                <Drop className="w-[2em] aspect-square rounded-full" />
-                <p className="text-center">
-                  0 <br /> Artificial
-                </p>
-              </li>
-            </ul>
-            <div className="relative w-full flex items-center justify-between gap-5 sm:gap-6">
-              <button
-                onClick={scrollToProducts}
-                className="flex px-2.5 py-1.25 gap-2.5 items-center bg-foreground text-background w-fit rounded-full"
-              >
-                <span className="uppercase whitespace-nowrap">Shop Now</span>
-                <ArrowOutward className="w-5 h-5 mt-0.5" />
-              </button>
-              <div className="flex flex-col w-fit gap-1.25 items-center">
-                <div className="flex items-center gap-1.25">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star className="w-5 h-5" key={i} />
-                  ))}
-                </div>
-                <span className="uppercase whitespace-nowrap text-[0.75em]">
-                  4.8/5 from 365 reviews
-                </span>
-              </div>
-            </div>
-          </div>
+          <HeroCard ref={cardRef} />
         </div>
       </div>
 
-      {/* Products Section */}
-      <div
-        className="relative z-10 w-full min-h-[200svh] flex pt-[104px] sm:pt-[72px] px-sectionX-m md:px-sectionX py-5 text-white"
-        id="products"
-      >
-        <div className="flex justify-center w-full sticky top-[104px] sm:top-[20svh] self-start">
-          {/* Placeholder for empty left part */}
-          {/* <div className="flex-1 hidden sm:block" aria-hidden /> */}
-
-          {/* Products Content */}
-          <div>
-            {/* Title */}
-            <div className="flex flex-col gap-2.5">
-              <p className="font-bold leading-none -tracking-[0.02em] uppercase opacity-70 text-center">
-                Zero Noise — Only Results.
-              </p>
-
-              <div className="relative flex flex-col">
-                <h2 className="flex gap-10 uppercase">
-                  <span>[3]</span>
-                  <span>Essentials</span>
-                </h2>
-
-                <div className="w-full flex justify-end">
-                  <h2 className="uppercase flex gap-5">
-                    <span>For</span> <span>growth.</span>
-                  </h2>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <HeroProductTeaser />
     </motion.section>
   );
 }

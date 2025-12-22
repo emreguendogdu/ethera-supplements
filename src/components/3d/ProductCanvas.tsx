@@ -41,7 +41,7 @@ export default function ProductCanvas({ slug, glbUrl }: ProductCanvasProps) {
   return (
     <div
       id="canvas-container"
-      className="w-full h-[50vh] md:w-full md:h-[100vh] md:flex-1 md:sticky md:top-0 self-center"
+      className="w-full h-[50vh] md:w-full md:h-screen md:flex-1 md:sticky md:top-0 self-center"
       ref={ref}
     >
       <Canvas

@@ -19,6 +19,7 @@ interface LightConfig {
   topIntensity: number;
   rimIntensity: number;
   cursorLightIntensity: number;
+  initialIntensity?: number;
 }
 
 export function useHeroCanvasLightAnimation(
@@ -37,36 +38,22 @@ export function useHeroCanvasLightAnimation(
       !fillLight.current ||
       !topLight.current ||
       !rimLight.current ||
-      !keyLight.current ||
-      !cursorLight.current
+      !keyLight.current
     ) {
       return;
     }
 
     const tl = gsap.timeline();
+    const initial = config.initialIntensity ?? 0.15;
 
-    // Initial state: total dark
-    tl.set(fillLight.current, { intensity: 0.05 });
-    tl.set(topLight.current, { intensity: 0.05 });
-    tl.set(rimLight.current, { intensity: 0.05 });
-    tl.set(keyLight.current, { intensity: 0.05 });
-    tl.set(cursorLight.current, { intensity: 0 });
-
-    // The "Flicker" (fast on/off)
-    /*  tl.to(fillLight.current, {
-      intensity: config.fillIntensity,
-      duration: 0.1,
-      delay: 1,
-    })
-      .to(fillLight.current, { intensity: 0, duration: 0.05 })
-      .to(fillLight.current, {
-        intensity: config.fillIntensity + 0.2,
-        duration: 0.1,
-      })
-      .to(fillLight.current, {
-        intensity: config.fillIntensity - 0.2,
-        duration: 0.2,
-      }) */
+    // Initial state
+    tl.set(fillLight.current, { intensity: initial });
+    tl.set(topLight.current, { intensity: initial });
+    tl.set(rimLight.current, { intensity: initial });
+    tl.set(keyLight.current, { intensity: initial });
+    if (cursorLight.current) {
+      tl.set(cursorLight.current, { intensity: initial });
+    }
 
     // The "Burst" (over-intense for a moment)
     tl.to(fillLight.current, {
@@ -108,8 +95,10 @@ export function useHeroCanvasLightAnimation(
           ease: "power2.out",
         },
         "<"
-      )
-      .to(
+      );
+
+    if (cursorLight.current) {
+      tl.to(
         cursorLight.current,
         {
           intensity: config.cursorLightIntensity,
@@ -118,6 +107,7 @@ export function useHeroCanvasLightAnimation(
         },
         "<+2"
       );
+    }
   }, [
     preloaderAnimationComplete,
     refs.fillLight,

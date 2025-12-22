@@ -7,23 +7,12 @@ const finalRotationX = -0.15,
   finalPosY = 2.75,
   finalPosZ = -1.25;
 
-// Group configuration
 const group = {
-  /* startPos: {
-    x: 0.7,
-    y: 5,
-    z: 8,
-  }, */
   startPos: {
     x: 0,
     y: 0,
     z: 0,
   },
-  /* startRotation: {
-    x: 0,
-    y: -0.325,
-    z: 0,
-  }, */
   startRotation: {
     x: 0,
     y: 0,
@@ -43,31 +32,37 @@ const group = {
   finalScale: 1,
 };
 
-// Creatine configuration
 const creatine = {
   startPos: {
-    x: 0,
-    y: 8,
-    z: -1.6,
+    x: -5,
+    y: 5,
+    z: 8,
   },
   startRotation: {
-    x: -0.5,
+    x: -0.3,
     y: 0.1,
     z: 0.35,
   },
   finalPos: {
     x: finalPosX,
     y: finalPosY,
-    z: finalPosZ /* 0.6 */,
+    z: finalPosZ,
   },
   finalRotation: {
     x: finalRotationX,
     y: finalRotationY,
     z: finalRotationZ,
   },
+  scrollPos: {
+    x: 5,
+    y: 2.7,
+    z: -1.5,
+  },
+  scrollRotation: {
+    y: -0.75,
+  },
 };
 
-// Whey Isolate configuration
 const wheyIsolate = {
   startPos: {
     x: 1.4,
@@ -80,18 +75,25 @@ const wheyIsolate = {
     z: 0.35,
   },
   finalPos: {
-    x: finalPosX + 1.12,
+    x: finalPosX + 1.2,
     y: finalPosY,
-    z: finalPosZ /* 0.43 */,
+    z: finalPosZ,
   },
   finalRotation: {
     x: finalRotationX,
     y: finalRotationY,
     z: finalRotationZ,
   },
+  scrollPos: {
+    x: 7,
+    y: 2.85,
+    z: -1.25,
+  },
+  scrollRotation: {
+    y: -0.75,
+  },
 };
 
-// Pre-Workout configuration
 const preWorkout = {
   startPos: {
     x: 2.1,
@@ -104,21 +106,34 @@ const preWorkout = {
     z: 0.35,
   },
   finalPos: {
-    x: finalPosX + 2.35,
+    x: finalPosX + 2.43,
     y: finalPosY - 0.25,
-    z: finalPosZ /* 0.7 */,
+    z: finalPosZ,
   },
   finalRotation: {
     x: finalRotationX,
     y: finalRotationY,
     z: finalRotationZ,
   },
+  scrollPos: {
+    x: 10,
+    y: 2,
+    z: -1.25,
+  },
+  scrollRotation: {
+    y: -0.75,
+  },
 };
 
-// Main config object
+const statue = {
+  scrollPosOffset: { x: 0.5, y: -0.25 },
+  scrollRotationOffset: { y: 0.3 },
+};
+
 export const heroProductsConfig: HeroProductsConfig = {
   group,
   creatine,
   preWorkout,
   wheyIsolate,
+  statue,
 };
