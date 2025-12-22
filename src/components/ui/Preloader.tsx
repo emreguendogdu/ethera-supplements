@@ -5,76 +5,60 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import { SplitText } from "gsap/SplitText";
-import { useEffect, useLayoutEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useLoadingStore } from "@/stores/loadingStore";
 import { useScrollContext } from "@/context/ScrollContext";
 import "./Preloader.css";
 import { splitTextElements } from "@/utils/splitTextElements";
+import { usePreloaderSkip } from "@/hooks/usePreloaderSkip";
 
 gsap.registerPlugin(SplitText, CustomEase);
 
 CustomEase.create("hop", ".8, 0, .3, 1");
 
-// Check if preloader should be skipped (for development)
-const shouldSkipPreloader = () => {
-  if (typeof window === "undefined") return false;
-  try {
-    // Check environment variable (must be set at build time for client components)
-    if (process.env.NEXT_PUBLIC_SKIP_PRELOADER === "true") return true;
-    // Check localStorage (useful for toggling during development)
-    const skipFlag = localStorage.getItem("skipPreloader");
-    if (skipFlag === "true") return true;
-  } catch (e) {
-    // localStorage might not be available in some contexts
-    console.warn("Could not check skipPreloader flag:", e);
-  }
-  return false;
-};
+interface PreloaderProps {
+  skipPreloader?: boolean;
+}
 
-export default function Preloader() {
+export default function Preloader({ skipPreloader = false }: PreloaderProps) {
   // Call all hooks first (React rules)
   const { setAllowScroll } = useScrollContext();
-  const { setPreloaderAnimationComplete, setAllAssetsLoaded } = useLoadingStore(
+  const { setPreloaderAnimationComplete } = useLoadingStore(
     (state) => state.actions
   );
   const { isMobile } = useDeviceSize();
   const [splitTextReady, setSplitTextReady] = useState(false);
   const allAssetsLoaded = useLoadingStore((state) => state.allAssetsLoaded);
-  // Always start as false to match server render (prevents hydration mismatch)
-  const [isHidden, setIsHidden] = useState(false);
-  const [shouldSkip, setShouldSkip] = useState(false);
+  const { shouldSkip, isHidden: isSkipped } = usePreloaderSkip({
+    skipPreloader,
+  });
+  const [isAnimationComplete, setIsAnimationComplete] = useState(false);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const timelineCreatedRef = useRef(false);
 
-  // Check skip condition after mount (prevents hydration mismatch)
-  // Use useLayoutEffect to run synchronously before paint
-  useLayoutEffect(() => {
-    const skip = shouldSkipPreloader();
-    setShouldSkip(skip);
-
-    if (skip) {
-      // Immediately set all required states so animations can run
-      setPreloaderAnimationComplete();
-      setAllAssetsLoaded();
-      setAllowScroll(true);
-      setIsHidden(true);
-    }
-  }, [setPreloaderAnimationComplete, setAllAssetsLoaded, setAllowScroll]);
-
   useEffect(() => {
-    if (typeof document === "undefined" || shouldSkip || isHidden) return;
+    if (
+      typeof document === "undefined" ||
+      shouldSkip ||
+      isSkipped ||
+      isAnimationComplete
+    )
+      return;
 
     const timer = setTimeout(() => {
       splitTextElements(".preloader .intro-title span", "words, chars", true);
       splitTextElements(".tag p", "words");
+      // Make split elements visible after creation
+      gsap.set(".preloader .intro-title > span", { visibility: "visible" });
+      gsap.set(".tag p", { visibility: "visible" });
       setSplitTextReady(true);
     }, 0);
 
     return () => clearTimeout(timer);
-  }, [shouldSkip, isHidden]);
+  }, [shouldSkip, isSkipped, isAnimationComplete]);
 
   useEffect(() => {
-    if (shouldSkip || isHidden) return;
+    if (shouldSkip || isSkipped || isAnimationComplete) return;
 
     if (allAssetsLoaded) {
       setAllowScroll(true);
@@ -84,9 +68,14 @@ export default function Preloader() {
       }
     } else {
       setAllowScroll(false);
-      setIsHidden(false);
     }
-  }, [allAssetsLoaded, setAllowScroll, shouldSkip, isHidden]);
+  }, [
+    allAssetsLoaded,
+    setAllowScroll,
+    shouldSkip,
+    isSkipped,
+    isAnimationComplete,
+  ]);
 
   useGSAP(
     () => {
@@ -94,7 +83,8 @@ export default function Preloader() {
         typeof window === "undefined" ||
         !splitTextReady ||
         shouldSkip ||
-        isHidden
+        isSkipped ||
+        isAnimationComplete
       )
         return;
 
@@ -255,17 +245,25 @@ export default function Preloader() {
           "<" // Same time as tags-overlay
         )
         .call(() => {
-          setIsHidden(true);
+          setIsAnimationComplete(true);
         });
 
       // Store timeline in ref for external control
       timelineRef.current = tl;
     },
-    { dependencies: [isMobile, splitTextReady, shouldSkip, isHidden] }
+    {
+      dependencies: [
+        isMobile,
+        splitTextReady,
+        shouldSkip,
+        isSkipped,
+        isAnimationComplete,
+      ],
+    }
   );
 
-  // Return null if skipping or hidden (after all hooks have been called)
-  if (shouldSkip || isHidden) {
+  // Return null if skipping or animation complete (after all hooks have been called)
+  if (shouldSkip || isSkipped || isAnimationComplete) {
     return null;
   }
 

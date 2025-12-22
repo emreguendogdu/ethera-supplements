@@ -16,11 +16,13 @@ import Hero from "./Hero";
 interface LandingPageProps {
   initialProducts: Product[];
   discountCode: DiscountCode | null;
+  skipPreloader?: boolean;
 }
 
 export default function LandingPage({
   initialProducts,
   discountCode,
+  skipPreloader = false,
 }: LandingPageProps) {
   const { initializeAssets } = useLoadingStore((state) => state.actions);
   const allAssetsLoaded = useLoadingStore((state) => state.allAssetsLoaded);
@@ -50,7 +52,7 @@ export default function LandingPage({
 
   return (
     <>
-      <Preloader />
+      <Preloader skipPreloader={skipPreloader} />
       <motion.main
       /* style={{
           visibility: showContent ? "visible" : "hidden",

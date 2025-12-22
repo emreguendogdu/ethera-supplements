@@ -56,10 +56,10 @@ const Statue = forwardRef<Group, StatueProps>(function Statue(
     // Keep normal map for surface detail (eyes, etc.)
     // Keep roughnessMap and metalnessMap if they exist for realistic shading
     // Modify to realistic statue appearance
-    clonedMaterial.color.set("#f0ede5"); // Warm off-white marble color
+    clonedMaterial.color.set("#666666"); // Darker for background/shadow effect
     clonedMaterial.metalness = metalness;
     clonedMaterial.roughness = roughness;
-    clonedMaterial.envMapIntensity = 0.5; // Subtle environment reflections
+    clonedMaterial.envMapIntensity = 0.25; // Reduced environment reflections
     clonedMaterial.needsUpdate = true;
     return clonedMaterial;
   }, [materials]);

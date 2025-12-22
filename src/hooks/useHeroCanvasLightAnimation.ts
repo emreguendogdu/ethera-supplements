@@ -44,7 +44,7 @@ export function useHeroCanvasLightAnimation(
     }
 
     const tl = gsap.timeline();
-    const initial = config.initialIntensity ?? 0.15;
+    const initial = config.initialIntensity ?? 0.3;
 
     // Initial state
     tl.set(fillLight.current, { intensity: initial });

@@ -7,10 +7,15 @@ export const revalidate = 604800;
 export default async function Home() {
   const products = await getAllProducts();
   const discountCode = await getPublicDiscountCode();
+  const skipPreloader = process.env.SKIP_PRELOADER === "true";
 
   return (
     <>
-      <LandingPage initialProducts={products} discountCode={discountCode} />
+      <LandingPage
+        initialProducts={products}
+        discountCode={discountCode}
+        skipPreloader={skipPreloader}
+      />
     </>
   );
 }

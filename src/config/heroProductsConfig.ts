@@ -5,7 +5,8 @@ const finalRotationX = -0.15,
   finalRotationZ = -0.075,
   finalPosX = 1.25,
   finalPosY = 2.75,
-  finalPosZ = -1.25;
+  finalPosZ = -1.25,
+  scrollRotationY = -0.35;
 
 const group = {
   startPos: {
@@ -54,12 +55,12 @@ const creatine = {
     z: finalRotationZ,
   },
   scrollPos: {
-    x: 5,
-    y: 2.7,
+    x: 0,
+    y: 3,
     z: -1.5,
   },
   scrollRotation: {
-    y: -0.75,
+    y: scrollRotationY,
   },
 };
 
@@ -85,12 +86,12 @@ const wheyIsolate = {
     z: finalRotationZ,
   },
   scrollPos: {
-    x: 7,
-    y: 2.85,
+    x: 2,
+    y: 3.5,
     z: -1.25,
   },
   scrollRotation: {
-    y: -0.75,
+    y: scrollRotationY,
   },
 };
 
@@ -116,12 +117,12 @@ const preWorkout = {
     z: finalRotationZ,
   },
   scrollPos: {
-    x: 10,
-    y: 2,
+    x: 4,
+    y: 3,
     z: -1.25,
   },
   scrollRotation: {
-    y: -0.75,
+    y: scrollRotationY,
   },
 };
 

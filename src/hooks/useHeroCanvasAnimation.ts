@@ -84,8 +84,8 @@ export const useHeroCanvasAnimation = ({
         scrollTrigger: {
           trigger: ".hero",
           start: "top top",
-          end: "75% bottom",
-          scrub: 1.5,
+          end: "center bottom",
+          scrub: 1,
         },
       });
 
