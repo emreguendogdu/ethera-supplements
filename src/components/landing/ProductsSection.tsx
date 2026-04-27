@@ -1,8 +1,10 @@
 "use client";
 
+import { useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Backdrop, ContactShadows, Environment, Html } from "@react-three/drei";
 import { useInView } from "react-intersection-observer";
+import { useScroll } from "motion/react";
 import Items from "./Products";
 import DisableRender from "../DisableRender";
 import { Product } from "@/types/product";
@@ -12,13 +14,27 @@ interface ProductsSectionProps {
 }
 
 export default function ProductsSection({ products }: ProductsSectionProps) {
+  const sectionRef = useRef<HTMLElement>(null);
   const { ref: inViewRef, inView } = useInView({
     threshold: 0.03125,
   });
 
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
   return (
-    <section className="w-full h-svh" id="products-section">
-      <div id="canvas-container" className="w-full h-full" ref={inViewRef}>
+    <section
+      ref={sectionRef}
+      className="relative w-full h-[200svh]"
+      id="products-section"
+    >
+      <div
+        id="canvas-container"
+        className="sticky top-0 w-full h-svh"
+        ref={inViewRef}
+      >
         <Canvas camera={{ fov: 50, position: [0, 0, 3] }} className="z-20">
           {!inView && <DisableRender />}
           <Html
@@ -36,7 +52,11 @@ export default function ProductsSection({ products }: ProductsSectionProps) {
           <directionalLight position={[0, -0.5, 0]} intensity={0.5} />
           <directionalLight position={[-1.7, -0.5, -0.9]} intensity={0.75} />
           <directionalLight position={[1.7, -0.5, 0.9]} intensity={0.75} />
-          <Items isSectionInView={inView} products={products} />
+          <Items
+            isSectionInView={inView}
+            products={products}
+            scrollProgress={scrollYProgress}
+          />
           <Backdrop
             castShadow
             receiveShadow

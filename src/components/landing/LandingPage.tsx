@@ -62,7 +62,7 @@ export default function LandingPage({
       >
         <Hero />
         {/* <Hero discountCode={discountCode} /> */}
-        {/* <ProductsSection products={initialProducts} /> */}
+        <ProductsSection products={initialProducts} />
         <BuyBundle products={initialProducts} />
         <Info />
       </motion.main>
