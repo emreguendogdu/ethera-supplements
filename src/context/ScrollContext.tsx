@@ -10,6 +10,10 @@ import {
   useCallback,
 } from "react";
 import { ReactLenis, useLenis } from "lenis/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface ScrollContextType {
   allowScroll: boolean;
@@ -47,6 +51,22 @@ export const ScrollProvider = ({ children }: ScrollProviderProps) => {
       }
     }
   }, [allowScroll, lenis]);
+
+  useEffect(() => {
+    if (!lenis) return;
+
+    const handleScroll = () => ScrollTrigger.update();
+    const handleRaf = (time: number) => lenis.raf(time * 1000);
+
+    lenis.on("scroll", handleScroll);
+    gsap.ticker.add(handleRaf);
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      lenis.off("scroll", handleScroll);
+      gsap.ticker.remove(handleRaf);
+    };
+  }, [lenis]);
 
   return (
     <ScrollContext.Provider value={contextValue}>

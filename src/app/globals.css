@@ -156,6 +156,17 @@ html {
     box-shadow: 0 0 0 1px var(--color-neon-cyan);
   }
 
+  .glass-input:-webkit-autofill,
+  .glass-input:-webkit-autofill:hover,
+  .glass-input:-webkit-autofill:focus,
+  .glass-input:-webkit-autofill:active {
+    -webkit-text-fill-color: var(--color-foreground);
+    -webkit-box-shadow: 0 0 0 1000px
+      color-mix(in oklch, var(--color-background) 80%, transparent) inset;
+    caret-color: var(--color-foreground);
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
   .neon-text-cyan {
     text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
   }

@@ -317,7 +317,7 @@ export default function ReviewsManager({
                       {review.date}
                     </span>
                     <span className="text-foreground/20 text-xs">•</span>
-                    <span className="text-yellow-500 tracking-widest text-xs">
+                    <span className="text-foreground tracking-widest text-xs">
                       {"★".repeat(review.rating)}
                     </span>
                   </div>

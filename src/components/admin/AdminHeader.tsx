@@ -24,30 +24,25 @@ export default function AdminHeader({
         <div className="flex items-center justify-between">
           <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4">
             <Link href="/" className="cursor-pointer">
-              <h1 className="text-2xl tracking-wider uppercase">Ethera</h1>
+              <h1 className="text-2xl tracking-wider uppercase">
+                Ethera{" "}
+                <span className="text-foreground/60 font-normal">
+                  Supplements
+                </span>
+              </h1>
             </Link>
-            <div className="h-4 w-px bg-neon-yellow/20 hidden sm:block"></div>
-            <span className="text-xs text-foreground/50 tracking-[0.2em] uppercase">
-              Control Panel v2.0
-            </span>
           </div>
 
           <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 sm:gap-12">
-            <Link
-              href="/"
-              className="px-6 py-2 border border-neon-yellow/30 rounded-full hover:bg-neon-yellow/10 hover:border-neon-yellow transition-all text-xs uppercase tracking-widest text-foreground-50"
-            >
-              Back To Website
-            </Link>
             <div className="flex flex-col-reverse sm:flex-row items-end sm:items-center gap-2 sm:gap-4">
               {!user && (
-                <span className="inline-block px-3 py-1 bg-neon-yellow/10 text-foreground-50 text-xs rounded-full border border-neon-yellow/20 backdrop-blur-sm">
+                <span className="inline-block px-3 py-1 bg-foreground/10 text-foreground/50 text-xs rounded-full border border-foreground/20 backdrop-blur-sm">
                   Read Only Mode
                 </span>
               )}
               <button
                 onClick={user ? onSignOut : onSignIn}
-                className="px-6 py-2 border border-neon-yellow/30 rounded-full hover:bg-neon-yellow/10 hover:border-neon-yellow transition-all text-xs uppercase tracking-widest text-foreground-50 cursor-pointer"
+                className="px-6 py-2 border border-foreground/30 rounded-full hover:bg-foreground/10 hover:border-foreground transition-all text-xs uppercase tracking-widest text-foreground/50 cursor-pointer"
               >
                 {user ? "Sign Out" : "Sign In"}
               </button>

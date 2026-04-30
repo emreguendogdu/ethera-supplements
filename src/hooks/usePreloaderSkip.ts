@@ -41,3 +41,4 @@ export function usePreloaderSkip({
 
   return { shouldSkip, isHidden };
 }
+

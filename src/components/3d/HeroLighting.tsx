@@ -101,8 +101,8 @@ export function HeroLighting({ isMobile, pointer }: HeroLightingProps) {
         position={config.keyPos}
         intensity={config.initialIntensity}
         castShadow
-        shadow-mapSize-width={4096}
-        shadow-mapSize-height={4096}
+        shadow-mapSize-width={2048}
+        shadow-mapSize-height={2048}
         shadow-bias={-0.00005}
         shadow-normalBias={0.05}
         ref={keyLightRef}

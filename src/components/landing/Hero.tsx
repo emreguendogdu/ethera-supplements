@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { useHeroScrollAnimations } from "@/hooks/useHeroScrollAnimations";
 import HeroCanvas from "@/components/3d/HeroCanvas";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Copy from "../ui/Copy";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
@@ -13,7 +13,7 @@ import { HeroProductTeaser } from "./HeroProductTeaser";
 
 export default function Hero() {
   const { inView, setRefs } = useHeroScrollAnimations();
-  const [pointer, setPointer] = useState({ x: 0, y: 0 });
+  const pointerRef = useRef({ x: 0, y: 0 });
   const cardRef = useRef<HTMLDivElement>(null);
   const preloaderAnimationComplete = useLoadingStore(
     (state) => state.preloaderAnimationComplete
@@ -21,13 +21,11 @@ export default function Hero() {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Normalize to -1 to 1 range (like Three.js pointer) based on viewport
-      const x = (e.clientX / window.innerWidth) * 2 - 1;
-      const y = -((e.clientY / window.innerHeight) * 2 - 1); // Invert Y axis
-      setPointer({ x, y });
+      pointerRef.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      pointerRef.current.y = -((e.clientY / window.innerHeight) * 2 - 1);
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
@@ -67,12 +65,14 @@ export default function Hero() {
     <motion.section
       id="hero"
       className="hero relative w-full"
-      ref={setRefs}
       aria-label="Hero section"
     >
       {/* Hero Content */}
-      <div className="w-full min-h-svh flex flex-col pt-[104px] sm:pt-[72px] px-sectionX-m md:px-sectionX py-5 overflow-hidden">
-        <HeroCanvas inView={inView} pointer={pointer} />
+      <div
+        ref={setRefs}
+        className="w-full h-svh flex flex-col pt-[104px] sm:pt-[72px] px-sectionX-m md:px-sectionX py-5 overflow-hidden"
+      >
+        <HeroCanvas inView={inView} pointer={pointerRef.current} />
 
         <div className="overflow-hidden w-[97svw]">
           <Copy

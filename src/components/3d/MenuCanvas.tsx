@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Loader } from "@react-three/drei";
+import { Loader, Preload, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { MenuCanvasEnvironment } from "@/components/3d/MenuCanvasEnvironment";
 import useDeviceSize from "@/hooks/useDeviceSize";
@@ -9,28 +9,42 @@ import DisableRender from "../DisableRender";
 import * as THREE from "three";
 import { cn } from "@/utils/cn";
 
+useGLTF.preload("/3d/lion.glb");
+
 interface MenuCanvasProps {
   inView: boolean;
   wrapperClassName?: string;
 }
+
+type IdleWindow = Window & {
+  requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+  cancelIdleCallback?: (handle: number) => void;
+};
 
 export default function MenuCanvas({
   inView,
   wrapperClassName,
 }: MenuCanvasProps) {
   const { isMobile } = useDeviceSize();
-  const [shouldRender, setShouldRender] = useState(inView);
+  const [shouldRender, setShouldRender] = useState(false);
 
-  // Optimize rendering by unmounting/disabling when out of view
+  // Pre-mount Canvas during idle so first menu open does not pay GL ctx + shader compile cost
   useEffect(() => {
-    if (inView) {
-      setShouldRender(true);
-    } else {
-      const timer = setTimeout(() => {
-        setShouldRender(false);
-      }, 500);
-      return () => clearTimeout(timer);
+    if (shouldRender) return;
+    const w = window as IdleWindow;
+    if (typeof w.requestIdleCallback === "function") {
+      const handle = w.requestIdleCallback(() => setShouldRender(true), {
+        timeout: 4000,
+      });
+      return () => w.cancelIdleCallback?.(handle);
     }
+    const timer = setTimeout(() => setShouldRender(true), 2500);
+    return () => clearTimeout(timer);
+  }, [shouldRender]);
+
+  // Force-mount immediately if menu opens before idle pre-mount fires
+  useEffect(() => {
+    if (inView) setShouldRender(true);
   }, [inView]);
 
   if (!shouldRender) {
@@ -48,17 +62,20 @@ export default function MenuCanvas({
       )}
     >
       <Canvas
-        shadows
         gl={{
           antialias: true,
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 1.0,
           outputColorSpace: THREE.SRGBColorSpace,
+          powerPreference: "high-performance",
         }}
-        dpr={[1, 2]}
+        dpr={[1, 1.5]}
+        frameloop={inView ? "always" : "demand"}
+        style={{ pointerEvents: inView ? "auto" : "none" }}
       >
         {!inView && <DisableRender />}
         <MenuCanvasEnvironment isMobile={isMobile} />
+        <Preload all />
       </Canvas>
       <Loader />
     </div>

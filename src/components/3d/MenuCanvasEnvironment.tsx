@@ -27,7 +27,7 @@ function MenuLighting({ pointer }: { pointer: { x: number; y: number } }) {
   return (
     <>
       <ambientLight intensity={0.5} />
-      <directionalLight position={[5, 5, 5]} intensity={1} castShadow />
+      <directionalLight position={[5, 5, 5]} intensity={1} />
       <directionalLight position={[-5, 5, -5]} intensity={0.5} />
 
       {/* Cursor Light */}

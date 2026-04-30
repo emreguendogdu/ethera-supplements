@@ -28,7 +28,7 @@ export default function AdminProductCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
-      className="glass-panel rounded-2xl p-8 h-fit relative overflow-hidden group"
+      className="glass-panel rounded-2xl p-8 h-full relative overflow-hidden group"
     >
       <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
         <div className="w-20 h-20 rounded-full bg-obsidian-lighter blur-2xl"></div>

@@ -55,7 +55,12 @@ export default function Footer({ products }: FooterProps) {
             Tools
           </p>
           <nav className="flex flex-col gap-2 justify-center md:justify-normal">
-            <p className="select-none">Upcoming</p>
+            <Link href="/tools">All tools</Link>
+            <Link href="/tools/creatine">Creatine calculator</Link>
+            <Link href="/tools/protein">Protein calculator</Link>
+            <Link href="/tools/caffeine">Caffeine cutoff</Link>
+            <Link href="/tools/stack">Stack builder</Link>
+            <Link href="/tools/ingredients">Ingredient glossary</Link>
           </nav>
         </div>
       </div>

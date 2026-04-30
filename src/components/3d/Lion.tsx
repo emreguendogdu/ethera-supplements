@@ -35,44 +35,30 @@ const Lion = forwardRef<Group, React.ComponentPropsWithoutRef<"group">>(
     return (
       <group ref={ref} {...props} dispose={null}>
         <mesh
-          castShadow
-          receiveShadow
           geometry={nodes.Object_2.geometry}
           material={materials.Loewe2_O_Material_u1_v1}
         />
         <mesh
-          castShadow
-          receiveShadow
           geometry={nodes.Object_3.geometry}
           material={materials.Loewe2_O_Material_u1_v1}
         />
         <mesh
-          castShadow
-          receiveShadow
           geometry={nodes.Object_4.geometry}
           material={materials.Loewe2_O_Material_u1_v1}
         />
         <mesh
-          castShadow
-          receiveShadow
           geometry={nodes.Object_5.geometry}
           material={materials.Loewe2_O_Material_u1_v1}
         />
         <mesh
-          castShadow
-          receiveShadow
           geometry={nodes.Object_6.geometry}
           material={materials.Loewe2_O_Material_u1_v1}
         />
         <mesh
-          castShadow
-          receiveShadow
           geometry={nodes.Object_7.geometry}
           material={materials.Loewe2_O_Material_u1_v1}
         />
         <mesh
-          castShadow
-          receiveShadow
           geometry={nodes.Object_8.geometry}
           material={materials.bottom}
         />

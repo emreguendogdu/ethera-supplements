@@ -5,7 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import { SplitText } from "gsap/SplitText";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { useLoadingStore } from "@/stores/loadingStore";
 import { useScrollContext } from "@/context/ScrollContext";
 import "./Preloader.css";
@@ -36,7 +36,7 @@ export default function Preloader({ skipPreloader = false }: PreloaderProps) {
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const timelineCreatedRef = useRef(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (
       typeof document === "undefined" ||
       shouldSkip ||
@@ -45,16 +45,21 @@ export default function Preloader({ skipPreloader = false }: PreloaderProps) {
     )
       return;
 
-    const timer = setTimeout(() => {
-      splitTextElements(".preloader .intro-title span", "words, chars", true);
-      splitTextElements(".tag p", "words");
-      // Make split elements visible after creation
-      gsap.set(".preloader .intro-title > span", { visibility: "visible" });
-      gsap.set(".tag p", { visibility: "visible" });
-      setSplitTextReady(true);
-    }, 0);
+    splitTextElements(".preloader .intro-title span", "words, chars", true);
+    splitTextElements(".tag p", "words");
 
-    return () => clearTimeout(timer);
+    // Lock initial animation state BEFORE making elements visible.
+    // Prevents flash where chars/tags paint at their natural position
+    // between visibility:visible and the timeline's first set.
+    gsap.set(".preloader .intro-title .char span", { y: "-100%" });
+    gsap.set(".tag .word", { y: "-100%" });
+    gsap.set(".block-1", { y: 0 });
+    gsap.set(".block-2", { y: 0 });
+
+    gsap.set(".preloader .intro-title > span", { visibility: "visible" });
+    gsap.set(".tag p", { visibility: "visible" });
+
+    setSplitTextReady(true);
   }, [shouldSkip, isSkipped, isAnimationComplete]);
 
   useEffect(() => {
@@ -97,17 +102,6 @@ export default function Preloader({ skipPreloader = false }: PreloaderProps) {
       ) as HTMLElement[];
       const etheraWord = introWords[0];
       const supplementsWord = introWords[1];
-
-      gsap.set(".preloader .intro-title .char span", {
-        y: "-100%",
-      });
-
-      gsap.set(".block-1", {
-        y: 0,
-      });
-      gsap.set(".block-2", {
-        y: 0,
-      });
 
       const tl = gsap.timeline({ defaults: { ease: "hop" } });
       const tags = gsap.utils.toArray(".tags-overlay .tag");

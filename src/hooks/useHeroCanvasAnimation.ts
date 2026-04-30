@@ -85,7 +85,7 @@ export const useHeroCanvasAnimation = ({
           trigger: ".hero",
           start: "top top",
           end: "center bottom",
-          scrub: 1,
+          scrub: 0.5,
         },
       });
 

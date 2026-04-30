@@ -67,8 +67,10 @@ export default function HeroCanvas({
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 1.0,
           outputColorSpace: THREE.SRGBColorSpace,
+          powerPreference: "high-performance",
         }}
-        dpr={[1, 2]}
+        dpr={[1, 1.5]}
+        style={{ pointerEvents: "none" }}
       >
         {!inView && <DisableRender />}
         <HeroCanvasEnvironment
